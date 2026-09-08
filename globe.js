@@ -162,21 +162,34 @@
 
   var SPHERE = buildSphere(16, 24, 1.15);
 
+  /** The globe at a given attitude, filling a box of its own: the drawing, with no page in it. */
+  function drawGlobe(c, w, h, ay, ax) {
+    // A tighter fov than the splash's, so the globe fills its box rather than floating in it.
+    var cx = w / 2, cy = h / 2, fov = Math.min(w, h) * 1.55;
+    drawSphereGlow(c, cx, cy, Math.min(w, h) * 0.5);
+    drawSphereWire(c, SPHERE, projectSphere(SPHERE, cx, cy, fov, ay, ax), 0.7);
+  }
+
+  // Slow tumble: mostly spin, with a gentle nod so it never looks like a flat disc.
+  function spin(el) { return el * 0.00035; }
+  function nod(el) { return 0.32 + 0.14 * Math.sin(el * 0.00017); }
+
   function paintGlobe(el) {
     if (!ctx) return;
     var box = fit(host, ctx);
     if (!box) return;
-    // A tighter fov than the splash's, so the globe fills its box rather than floating in it.
-    var cx = box.w / 2, cy = box.h / 2, fov = Math.min(box.w, box.h) * 1.55;
-    drawSphereGlow(ctx, cx, cy, Math.min(box.w, box.h) * 0.5);
-    // Slow tumble: mostly spin, with a gentle nod so it never looks like a flat disc.
-    drawSphereWire(ctx, SPHERE, projectSphere(SPHERE, cx, cy, fov, el * 0.00035, 0.32 + 0.14 * Math.sin(el * 0.00017)), 0.7);
+    drawGlobe(ctx, box.w, box.h, spin(el), nod(el));
   }
 
   function paint(el) {
     paintStars(el);
     paintGlobe(el);
   }
+
+  // The animation on the GitHub organisation's profile is rendered from these, by
+  // scripts/render-globe.mjs, so that picture is this globe rather than a copy that drifts
+  // from it. Nothing on the page reads them.
+  window.scmGlobe = { drawGlobe: drawGlobe, drawStars: drawStars, generateStars: generateStars, spin: spin, nod: nod };
 
   if (ctx) {
     var fallback = document.querySelector(".globe-fallback");
