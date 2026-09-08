@@ -173,6 +173,20 @@ h1 span { color: var(--text); }
   color: var(--text-dim);
   text-align: left;
 }
+/* The menu paths a bug report is collected from, lifted out of the dimmed prose around them. */
+.beta strong { color: var(--text); font-weight: 600; }
+
+/* The same banner one step quieter, on its own line under the beta notice: teal rather than
+   gold, because it asks for something instead of warning about something. */
+.beta.bugs { margin-top: 12px; }
+/* The ask on its own line, the collecting instructions under it. */
+.bugs-lead { display: block; margin-bottom: 3px; }
+.beta-chip.bugs-chip {
+  border-color: rgba(79, 209, 197, 0.45);
+  background: rgba(79, 209, 197, 0.08);
+  color: var(--teal);
+}
+
 .beta-chip {
   flex: none;
   margin-top: 2px;

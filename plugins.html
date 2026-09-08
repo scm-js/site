@@ -48,6 +48,14 @@
           Access them in <strong>Plugins ▸ Browse Plugins</strong> from inside
           the editor.
         </p>
+        <p class="lede">
+          Add your own plugin to the list by
+          <a
+            href="https://github.com/scm-js/registry/issues/new?template=submit-plugin.yml"
+            target="_blank"
+            >filling out this issue form</a
+          >.
+        </p>
         <p class="note">
           This list is the same index the editor's own browser reads (<a
             href="https://github.com/scm-js/registry"
@@ -282,7 +290,9 @@
             '<span class="pl-links"><a href="' +
             esc(p.repo || p.homepage || "#") +
             '">Source</a>' +
-            (p.repo ? ' · <a href="' + esc(p.repo) + '/issues">Issues</a>' : "") +
+            (p.repo
+              ? ' · <a href="' + esc(p.repo) + '/issues">Issues</a>'
+              : "") +
             (p.updated
               ? '<span class="dim"> · updated ' +
                 esc(when(p.updated)) +
