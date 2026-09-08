@@ -13,7 +13,6 @@ buttons and the download list. No build step: what is committed is what is serve
 | `favicon.svg` | that same file with the square |
 | `CNAME` | `scmjs.dev`, which is where a branch-served Pages site keeps its custom domain |
 | `.nojekyll` | turns off the Jekyll pass such a site otherwise gets |
-| `scripts/render-globe.mjs` | draws `globe.js` out to the animation on the [organisation profile](https://github.com/scm-js) |
 
 ## Deploying
 
@@ -52,30 +51,6 @@ stylesheet, and its count comes from its own area, so the splash's density holds
 loop stops when the hero scrolls off. `plugins.html` has no hero and does not load the script, so
 it gets none of this. Under the whole thing is the pink `radial-gradient` on `body`, which is
 what a reader with no JavaScript sees on its own.
-
-## The globe on the organisation profile
-
-`github.com/scm-js` shows the same turning globe, and it is the same drawing: a profile
-README is markdown GitHub sanitises, with no script, no canvas and no stylesheet, so the
-only thing on that page that can move is an image file. `scripts/render-globe.mjs` opens a
-headless Chromium, calls `globe.js` frame by frame — which is why that file hands its
-drawing out on `window.scmGlobe`, the page itself having no use for it — and writes an
-animated PNG into `scm-js/.github`, whose `profile/README.md` shows it. Run it after a
-change to the drawing:
-
-```sh
-npm i --no-save playwright        # not a dependency of the site: only this script needs it
-npx playwright install chromium   # once
-node scripts/render-globe.mjs --out ../org-profile/profile/globe.png
-```
-
-Two things there are not what the page does, both because a file has to loop and has to be
-small enough to sit at the top of a page: the turn and the nod are put on one shared period
-so the last frame runs into the first, and the sky is drawn once and then held still. What a
-frame costs is the pixels inside the globe's square that moved since the frame before —
-every other pixel is left transparent and the one underneath shows through — which is what
-keeps 72 frames at 880×280 to about a megabyte. Rendering it at two device pixels to the CSS
-pixel is sharper and four times that, which is the trade the `--scale` flag makes.
 
 The script at the bottom of `index.html` does two things, both optional: it puts the
 version and date next to the launch buttons (one request each to the releases API,
