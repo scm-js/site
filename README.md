@@ -18,9 +18,13 @@ buttons and the download list. No build step: what is committed is what is serve
 
 Settings ▸ Pages ▸ Deploy from a branch, `main` at `/`. A push is a deploy.
 
-DNS for the apex is four A records to GitHub's `185.199.108–111.153` (plus the AAAA records
-if the registrar takes them) — a different record from the `editor` and `nightly.editor`
-CNAMEs the editor's own Pages sites use, so nothing here collides with those.
+DNS for the apex is one CNAME to `scm-js.github.io`. A CNAME at a zone apex is illegal in
+plain DNS — the root already carries SOA and NS records and a CNAME cannot sit beside them —
+but the zone is on Cloudflare, which flattens the apex record and answers with A records, so
+what goes on the wire is legal. Keep it DNS-only (grey cloud) so GitHub can issue the
+certificate. Flattening follows GitHub if it ever renumbers the `185.199.108–111.153`
+addresses those A records would otherwise pin. It is the same kind of record `docs` and the
+editor's `editor` and `nightly.editor` sites already use, so nothing here collides with those.
 
 ## Why it is not an app
 
