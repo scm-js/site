@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>scmJS plugins</title>
+    <meta
+      name="description"
+      content="The plugins published for scmJS — what each one does, which ship switched on, and where the code is."
+    />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+    <meta property="og:title" content="scmJS plugins" />
+    <meta
+      property="og:description"
+      content="The plugins published for scmJS — what each one does and where the code is."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://scmjs.dev/plugins.html" />
+    <meta property="og:image" content="https://scmjs.dev/favicon.svg" />
+  </head>
+  <body>
+    <!-- Shared with index.html; keep the two in step. -->
+    <nav class="topbar">
+      <a class="topbar-mark" href="/">
+        <img src="logo.svg" alt="" width="22" height="22" />
+        <span>scm<span>JS</span></span>
+      </a>
+      <div class="topbar-links">
+        <a href="index.html#download">Download</a>
+        <a class="is-here" href="plugins.html">Plugins</a>
+        <a href="https://docs.scmjs.dev">Docs</a>
+        <a href="https://github.com/scm-js/scm-js">GitHub</a>
+        <a href="https://github.com/scm-js/scm-js/issues">Issues</a>
+        <a class="topbar-cta" href="https://editor.scmjs.dev"
+          >Open the editor</a
+        >
+      </div>
+    </nav>
+
+    <main>
+      <section class="page-head">
+        <h1 class="page-title">Plugins</h1>
+        <p class="lede">
+          A plugin is a <code>plugin.ts</code> or <code>plugin.js</code> next to
+          a <code>plugin.json</code> manifest file. The plugin API is powerful,
+          allowing for extensive customization and additional functionality.
+          Access them in <strong>Plugins ▸ Browse Plugins</strong> from inside
+          the editor.
+        </p>
+        <p class="note">
+          This list is the same index the editor's own browser reads (<a
+            href="https://github.com/scm-js/registry"
+            >scm-js/registry</a
+          >) and is a live reflection of what the editor currently offers.
+        </p>
+      </section>
+
+      <section>
+        <div class="plugin-list" id="list">
+          <p class="dim" id="status">Loading the registry…</p>
+        </div>
+      </section>
+
+      <section id="write">
+        <h2>Writing one</h2>
+        <div class="cards">
+          <article class="card">
+            <div class="card-main">
+              <h3>The API</h3>
+              <p>
+                A plugin is two files: a <code>plugin.json</code> saying where
+                the code is, and an entry file whose default export is
+                <code>activate(api)</code>. The editor calls it once when the
+                plugin is switched on and hands over <code>api</code>.
+              </p>
+              <p>
+                Through it you read the open map and write to it, add to the
+                chrome (menu and context items, hotkeys, dialogs, floating
+                panels, map tools that own the pointer, overlays drawn on the
+                canvas), and read the game's own decoded
+                <code>.dat</code> tables. Anything you register is automatically
+                taken away when the plugin is switched off.
+              </p>
+              <p>
+                Every write goes through
+                <code>api.document.edit(label, tx =&gt; …)</code>. Whatever the
+                callback does becomes <em>one</em> undo entry, marks the CHK
+                sections it touched, and repaints - this results in the plugin's
+                edit hooking into undo/redo like any other stroke.
+              </p>
+              <p>
+                The API is promise-first: anything asynchronous returns a
+                <code>Promise</code>, <code>activate</code> and a dialog
+                button's <code>run</code> may be <code>async</code>, and a
+                dismissal resolves <code>null</code> or
+                <code>false</code> rather than rejecting. The one exception is
+                the callback you hand to <code>edit</code>: it commits the
+                moment that callback returns, so an <code>async</code> one would
+                commit whatever ran before its first <code>await</code> and let
+                the rest write outside the entry. Await the graphics, the map
+                pick or the fetch <em>first</em>, then write in one go.
+                TypeScript refuses an async builder outright, and a
+                plain-JavaScript one is caught at runtime.
+              </p>
+              <pre><code>export default function activate(api) {
+  api.menu.add("Tools", {
+    label: "Marine here…",
+    enabled: () =&gt; api.document.isOpen(),
+    async run() {
+      // Asynchronous, so await it. Esc or a right-click resolves null.
+      const at = await api.ui.pickTile({ prompt: "Where does the marine go?" });
+      if (!at) return;
+
+      // Synchronous, so the whole thing is one undo entry called "Place a marine".
+      api.document.edit("Place a marine", (tx) =&gt; {
+        const px = api.consts.TILE_PX;
+        tx.placeUnit(0, 0, at.x * px + px / 2, at.y * px + px / 2);
+      });
+    },
+  });
+}</code></pre>
+              <p class="dim">
+                TypeScript is transpiled in the browser, so a one-file plugin
+                needs no toolchain at all; a repository that wants npm
+                dependencies commits a bundle and names it in the manifest.
+              </p>
+            </div>
+            <div class="card-aside">
+              <p>
+                <a href="https://docs.scmjs.dev/plugins/writing-a-plugin/"
+                  >The author's guide</a
+                >
+                ·
+                <a href="https://www.npmjs.com/package/@scm-js/plugin-api"
+                  >@scm-js/plugin-api</a
+                >
+              </p>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-main">
+              <h3>Getting listed</h3>
+              <p>
+                A repository in the scm-js organisation named
+                <code>plugin-…</code>, or carrying the <code>scmjs</code> and
+                <code>plugin</code> topics, is picked up by the registry
+                generator at its newest semver tag. Anything else installs by
+                pasting its address into the editor.
+              </p>
+            </div>
+            <div class="card-aside">
+              <p>
+                <a href="https://github.com/scm-js/plugin-hello-world"
+                  >Hello World, to copy from</a
+                >
+                ·
+                <a href="https://github.com/scm-js/registry">the registry</a>
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <a href="https://github.com/scm-js/scm-js">GitHub</a>
+      <a href="https://github.com/scm-js/scm-js/releases">Releases</a>
+      <a href="https://docs.scmjs.dev/api/">Plugin API</a>
+      <a href="https://github.com/scm-js/scm-js/issues">Report a bug</a>
+      <span class="dim"
+        >MIT. Not affiliated with or endorsed by Blizzard Entertainment.</span
+      >
+    </footer>
+
+    <script>
+      // The list is the registry's own index.json, read straight from raw.githubusercontent
+      // (which sends `access-control-allow-origin: *` and caches for five minutes). It is the
+      // same file the editor's Browse Plugins pane reads, so this page cannot drift from what
+      // the editor offers. A failure says so and hands over the link rather than showing an
+      // empty page.
+      (function () {
+        var INDEX =
+          "https://raw.githubusercontent.com/scm-js/registry/main/index.json";
+
+        // The plugins a fresh editor starts with, switched on — src/plugins/defaults.ts in the
+        // editor (DEFAULT_REMOTE_PLUGINS). The registry does not record this, so it is written
+        // here; if that set ever changes, this line is what to edit.
+        var DEFAULTS = [
+          "plugin-scm-scx",
+          "plugin-repair",
+          "plugin-walkability",
+          "plugin-image-to-terrain",
+          "plugin-paint",
+        ];
+
+        var list = document.getElementById("list");
+        var status = document.getElementById("status");
+
+        function esc(s) {
+          return String(s == null ? "" : s).replace(/[&<>"]/g, function (ch) {
+            return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[
+              ch
+            ];
+          });
+        }
+
+        function repoName(p) {
+          var m = /([^/]+)$/.exec(p.repo || p.spec || "");
+          return m ? m[1] : "";
+        }
+
+        function img(src) {
+          // A plugin whose icon cannot be fetched keeps the app mark rather than a broken image.
+          return (
+            '<img class="pl-icon" src="' +
+            esc(src) +
+            '" alt="" onerror="this.onerror=null;this.src=\'logo.svg\'" />'
+          );
+        }
+
+        function icon(p) {
+          // A manifest icon is an emoji, an address, or a file beside the manifest — which is
+          // what all but one of these use, and which resolves against the repository at the
+          // exact commit the registry read, the same way the editor's loader resolves it.
+          if (!p.icon) return img("logo.svg");
+          if (/^(https?:|data:)/.test(p.icon)) return img(p.icon);
+          if (!/[./]/.test(p.icon))
+            return '<span class="pl-icon pl-emoji">' + esc(p.icon) + "</span>";
+          var repo = /github\.com\/([^/]+\/[^/]+)/.exec(p.repo || "");
+          if (!repo) return img("logo.svg");
+          return img(
+            "https://raw.githubusercontent.com/" +
+              repo[1] +
+              "/" +
+              (p.commit || "HEAD") +
+              "/" +
+              p.icon.replace(/^\.?\//, ""),
+          );
+        }
+
+        function when(iso) {
+          if (!iso) return "";
+          return new Date(iso).toLocaleDateString(undefined, {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          });
+        }
+
+        function card(p) {
+          var isDefault = DEFAULTS.indexOf(repoName(p)) !== -1;
+          var tags = (p.tags || [])
+            .map(function (t) {
+              return '<span class="pl-tag">' + esc(t) + "</span>";
+            })
+            .join("");
+          return (
+            '<article class="plugin' +
+            (isDefault ? " is-default" : "") +
+            '">' +
+            '<div class="pl-head">' +
+            icon(p) +
+            '<div class="pl-name"><h3>' +
+            esc(p.name || repoName(p)) +
+            "</h3>" +
+            '<span class="pl-version">' +
+            esc(p.version || "") +
+            (p.author ? " · " + esc(p.author) : "") +
+            "</span></div>" +
+            '<span class="pl-badge">' +
+            (isDefault ? "On by default" : "From Browse Plugins") +
+            "</span>" +
+            "</div>" +
+            "<p>" +
+            esc(p.description || "") +
+            "</p>" +
+            '<div class="pl-foot">' +
+            '<span class="pl-tags">' +
+            tags +
+            "</span>" +
+            '<span class="pl-links"><a href="' +
+            esc(p.repo || p.homepage || "#") +
+            '">Source</a>' +
+            (p.repo ? ' · <a href="' + esc(p.repo) + '/issues">Issues</a>' : "") +
+            (p.updated
+              ? '<span class="dim"> · updated ' +
+                esc(when(p.updated)) +
+                "</span>"
+              : "") +
+            "</span>" +
+            "</div>" +
+            "</article>"
+          );
+        }
+
+        fetch(INDEX)
+          .then(function (r) {
+            return r.ok ? r.json() : Promise.reject(r.status);
+          })
+          .then(function (index) {
+            var plugins = (index.plugins || []).slice();
+            if (!plugins.length) return Promise.reject("empty");
+            // The ones a fresh editor already has, first.
+            plugins.sort(function (a, b) {
+              var da = DEFAULTS.indexOf(repoName(a)) !== -1;
+              var db = DEFAULTS.indexOf(repoName(b)) !== -1;
+              if (da !== db) return da ? -1 : 1;
+              return (a.name || "").localeCompare(b.name || "");
+            });
+            list.innerHTML = plugins.map(card).join("");
+          })
+          .catch(function () {
+            status.className = "note";
+            status.innerHTML =
+              "The registry could not be read just now. It lives at " +
+              '<a href="https://github.com/scm-js/registry">github.com/scm-js/registry</a>, ' +
+              "and the editor's own <strong>Plugins ▸ Browse Plugins…</strong> reads the same list.";
+          });
+      })();
+    </script>
+  </body>
+</html>

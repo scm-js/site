@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>scmJS — a StarCraft map editor in a browser tab</title>
+    <meta
+      name="description"
+      content="A StarCraft and Brood War map editor that runs in a browser tab. Opens real .scm, .scx and .chk files and writes archives the game will play."
+    />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="globe.js" defer></script>
+    <meta property="og:title" content="scmJS" />
+    <meta
+      property="og:description"
+      content="A StarCraft and Brood War map editor that runs in a browser tab."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://scmjs.dev/" />
+    <meta property="og:image" content="https://scmjs.dev/favicon.svg" />
+  </head>
+  <body>
+    <!-- Shared with plugins.html; keep the two in step. -->
+    <nav class="topbar">
+      <a class="topbar-mark" href="/">
+        <img src="logo.svg" alt="" width="22" height="22" />
+        <span>scm<span>JS</span></span>
+      </a>
+      <div class="topbar-links">
+        <a href="#download">Download</a>
+        <a href="plugins.html">Plugins</a>
+        <a href="https://docs.scmjs.dev">Docs</a>
+        <a href="https://github.com/scm-js/scm-js">GitHub</a>
+        <a href="https://github.com/scm-js/scm-js/issues">Issues</a>
+        <a class="topbar-cta" href="https://editor.scmjs.dev"
+          >Open the editor</a
+        >
+      </div>
+    </nav>
+    <!-- The splash screen's drifting starfield, across the top of the page behind the mark and
+         the wordmark; globe.js paints it into the same loop that turns the globe. -->
+    <canvas class="stars" id="stars" hidden aria-hidden="true"></canvas>
+    <header class="hero">
+      <div class="globe">
+        <!-- The About dialog's turning wireframe; globe.js swaps the flat mark out for it. -->
+        <canvas id="globe" hidden aria-hidden="true"></canvas>
+        <img
+          class="globe-fallback"
+          src="logo.svg"
+          alt=""
+          width="180"
+          height="180"
+        />
+      </div>
+      <h1>scm<span>JS</span></h1>
+
+      <p class="tagline">
+        A StarCraft and BroodWar map editor that runs in the browser.
+      </p>
+      <div class="rule"></div>
+      <p class="sub">
+        scmJS is a powerful, fully featured open source StarCraft 1 map editor
+        written with the assistance of frontier AI models. Open, edit, and save
+        <code>.scm</code>, <code>.scx</code> and <code>.chk</code> files.
+      </p>
+
+      <div class="launch">
+        <a class="btn primary" href="https://editor.scmjs.dev">
+          <span class="btn-main">Open the editor</span>
+          <span class="btn-note" id="stable-note"
+            >the newest numbered release</span
+          >
+        </a>
+        <a class="btn" href="https://nightly.editor.scmjs.dev">
+          <span class="btn-main">Open the nightly</span>
+          <span class="btn-note" id="nightly-note"
+            >main, rebuilt each night</span
+          >
+        </a>
+      </div>
+
+      <p class="beta">
+        <span class="beta-chip">Beta</span>
+        scmJS is still under development. Make sure you backup any map files you
+        deem important before editing.
+      </p>
+    </header>
+
+    <main>
+      <section id="download">
+        <h2>Downloads</h2>
+        <p class="lede">
+          The desktop app consists of an electron wrapper around the editor with
+          some extra features: an auto updater (you may opt into the nightly
+          line from application preferences), automatic detection of Starcraft 1
+          installations, and native file association and 'open with...' support.
+          Nothing is signed yet, so Windows shows SmartScreen's warning and
+          macOS needs
+          <code>xattr -d com.apple.quarantine</code> before it will run.
+        </p>
+
+        <!-- globe.js aside, this is the one thing on the page JavaScript builds:
+             the visitor's own platform is not knowable from the markup. -->
+        <div class="pick" id="pick" hidden></div>
+
+        <table class="downloads">
+          <thead>
+            <tr>
+              <th>Platform</th>
+              <th>
+                Latest release<span class="col-when" id="col-stable"></span>
+              </th>
+              <th>Nightly<span class="col-when" id="col-nightly"></span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-os="windows">
+              <th scope="row">Windows <span class="dim">installer</span></th>
+              <td>
+                <a
+                  href="https://github.com/scm-js/scm-js/releases/latest/download/scmJS-windows-x64-setup.exe"
+                  >scmJS-windows-x64-setup.exe</a
+                >
+              </td>
+              <td>
+                <a
+                  href="https://github.com/scm-js/scm-js/releases/download/nightly/scmJS-windows-x64-setup.exe"
+                  >nightly .exe</a
+                >
+              </td>
+            </tr>
+            <tr data-os="windows">
+              <th scope="row">
+                Windows <span class="dim">zip, no install</span>
+              </th>
+              <td>
+                <a
+                  href="https://github.com/scm-js/scm-js/releases/latest/download/scmJS-windows-x64.zip"
+                  >scmJS-windows-x64.zip</a
+                >
+              </td>
+              <td>
+                <a
+                  href="https://github.com/scm-js/scm-js/releases/download/nightly/scmJS-windows-x64.zip"
+                  >nightly .zip</a
+                >
+              </td>
+            </tr>
+            <tr data-os="macos">
+              <th scope="row">macOS <span class="dim">Apple silicon</span></th>
+              <td>
+                <a
+                  href="https://github.com/scm-js/scm-js/releases/latest/download/scmJS-macos-arm64.dmg"
+                  >scmJS-macos-arm64.dmg</a
+                >
+              </td>
+              <td>
+                <a
+                  href="https://github.com/scm-js/scm-js/releases/download/nightly/scmJS-macos-arm64.dmg"
+                  >nightly .dmg</a
+                >
+              </td>
+            </tr>
+            <tr data-os="macos">
+              <th scope="row">macOS <span class="dim">Intel</span></th>
+              <td>
+                <a
+                  href="https://github.com/scm-js/scm-js/releases/latest/download/scmJS-macos-x64.dmg"
+                  >scmJS-macos-x64.dmg</a
+                >
+              </td>
+              <td>
+                <a
+                  href="https://github.com/scm-js/scm-js/releases/download/nightly/scmJS-macos-x64.dmg"
+                  >nightly .dmg</a
+                >
+              </td>
+            </tr>
+            <tr data-os="linux">
+              <th scope="row">Linux <span class="dim">AppImage</span></th>
+              <td>
+                <a
+                  href="https://github.com/scm-js/scm-js/releases/latest/download/scmJS-linux-x86_64.AppImage"
+                  >scmJS-linux-x86_64.AppImage</a
+                >
+              </td>
+              <td>
+                <a
+                  href="https://github.com/scm-js/scm-js/releases/download/nightly/scmJS-linux-x86_64.AppImage"
+                  >nightly .AppImage</a
+                >
+              </td>
+            </tr>
+            <tr data-os="linux">
+              <th scope="row">Linux <span class="dim">Debian, Ubuntu</span></th>
+              <td>
+                <a
+                  href="https://github.com/scm-js/scm-js/releases/latest/download/scmJS-linux-amd64.deb"
+                  >scmJS-linux-amd64.deb</a
+                >
+              </td>
+              <td>
+                <a
+                  href="https://github.com/scm-js/scm-js/releases/download/nightly/scmJS-linux-amd64.deb"
+                  >nightly .deb</a
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="note">
+          All nightly builds are the same build as
+          <a href="https://nightly.editor.scmjs.dev">nightly.editor.scmjs.dev</a
+          >. Every asset, and the notes for each version, are on the
+          <a href="https://github.com/scm-js/scm-js/releases">releases page</a>.
+        </p>
+      </section>
+
+      <section id="other">
+        <h2>Other ways to run it</h2>
+        <div class="cards">
+          <article class="card">
+            <div class="card-main">
+              <h3>In a container</h3>
+              <p>
+                The latest version release is available as a docker image. To
+                pull and run locally:
+              </p>
+              <pre><code>docker run --rm -p 8080:80 \
+  ghcr.io/scm-js/scm-js:latest</code></pre>
+              <p class="dim">
+                Then go to <code>http://localhost:8080</code> in your browser.
+              </p>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-main">
+              <h3>On your own web server</h3>
+              <p>
+                Every release has a <code>scmJS-web.zip</code> - this is the
+                built bundle, static files, with no server serve mechanism.
+                Unpack it anywhere that serves files from the root.
+              </p>
+            </div>
+            <div class="card-aside">
+              <p>
+                <a
+                  href="https://github.com/scm-js/scm-js/releases/latest/download/scmJS-web.zip"
+                  >scmJS-web.zip</a
+                >
+                ·
+                <a
+                  href="https://github.com/scm-js/scm-js/releases/download/nightly/scmJS-web.zip"
+                  >nightly</a
+                >
+              </p>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-main">
+              <h3>From source</h3>
+              <p>
+                Node required (22 or newer). Clone, <code>npm install</code>,
+                then <code>npm run dev</code> to run the development server or
+                <code>npm run build:desktop</code> for an installer.
+              </p>
+            </div>
+            <div class="card-aside">
+              <p>
+                <a href="https://github.com/scm-js/scm-js"
+                  >github.com/scm-js/scm-js</a
+                >
+                ·
+                <a href="https://docs.scmjs.dev/development/"
+                  >development notes</a
+                >
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="graphics">
+        <h2>It ships no game data</h2>
+        <p>
+          The tilesets, unit graphics and <code>.dat</code> tables are property
+          of Blizzard Entertainment and are not redistributable. On first run
+          the editor will present options to either Download them directly from
+          Blizzard or allow you to drop them in. Desktop builds will search on
+          disk to attempt to find the files.
+        </p>
+        <p>
+          If no game data is found, the editor will still function but fallback
+          into a degraded state.
+        </p>
+      </section>
+
+      <section id="what">
+        <h2>What it does</h2>
+        <ul class="features">
+          <li>
+            <strong>Terrain</strong> Full isometric support, rectangle and
+            single-tile brushes, flood fill, a pixel-accurate blend tool,
+            symmetry, and terrain replacement across the map.
+          </li>
+          <li>
+            <strong>Objects</strong> Draw units, sprites, doodads and locations
+            using the games own graphics and idling animations.
+          </li>
+          <li>
+            <strong>Triggers</strong> A classic editor, a classic trigger script
+            SCMDraft option, and the briefing list, with an optional
+            TypeScript-subset script compiler available as a plugin.
+          </li>
+          <li>
+            <strong>The file</strong> Every map file (CHK) section is kept in
+            the order it found it, and only the ones you change are re-encoded.
+            Protected and unusual maps are fully supported.
+          </li>
+          <li>
+            <strong>Plugins</strong> scmJS has a sophisticated plugin system
+            allowing for powerful extensions. Plugins for scmscx.com
+            integration, map repair, walkability analysis, a painting tool and
+            TrigScript, triggers written as TypeScript, are enabled by default.
+            Browse Plugins to see more!
+          </li>
+        </ul>
+        <p>
+          See <a href="https://docs.scmjs.dev/guide/">the user guide</a>
+          for documentation.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <a href="https://github.com/scm-js/scm-js">GitHub</a>
+      <a href="https://github.com/scm-js/scm-js/releases">Releases</a>
+      <a href="https://docs.scmjs.dev/api/">Plugin API</a>
+      <a href="https://github.com/scm-js/scm-js/issues">Report a bug</a>
+      <span class="dim"
+        >MIT. Not affiliated with or endorsed by Blizzard Entertainment.</span
+      >
+    </footer>
+
+    <script>
+      // Three enhancements over markup that already works without them: the card offering the
+      // visitor's own platform, the version and date beside the launch buttons, and the matching
+      // rows marked in the table. Everything below is allowed to fail — the releases API is 60
+      // requests an hour per IP for anonymous callers, and every link on this page is a plain
+      // href that never needs it.
+      (function () {
+        var STABLE =
+          "https://github.com/scm-js/scm-js/releases/latest/download/";
+        var NIGHTLY =
+          "https://github.com/scm-js/scm-js/releases/download/nightly/";
+
+        // One recommended file per platform with the other build of the same release beside it;
+        // the table under the card stays the full list.
+        var PLATFORMS = {
+          windows: {
+            name: "Windows",
+            file: "scmJS-windows-x64-setup.exe",
+            what: "installer, 64-bit",
+            alt: {
+              text: "or the zip that needs no installing",
+              file: "scmJS-windows-x64.zip",
+            },
+          },
+          macos: {
+            name: "macOS",
+            file: "scmJS-macos-arm64.dmg",
+            what: "Apple silicon",
+            alt: {
+              text: "or the build for an Intel Mac",
+              file: "scmJS-macos-x64.dmg",
+            },
+          },
+          linux: {
+            name: "Linux",
+            file: "scmJS-linux-x86_64.AppImage",
+            what: "AppImage, x86-64",
+            alt: {
+              text: "or the .deb for Debian and Ubuntu",
+              file: "scmJS-linux-amd64.deb",
+            },
+          },
+        };
+
+        function platform() {
+          var p =
+            (navigator.userAgentData && navigator.userAgentData.platform) ||
+            navigator.platform ||
+            "";
+          var ua = navigator.userAgent || "";
+          if (/win/i.test(p) || /Windows/.test(ua)) return "windows";
+          if (/mac/i.test(p) || /Mac OS X/.test(ua))
+            return /iPhone|iPad/.test(ua) ? null : "macos";
+          if (/linux/i.test(p) || /Linux/.test(ua))
+            return /Android/.test(ua) ? null : "linux";
+          return null;
+        }
+
+        var os = platform();
+        var card = document.getElementById("pick");
+        var spec = os && PLATFORMS[os];
+
+        function draw() {
+          card.innerHTML =
+            '<div class="pick-head">You look like you are on <strong>' +
+            spec.name +
+            "</strong>.</div>" +
+            '<div class="pick-actions">' +
+            '<a class="btn primary" href="' +
+            STABLE +
+            spec.file +
+            '"><span class="btn-main">Download for ' +
+            spec.name +
+            '</span><span class="btn-note" id="pick-stable-note">' +
+            spec.what +
+            "</span></a>" +
+            '<a class="btn" href="' +
+            NIGHTLY +
+            spec.file +
+            '"><span class="btn-main">Nightly build</span>' +
+            '<span class="btn-note" id="pick-nightly-note">main, rebuilt each night</span></a>' +
+            "</div>" +
+            '<p class="pick-alt">' +
+            spec.alt.text +
+            ': <a href="' +
+            STABLE +
+            spec.alt.file +
+            '">' +
+            spec.alt.file +
+            "</a></p>";
+          card.hidden = false;
+        }
+
+        if (spec) {
+          draw();
+          var rows = document.querySelectorAll("tr[data-os='" + os + "']");
+          for (var i = 0; i < rows.length; i++) rows[i].classList.add("mine");
+
+          // An Intel Mac and an Apple silicon one report the same platform string; only Chromium
+          // will say which, and only when asked for it. Safari cannot, so the default stays the
+          // Apple silicon build with the Intel one named beside it.
+          if (
+            os === "macos" &&
+            navigator.userAgentData &&
+            navigator.userAgentData.getHighEntropyValues
+          ) {
+            navigator.userAgentData
+              .getHighEntropyValues(["architecture"])
+              .then(function (hints) {
+                if (hints.architecture !== "x86") return;
+                spec = {
+                  name: "macOS",
+                  file: "scmJS-macos-x64.dmg",
+                  what: "Intel",
+                  alt: {
+                    text: "or the build for Apple silicon",
+                    file: "scmJS-macos-arm64.dmg",
+                  },
+                };
+                draw();
+                version();
+              })
+              .catch(function () {});
+          }
+        }
+
+        function note(id, text) {
+          var n = document.getElementById(id);
+          if (n) n.textContent = text;
+        }
+
+        function date(when) {
+          return new Date(when).toLocaleDateString(undefined, {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          });
+        }
+
+        // A numbered release is published once, so `published_at` is its date. The nightly
+        // is one long-lived release whose assets are replaced in place, which leaves
+        // `published_at` frozen at the day the tag was first cut — the newest asset upload
+        // is the only field that moves with the build.
+        function built(rel) {
+          var newest = 0;
+          (rel.assets || []).forEach(function (a) {
+            var t = Date.parse(a.updated_at || a.created_at);
+            if (t > newest) newest = t;
+          });
+          return newest || rel.published_at;
+        }
+
+        function release(ref) {
+          return fetch(
+            "https://api.github.com/repos/scm-js/scm-js/releases/" + ref,
+          ).then(function (r) {
+            return r.ok ? r.json() : Promise.reject(r.status);
+          });
+        }
+
+        var latest = release("latest");
+        var nightly = release("tags/nightly");
+
+        function version() {
+          latest
+            .then(function (rel) {
+              note(
+                "stable-note",
+                rel.tag_name + " · " + date(rel.published_at),
+              );
+              note("col-stable", rel.tag_name + " · " + date(rel.published_at));
+              if (spec)
+                note("pick-stable-note", rel.tag_name + " · " + spec.what);
+            })
+            .catch(function () {
+              /* the buttons already say what they are */
+            });
+          nightly
+            .then(function (rel) {
+              note("nightly-note", "built " + date(built(rel)));
+              note("pick-nightly-note", "built " + date(built(rel)));
+              note("col-nightly", "built " + date(built(rel)));
+            })
+            .catch(function () {});
+        }
+
+        version();
+      })();
+    </script>
+  </body>
+</html>

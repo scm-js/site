@@ -1,0 +1,481 @@
+/* The editor's own dark console palette (scm-js/scm-js, src/styles/tokens.css): StarCraft's
+   gold and teal as the two accents, with the app mark's violet kept for the mark itself. */
+
+:root {
+  --bg-0: #0a0c10;
+  --bg-1: #12151b;
+  --bg-2: #191d25;
+  --bg-3: #222732;
+  --bg-4: #2b313e;
+  --border: #2c3341;
+  --border-strong: #3b4453;
+  --text: #dde2ea;
+  --text-dim: #99a2b3;
+  --text-faint: #5d6675;
+  --text-inverse: #16130a;
+  --gold: #e6b95c;
+  --gold-hi: #f4d08a;
+  --gold-dim: #a9853c;
+  --teal: #4fd1c5;
+  --violet: #a06cf0;
+  --font-ui: "Inter", "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: "Cascadia Mono", "JetBrains Mono", ui-monospace, Consolas, Menlo, monospace;
+  --radius: 3px;
+  --radius-lg: 5px;
+  --wrap: 940px;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg-1);
+  color: var(--text);
+  font: 16px/1.6 var(--font-ui);
+  /* The splash screen's own pink glow, once, behind the mark — the app is deliberately
+     off-theme there and in the About dialog, and the mark on this page is that same drawing. */
+  background-image: radial-gradient(900px 520px at 50% -160px, rgba(255, 95, 162, 0.11), transparent 70%);
+  background-repeat: no-repeat;
+}
+
+code { font-family: var(--font-mono); font-size: 0.88em; color: var(--gold); }
+a { color: var(--teal); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── hero ───────────────────────────────────────────────── */
+
+/* The splash screen's own starfield (drawStars in the editor's starfield.ts), drifting behind the
+   mark and the wordmark. Full viewport width rather than a child of the 940px .hero, so the field
+   has no visible edges, and masked away well before the launch buttons: the sky belongs to the
+   hero, not behind the downloads table. The pink glow on body sits under it and is what a reader
+   with no JavaScript gets on its own. */
+.stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 560px;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(180deg, #000 42%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 42%, transparent 100%);
+}
+
+/* The sky is positioned and the hero is not, so without a layer of its own the hero's text would
+   be painted under it rather than over. */
+.hero {
+  position: relative;
+  z-index: 1;
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: 72px 24px 8px;
+  text-align: center;
+}
+
+/* The canvas paints its own halo (drawSphereGlow); the flat mark, which is only there until
+   globe.js runs or for a reader with no JavaScript, needs one from CSS. */
+.globe canvas,
+.globe img {
+  display: block;
+  margin: 0 auto;
+  width: 180px;
+  height: 180px;
+}
+.globe img { filter: drop-shadow(0 0 34px rgba(255, 95, 162, 0.35)); }
+
+/* The About dialog's wordmark (.about-app-name in the editor's dialogs.css): pink "scm", the
+   chrome's own colour for "JS", and its three-layer glow with the radii scaled for 56px from
+   the 30px it is drawn at there. The one departure is the tracking: the dialog's 0.14em is
+   drawn at 30px inside a narrow frame, and at 56px across a wide page the same figure reads
+   as gappy, so it comes down to 0.10em. Letter-spacing is added after the last letter too, so
+   a centred line sits half of it to the left; the indent puts that back. */
+h1 {
+  margin: 10px 0 0;
+  text-indent: 0.05em;
+  font-size: 56px;
+  font-weight: 800;
+  letter-spacing: 0.10em;
+  color: #ff5fa2;
+  text-shadow:
+    0 0 44px rgba(255, 95, 162, 0.5),
+    0 0 110px rgba(255, 95, 162, 0.15),
+    0 1px 0 rgba(0, 0, 0, 0.6);
+}
+h1 span { color: var(--text); }
+
+/* .about-rule from the editor's dialogs.css — the same fading pink hairline, widened from its
+   80px in proportion to the type it sits under. The bottom margin collapses against the
+   tagline's 12px top margin, so the figure below is the gap you get, not an addition to it. */
+.rule {
+  width: 150px;
+  height: 1px;
+  margin: 26px auto 28px;
+  background: linear-gradient(90deg, transparent, rgba(255, 95, 162, 0.5), transparent);
+}
+
+.tagline {
+  margin: 12px auto 0;
+  max-width: 640px;
+  font-size: 19px;
+  color: var(--text);
+}
+
+.sub {
+  margin: 14px auto 0;
+  max-width: 620px;
+  font-size: 14.5px;
+  color: var(--text-dim);
+}
+
+.launch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  margin: 34px 0 0;
+}
+
+.btn {
+  display: block;
+  min-width: 250px;
+  padding: 13px 26px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--bg-3);
+  color: var(--text);
+  text-align: center;
+}
+.btn:hover { background: var(--bg-4); text-decoration: none; }
+
+.btn.primary {
+  border-color: var(--gold);
+  background: linear-gradient(180deg, var(--gold-hi), var(--gold));
+  color: var(--text-inverse);
+}
+.btn.primary:hover { background: var(--gold-hi); }
+
+.btn-main { display: block; font-size: 17px; font-weight: 600; }
+.btn-note { display: block; margin-top: 2px; font-size: 12.5px; opacity: 0.75; }
+
+/* Not a warning: the chip says what the thing is, and the box is the same quiet panel the
+   cards below use. Nothing on the page is coloured for alarm. */
+.beta {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  margin: 30px auto 0;
+  max-width: 620px;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-2);
+  font-size: 13.5px;
+  color: var(--text-dim);
+  text-align: left;
+}
+.beta-chip {
+  flex: none;
+  margin-top: 2px;
+  padding: 2px 9px;
+  border: 1px solid var(--gold-dim);
+  border-radius: 999px;
+  background: rgba(230, 185, 92, 0.08);
+  color: var(--gold);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ── top bar ────────────────────────────────────────────── */
+
+/* The editor's own menu bar: --bg-2 raised a step above the page, a --bg-0 hairline under it
+   and a highlight along the top edge. Translucent because it is sticky — the hero's glow and
+   the page keep showing through it — with the solid colour underneath for a browser with no
+   backdrop-filter. */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 0 24px;
+  height: 52px;
+  background: var(--bg-2);
+  background: rgba(25, 29, 37, 0.82);
+  backdrop-filter: blur(12px) saturate(130%);
+  -webkit-backdrop-filter: blur(12px) saturate(130%);
+  border-bottom: 1px solid var(--bg-0);
+  box-shadow: 0 1px 0 var(--line-hi) inset;
+}
+.topbar-mark {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #ff5fa2;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+.topbar-mark:hover { text-decoration: none; }
+.topbar-mark span span { color: var(--text); }
+.topbar-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-left: auto;
+  font-size: 13.5px;
+}
+.topbar-links a { color: var(--text-dim); }
+.topbar-links a:hover { color: var(--text); text-decoration: none; }
+.topbar-links a.is-here { color: var(--gold); }
+.topbar-cta {
+  padding: 6px 14px;
+  white-space: nowrap;
+  border: 1px solid var(--gold-dim);
+  border-radius: var(--radius);
+  background: rgba(230, 185, 92, 0.1);
+  color: var(--gold) !important;
+}
+.topbar-cta:hover { background: rgba(230, 185, 92, 0.18); }
+
+/* ── plugins page ───────────────────────────────────────── */
+
+.page-head { margin-top: 48px; }
+.page-title {
+  margin: 0 0 12px;
+  font-size: 34px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+.page-head .lede { max-width: 720px; font-size: 15px; }
+
+.plugin-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  gap: 14px;
+}
+.plugin {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 18px 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-2);
+  font-size: 13.5px;
+  color: var(--text-dim);
+}
+/* The five a fresh editor already has, marked the way the editor marks them. */
+.plugin.is-default { border-color: var(--border-strong); }
+.plugin.is-default .pl-badge { border-color: var(--gold-dim); color: var(--gold); }
+.plugin > p { margin: 0 0 14px; flex: 1; }
+.pl-head { display: flex; align-items: center; gap: 11px; margin-bottom: 10px; }
+.pl-icon { width: 26px; height: 26px; flex: none; }
+.pl-emoji { font-size: 21px; line-height: 26px; text-align: center; }
+.pl-name { min-width: 0; }
+.pl-name h3 { margin: 0; font-size: 15px; color: var(--text); }
+.pl-version { font-size: 11.5px; color: var(--text-faint); }
+.pl-badge {
+  flex: none;
+  margin-left: auto;
+  padding: 2px 8px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  color: var(--text-faint);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.pl-foot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 -18px;
+  padding: 9px 18px 10px;
+  border-top: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.18);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  font-size: 12px;
+}
+.pl-tags { display: flex; flex-wrap: wrap; gap: 6px; min-width: 0; }
+.pl-tag {
+  padding: 1px 7px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-faint);
+  font-size: 10.5px;
+}
+.pl-links { margin-left: auto; white-space: nowrap; }
+
+/* ── sections ───────────────────────────────────────────── */
+
+main { max-width: var(--wrap); margin: 0 auto; padding: 0 24px; }
+
+section { margin: 64px 0; }
+
+h2 {
+  margin: 0 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  font-size: 22px;
+  font-weight: 600;
+}
+
+h3 { margin: 0 0 8px; font-size: 15px; font-weight: 600; color: var(--gold); }
+
+.lede { margin: 0 0 20px; color: var(--text-dim); font-size: 14.5px; }
+.note { margin: 16px 0 0; color: var(--text-faint); font-size: 13px; }
+.dim { color: var(--text-faint); font-weight: 400; }
+
+/* ── downloads ──────────────────────────────────────────── */
+
+/* The card the script builds for the visitor's own platform. It reuses the hero's .btn, so
+   the primary download here and "Open the editor" up there are visibly the same offer. */
+.pick {
+  margin: 0 0 26px;
+  padding: 18px 18px 16px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, var(--bg-3), var(--bg-2));
+}
+.pick-head { margin-bottom: 13px; font-size: 15px; color: var(--text); }
+.pick-head strong { color: var(--gold); font-weight: 600; }
+.pick-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.pick-actions .btn { min-width: 230px; flex: 1 1 230px; }
+.pick-alt { margin: 13px 0 0; font-size: 13px; color: var(--text-faint); }
+
+.downloads {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.downloads th,
+.downloads td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: baseline;
+}
+.downloads thead th {
+  color: var(--text-faint);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+/* What each column is currently offering, under its heading. Empty until the releases API
+   answers, and in its own case rather than the heading's capitals. */
+.col-when {
+  display: block;
+  margin-top: 3px;
+  color: var(--text-dim);
+  font-size: 11.5px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.col-when:empty { display: none; }
+.downloads tbody th { font-weight: 500; white-space: nowrap; }
+.downloads td:last-child a { color: var(--text-dim); }
+.downloads tr.mine { background: rgba(79, 209, 197, 0.06); }
+.downloads tr.mine tbody th { color: var(--text); }
+
+/* ── cards ──────────────────────────────────────────────── */
+
+/* Stacked, one card per row. Each is a heading and its explanation on the left with the
+   command or the links on the right, so a full-width card is not a mostly empty band. */
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.card {
+  padding: 18px 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-2);
+  font-size: 13.5px;
+  color: var(--text-dim);
+}
+.card h3 { margin: 0 0 8px; }
+.card p { margin: 0 0 10px; }
+.card p:last-child { margin-bottom: 0; }
+.card pre { margin: 12px 0; }
+/* The links and file names sit along the bottom of the card, under a hairline, rather than in
+   a second column beside the prose. */
+.card-aside {
+  margin: 14px -20px -18px;
+  padding: 11px 20px 12px;
+  border-top: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.18);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  font-size: 13px;
+}
+.card-aside p { margin: 0; }
+
+pre {
+  margin: 0 0 10px;
+  padding: 10px 12px;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-0);
+}
+pre code { color: var(--teal); font-size: 12.5px; }
+
+/* ── features ───────────────────────────────────────────── */
+
+.features { margin: 0; padding: 0; list-style: none; }
+.features li {
+  padding: 9px 0 9px 16px;
+  border-left: 2px solid var(--border-strong);
+  margin-bottom: 4px;
+  font-size: 14px;
+  color: var(--text-dim);
+}
+.features strong {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* ── footer ─────────────────────────────────────────────── */
+
+footer {
+  max-width: var(--wrap);
+  margin: 80px auto 0;
+  padding: 20px 24px 48px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  align-items: center;
+  font-size: 13px;
+}
+footer .dim { margin-left: auto; }
+
+@media (max-width: 620px) {
+  .topbar { gap: 12px; padding: 0 14px; }
+  .topbar-links { gap: 14px; font-size: 13px; }
+  /* No room for the button beside four links, and the hero's own buttons are right there. */
+  .topbar-cta { display: none; }
+  /* A shorter hero, so the sky fades out over the same part of it. */
+  .stars { height: 440px; }
+  .plugin-list { grid-template-columns: 1fr; }
+  .hero { padding-top: 40px; }
+  .rule { width: 110px; }
+  h1 { font-size: 40px; text-shadow: 0 0 32px rgba(255, 95, 162, 0.5), 0 0 78px rgba(255, 95, 162, 0.15), 0 1px 0 rgba(0, 0, 0, 0.6); }
+  .globe canvas, .globe img { width: 132px; height: 132px; }
+  .btn { min-width: 100%; }
+  .card-aside { margin: 12px -14px -14px; padding: 10px 14px 11px; }
+  .pick { padding: 14px; }
+  .pick-actions .btn { min-width: 100%; }
+  .downloads { font-size: 13px; }
+  .downloads th, .downloads td { padding: 9px 6px; }
+  footer .dim { margin-left: 0; }
+}
