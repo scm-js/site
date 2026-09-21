@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>scmJS — privacy</title>
+    <meta
+      name="description"
+      content="What scmjs.dev stores, what it sends to the model provider, what it never keeps, and how to delete all of it."
+    />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+    <meta property="og:title" content="scmJS — privacy" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://scmjs.dev/privacy.html" />
+    <meta property="og:image" content="https://scmjs.dev/favicon.svg" />
+    <!-- Cloudflare Web Analytics: visits and referrers, no cookies. -->
+    <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "4f6f300eb17c49e8b16331e1e96f6b2a"}'></script>
+  </head>
+  <body>
+    <!-- Shared with index.html; keep the four in step. -->
+    <nav class="topbar">
+      <a class="topbar-mark" href="/">
+        <img src="logo.svg" alt="" width="22" height="22" />
+        <span>scm<span>JS</span></span>
+      </a>
+      <div class="topbar-links">
+        <a href="index.html#download">Download</a>
+        <a href="plugins.html">Plugins</a>
+        <a href="https://docs.scmjs.dev">Docs</a>
+        <a href="https://github.com/scm-js/scm-js">GitHub</a>
+        <a class="topbar-cta" href="https://editor.scmjs.dev"
+          >Open the editor</a
+        >
+      </div>
+    </nav>
+
+    <main class="legal">
+      <section class="page-head">
+        <h1 class="page-title">Privacy</h1>
+        <p class="updated">Last updated: 21 September 2026</p>
+        <p class="lede">
+          The short version: the editor sends us nothing about your maps, and
+          apart from counting visits, nothing at all unless you press something
+          that says it will. We keep
+          what an account needs and what a bill needs, and not the contents of
+          your maps or what you typed. The only things counted are visits to our
+          websites and downloads of the game graphics, without cookies (section
+          1). There is no advertising and nothing that follows you between
+          sites.
+        </p>
+      </section>
+
+      <section>
+        <h2>1. If you only use the editor</h2>
+        <p>
+          Opening maps, editing them and saving them happens entirely in your
+          browser or on your own machine. Your map files are not uploaded, and
+          we have no way to see them. You can use scmJS forever without us
+          learning who you are.
+        </p>
+        <p>
+          The pages on this site make two requests to GitHub on your behalf —
+          the release version beside the download buttons, and the plugin list
+          on the plugins page. Those go to GitHub, not to us, and GitHub sees
+          your IP address as it would for any page on their site.
+        </p>
+        <p>
+          This site, the documentation, and the editor at editor.scmjs.dev and
+          nightly.editor.scmjs.dev count visits with
+          <a href="https://www.cloudflare.com/web-analytics/" target="_blank" rel="noopener"
+            >Cloudflare Web Analytics</a
+          >. It records the page, where you came from, your country, browser
+          and device type, and how fast the page loaded. It sets no cookies,
+          keeps no identifier for you, and learns nothing about your maps. The
+          desktop app and copies of the editor hosted by other people do not
+          send it. When the editor downloads the StarCraft graphics through our
+          forwarder, we count that download too, with your country and which of
+          our sites asked for it, and nothing else.
+        </p>
+      </section>
+
+      <section>
+        <h2>2. What is kept in your browser</h2>
+        <p>
+          Under <strong>Preferences ▸ Browser storage</strong> in the editor,
+          listed under the scmjs.dev plugin:
+        </p>
+        <ul>
+          <li>your sign-in session, if you have signed in;</li>
+          <li>
+            a random device identifier, which is what the one free trial per
+            browser is counted against — it is not linked to you and is not an
+            advertising identifier;
+          </li>
+          <li>your AI options and the on/off ticks.</li>
+        </ul>
+        <p>
+          Clearing your browser storage removes all of it. The account page on
+          this site also sets one cookie, described in section 6.
+        </p>
+      </section>
+
+      <section>
+        <h2>3. What we store on the server</h2>
+        <p>Only once you have started a trial or signed in.</p>
+        <ul>
+          <li>
+            <strong>Your account.</strong> The identifier your sign-in provider
+            uses for you, your display name there, and your email address where
+            the provider says it is verified (Discord and Google do; Battle.net
+            sends none). We use the email only to tell two sign-ins apart as the
+            same person, and to reach you about your account. We do not email
+            you otherwise.
+          </li>
+          <li>
+            <strong>A ledger.</strong> One row per charge and per top-up: when,
+            how much, and which feature it was for. This is what the activity
+            list on your account page shows you, and it is what a bill is made
+            of.
+          </li>
+          <li>
+            <strong>Per-request diagnostics.</strong> For each AI request: the
+            feature, the model, how long it took, how many tokens it used, what
+            it cost, and whether it failed.
+            <strong>Not the content</strong> — not your prompt, not your map,
+            not the answer.
+          </li>
+          <li>
+            <strong>Your IP address</strong>, recorded against a trial when one
+            starts and against a sign-in when one happens. This is the only
+            thing that stops the free credit being collected over and over from
+            one machine, and it is used for nothing else.
+          </li>
+          <li>
+            <strong>Maps you chose to upload</strong>, with their revisions,
+            notes and thumbnails, if you use map storage. Maps are stored in
+            Google Cloud Storage in a private bucket. They are served back only
+            to you. Uploading is always something you press a button to do.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>4. What we send to the model provider</h2>
+        <p>
+          An AI request is answered by
+          <a href="https://www.anthropic.com" target="_blank" rel="noopener"
+            >Anthropic</a
+          >, through their API. To answer it we send what the request needs:
+          what you typed, and the parts of the open map that are relevant —
+          which for something like a review or the assistant may be most of the
+          map's contents, and may include a screenshot of the map if you ticked
+          the picture box.
+        </p>
+        <p>
+          Anthropic processes this under their commercial API terms: API inputs
+          and outputs are not used to train their models. Part of the request —
+          the fixed instructions and reference tables, which are the same for
+          everybody — is held in their prompt cache for up to an hour so that
+          repeat requests cost less; the part of the request that is your map is
+          what makes a request unique and is not shared with anyone.
+        </p>
+        <p>
+          <!-- TODO: this is a promise about how you will use logging.promptsFor. Keep it true. -->
+          Our own server does not keep the content of requests. It can be told
+          to keep them for one named account, which we do only when someone asks
+          us to help debug their own requests, and only for as long as that
+          takes.
+        </p>
+      </section>
+
+      <section>
+        <h2>5. Payment</h2>
+        <p>
+          Credit purchases go through Stripe on Stripe's own page. Your card
+          details are never sent to us and we could not store them if we wanted
+          to. We keep the reference Stripe gives us for the purchase, so a
+          payment can be matched to a top-up, and Stripe keeps whatever their
+          own
+          <a href="https://stripe.com/privacy" target="_blank" rel="noopener"
+            >privacy policy</a
+          >
+          says they do.
+        </p>
+      </section>
+
+      <section>
+        <h2>6. Cookies</h2>
+        <p>
+          One, on the account page on this site: it holds your sign-in session.
+          It is <code>HttpOnly</code>, <code>SameSite=Lax</code> and
+          <code>Secure</code>, lasts 60 days without use, and exists only so
+          that the page knows who you are. There are no analytics or advertising
+          cookies (the visit counting above uses none), so there is nothing to
+          consent to and no banner.
+        </p>
+      </section>
+
+      <section>
+        <h2>7. How long it is kept</h2>
+        <ul>
+          <li>
+            <strong>Your account and ledger</strong> — until you delete the
+            account. Some ledger rows may be kept after that, with the account
+            no longer identifiable, where tax or accounting rules require a
+            record of a payment.
+          </li>
+          <li>
+            <strong>Per-request diagnostics</strong> — kept while the account
+            exists; they carry no content.
+          </li>
+          <li>
+            <strong>Trial and sign-up IP records</strong> — kept for the period
+            the anti-abuse rules look back over, and cleared after.
+          </li>
+          <li><strong>Maps</strong> — until you delete them or the account.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>8. Deleting everything</h2>
+        <p>
+          The account page has a delete button. It removes your account, your
+          identities, your balance, your ledger and every map you stored. It is
+          immediate and it is not reversible — including any credit you have
+          left, so spend or ask for a refund of that first.
+        </p>
+        <p>
+          You can also ask us for a copy of what we hold, or ask us to correct
+          it, at
+          <a href="mailto:support@scmjs.dev">support@scmjs.dev</a>. We will
+          answer within 30 days. These are rights you have under Canada's
+          <abbr title="Personal Information Protection and Electronic Documents Act"
+            >PIPEDA</abbr
+          >
+          and Alberta's Personal Information Protection Act, and under the GDPR
+          if you are in the UK or the EU.
+        </p>
+      </section>
+
+      <section>
+        <h2>9. Children</h2>
+        <p>
+          The service is not intended for children under 13, and the sign-in
+          providers have their own minimum ages. We do not knowingly keep an
+          account for a child under 13; tell us and we will delete it.
+        </p>
+      </section>
+
+      <section>
+        <h2>10. Who to ask</h2>
+        <p>
+          scmjs.dev is run by <strong>Rebecca Sterling</strong> in Alberta,
+          Canada, who is the person accountable for the personal information
+          described here. Anything about your data goes to
+          <a href="mailto:support@scmjs.dev">support@scmjs.dev</a>, and a postal
+          address is available on request.
+        </p>
+        <p>
+          If this policy changes, the date at the top changes with it. A change
+          that affects what we do with data we already hold will be said plainly
+          here rather than folded in quietly.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <a href="https://github.com/scm-js/scm-js">GitHub</a>
+      <a href="https://github.com/scm-js/scm-js/releases">Releases</a>
+      <a href="https://docs.scmjs.dev/api/">Plugin API</a>
+      <a href="https://github.com/scm-js/scm-js/issues">Report a bug</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="mailto:support@scmjs.dev">support@scmjs.dev</a>
+      <span class="dim"
+        >© Rebecca Sterling. The editor is MIT. Not affiliated with or endorsed
+        by Blizzard Entertainment.</span
+      >
+    </footer>
+  </body>
+</html>
