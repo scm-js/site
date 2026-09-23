@@ -3,24 +3,46 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>
-      scmJS — a StarCraft map editor in the browser or on the desktop
-    </title>
+    <title>scmJS — StarCraft: Brood War map editor for the browser, Windows, macOS and Linux</title>
     <meta
       name="description"
-      content="A StarCraft and Brood War map editor written in TypeScript, in the browser or as a desktop app. Opens real .scm, .scx and .chk files and writes archives the game will play."
+      content="A free, open source StarCraft and Brood War map editor that runs in the browser and on Windows, macOS and Linux. Opens .scm, .scx and .chk files, including protected maps, and saves maps the game will play."
     />
+    <link rel="canonical" href="https://scmjs.dev/" />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="styles.css" />
     <script src="globe.js" defer></script>
-    <meta property="og:title" content="scmJS" />
+    <meta property="og:site_name" content="scmJS" />
+    <meta property="og:title" content="scmJS — a StarCraft: Brood War map editor" />
     <meta
       property="og:description"
-      content="A StarCraft and Brood War map editor written in TypeScript, in the browser or as a desktop app."
+      content="A free, open source StarCraft and Brood War map editor, in the browser or as a desktop app for Windows, macOS and Linux."
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://scmjs.dev/" />
-    <meta property="og:image" content="https://scmjs.dev/favicon.svg" />
+    <meta property="og:image" content="https://scmjs.dev/images/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="The scmJS editor with a Jungle World map open: the terrain palette, the map, the minimap and the layer list." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "scmJS",
+        "description": "A StarCraft and Brood War map editor that runs in the browser and on Windows, macOS and Linux.",
+        "url": "https://scmjs.dev/",
+        "applicationCategory": "DesignApplication",
+        "operatingSystem": "Windows, macOS, Linux, Web browser",
+        "downloadUrl": "https://scmjs.dev/#download",
+        "installUrl": "https://editor.scmjs.dev/",
+        "screenshot": "https://scmjs.dev/images/editor.webp",
+        "license": "https://opensource.org/licenses/MIT",
+        "isAccessibleForFree": true,
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "sameAs": ["https://github.com/scm-js/scm-js"]
+      }
+    </script>
     <!-- Cloudflare Web Analytics: visits and referrers, no cookies. -->
     <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "4f6f300eb17c49e8b16331e1e96f6b2a"}'></script>
   </head>
@@ -57,17 +79,18 @@
           height="180"
         />
       </div>
-      <h1>scm<span>JS</span></h1>
+      <p class="wordmark">scm<span>JS</span></p>
 
-      <p class="tagline">
-        A StarCraft and Brood War map editor written for the web and desktop.
-      </p>
+      <h1 class="tagline">
+        A StarCraft: Brood War map editor for the browser, Windows, macOS and
+        Linux.
+      </h1>
       <div class="rule"></div>
       <p class="sub">
-        scmJS is a powerful, fully featured open source StarCraft 1 map editor written in TypeScript.
-        It is available both in the browser and as a desktop app. Open, edit,
-        and save
-        <code>.scm</code>, <code>.scx</code> and <code>.chk</code> files.
+        scmJS is a free, open source StarCraft 1 map editor written in
+        TypeScript. Open, edit and save <code>.scm</code>, <code>.scx</code>
+        and <code>.chk</code> maps for Brood War and StarCraft: Remastered,
+        including protected ones, in a browser tab or as a desktop app.
       </p>
 
       <div class="launch">
@@ -315,6 +338,15 @@
 
       <section id="what">
         <h2>What it does</h2>
+        <figure class="shot">
+          <img
+            src="images/editor.webp"
+            alt="The scmJS editor with Big Game Hunters open on the Terrain layer: the terrain palette on the left, the map in the middle, the minimap, layer list and properties on the right."
+            width="1400"
+            height="900"
+            loading="lazy"
+          />
+        </figure>
         <ul class="features">
           <li>
             <strong>Terrain</strong> Full isometric support, rectangle and
@@ -353,6 +385,23 @@
         <p>
           See <a href="https://docs.scmjs.dev/guide/">the user guide</a>
           for documentation.
+        </p>
+      </section>
+
+      <section id="coming-from">
+        <h2>Coming from StarEdit or SCMDraft</h2>
+        <p>
+          The layers, palettes and dialogs follow StarEdit and SCMDraft 2, so
+          the editor should feel familiar. The maps are the same files.
+          Triggers can be imported and exported as SCMDraft
+          <code>.trg</code> files, and the text trigger editor (a plugin that
+          comes installed but switched off) uses SCMDraft's TrigEdit syntax,
+          so triggers copied out of SCMDraft paste straight in.
+        </p>
+        <p>
+          SCMDraft and StarEdit only run on Windows. scmJS also runs on macOS
+          and Linux, with no Wine needed, or in any browser without installing
+          anything.
         </p>
       </section>
     </main>

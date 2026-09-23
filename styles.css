@@ -88,8 +88,10 @@ a:hover { text-decoration: underline; }
    the 30px it is drawn at there. The one departure is the tracking: the dialog's 0.14em is
    drawn at 30px inside a narrow frame, and at 56px across a wide page the same figure reads
    as gappy, so it comes down to 0.10em. Letter-spacing is added after the last letter too, so
-   a centred line sits half of it to the left; the indent puts that back. */
-h1 {
+   a centred line sits half of it to the left; the indent puts that back. The home page draws it
+   as .wordmark, a paragraph, so that its h1 can be the line that says what the editor is. */
+h1,
+.wordmark {
   margin: 10px 0 0;
   text-indent: 0.05em;
   font-size: 56px;
@@ -101,7 +103,8 @@ h1 {
     0 0 110px rgba(255, 95, 162, 0.15),
     0 1px 0 rgba(0, 0, 0, 0.6);
 }
-h1 span { color: var(--text); }
+h1 span,
+.wordmark span { color: var(--text); }
 
 /* .about-rule from the editor's dialogs.css — the same fading pink hairline, widened from its
    80px in proportion to the type it sits under. The bottom margin collapses against the
@@ -118,6 +121,23 @@ h1 span { color: var(--text); }
   max-width: 640px;
   font-size: 19px;
   color: var(--text);
+}
+/* The home page's h1, so none of the wordmark's h1 look. */
+.hero h1.tagline {
+  font-weight: 400;
+  line-height: inherit;
+  letter-spacing: normal;
+  text-indent: 0;
+  text-shadow: none;
+}
+
+.shot { margin: 0 0 24px; }
+.shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: 8px;
 }
 
 .sub {
@@ -483,7 +503,7 @@ footer .dim { margin-left: auto; }
   .plugin-list { grid-template-columns: 1fr; }
   .hero { padding-top: 40px; }
   .rule { width: 110px; }
-  h1 { font-size: 40px; text-shadow: 0 0 32px rgba(255, 95, 162, 0.5), 0 0 78px rgba(255, 95, 162, 0.15), 0 1px 0 rgba(0, 0, 0, 0.6); }
+  h1, .wordmark { font-size: 40px; text-shadow: 0 0 32px rgba(255, 95, 162, 0.5), 0 0 78px rgba(255, 95, 162, 0.15), 0 1px 0 rgba(0, 0, 0, 0.6); }
   .globe canvas, .globe img { width: 132px; height: 132px; }
   .btn { min-width: 100%; }
   .card-aside { margin: 12px -14px -14px; padding: 10px 14px 11px; }

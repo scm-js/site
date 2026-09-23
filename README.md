@@ -11,6 +11,8 @@ buttons and the download list. No build step: what is committed is what is serve
 | `styles.css` | the editor's own palette (`src/styles/tokens.css` over there) |
 | `logo.svg` | the flat mark: shown until `globe.js` runs, and for a reader with no JavaScript |
 | `favicon.svg` | that same file with the square |
+| `images/` | `editor.webp`, the guide's plain editor picture (`docs/images/editor-plain.webp` in the editor), and `og.jpg`, the 1200×630 link preview cut from the same picture |
+| `robots.txt`, `sitemap.xml` | for search engines; the sitemap lists this site's pages (docs.scmjs.dev writes its own). Add a page to both the sitemap and its `<link rel="canonical">` |
 | `CNAME` | `scmjs.dev`, which is where a branch-served Pages site keeps its custom domain |
 | `.nojekyll` | turns off the Jekyll pass such a site otherwise gets |
 
