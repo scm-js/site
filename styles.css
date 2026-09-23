@@ -118,7 +118,9 @@ h1 span,
 
 .tagline {
   margin: 12px auto 0;
-  max-width: 640px;
+  /* Room for the home page's one-line description (about 760px at 19px), with some to spare
+     for a wider system font. */
+  max-width: 820px;
   font-size: 19px;
   color: var(--text);
 }
