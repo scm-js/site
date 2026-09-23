@@ -136,7 +136,11 @@
             <strong>Maps you chose to upload</strong>, with their revisions,
             notes and thumbnails, if you use map storage. Maps are stored in
             Google Cloud Storage in a private bucket. They are served back only
-            to you. Uploading is always something you press a button to do.
+            to you, unless you make a link to one: anyone who has a map's link
+            can download that map, without signing in, until you remove the link
+            or the map. The server counts how many times each link is opened.
+            Uploading and making a link are always something you press a button
+            to do.
           </li>
           <li>
             <strong>Maps you share, while they are shared.</strong> Sharing a
