@@ -199,11 +199,15 @@
         // editor (DEFAULT_REMOTE_PLUGINS). The registry does not record this, so it is written
         // here; if that set ever changes, this line is what to edit.
         var DEFAULTS = [
-          "plugin-scm-scx",
-          "plugin-repair",
-          "plugin-walkability",
+          "plugin-eudplib",
           "plugin-image-to-terrain",
           "plugin-paint",
+          "plugin-repair",
+          "plugin-scm-scx",
+          "plugin-scmjs-dev",
+          "plugin-stamp-library",
+          "plugin-trigscript",
+          "plugin-walkability",
         ];
 
         var list = document.getElementById("list");
@@ -315,12 +319,12 @@
           .then(function (index) {
             var plugins = (index.plugins || []).slice();
             if (!plugins.length) return Promise.reject("empty");
-            // The ones a fresh editor already has, first.
+            // By name, ignoring case, the order the editor's Manage Plugins shows them in.
+            function sortName(p) {
+              return (p.name || repoName(p)).toLocaleLowerCase();
+            }
             plugins.sort(function (a, b) {
-              var da = DEFAULTS.indexOf(repoName(a)) !== -1;
-              var db = DEFAULTS.indexOf(repoName(b)) !== -1;
-              if (da !== db) return da ? -1 : 1;
-              return (a.name || "").localeCompare(b.name || "");
+              return sortName(a).localeCompare(sortName(b));
             });
             list.innerHTML = plugins.map(card).join("");
           })
