@@ -12,6 +12,9 @@ buttons and the download list. No build step: what is committed is what is serve
 | `logo.svg` | the flat mark: shown until `globe.js` runs, and for a reader with no JavaScript |
 | `favicon.svg` | that same file with the square |
 | `images/` | `editor.webp`, the guide's plain editor picture (`docs/images/editor-plain.webp` in the editor), and `og.jpg`, the 1200×630 link preview cut from the same picture |
+| `ko/` | the Korean copies of `index.html` and `plugins.html` — see *The Korean pages* below |
+| `lang.js` | remembers the language picked in the top bar, and offers the Korean page once to a browser that asks for Korean |
+| `scripts/check-translations.mjs` | checks each Korean page against its English one: the same outside addresses and ids |
 | `robots.txt`, `sitemap.xml` | for search engines; the sitemap lists this site's pages (docs.scmjs.dev writes its own). Add a page to both the sitemap and its `<link rel="canonical">` |
 | `CNAME` | `scmjs.dev`, which is where a branch-served Pages site keeps its custom domain |
 | `.nojekyll` | turns off the Jekyll pass such a site otherwise gets |
@@ -76,6 +79,32 @@ Two things the index does not carry:
   so the page builds `raw.githubusercontent.com/<owner>/<repo>/<commit>/<icon>` from the
   entry's own `repo` and `commit` — the same resolution the editor's loader does. An emoji is
   used as it stands, and anything that fails to load falls back to the app mark.
+
+## The Korean pages
+
+`ko/index.html` and `ko/plugins.html` are hand-kept copies of the English pages: the same
+markup, links, file names and scripts, with the words in Korean. They are real pages rather
+than text swapped in by a script, so search engines index them and they read without
+JavaScript. Each pair names the other with `<link rel="alternate" hreflang>`, English is the
+`x-default`, and both Korean addresses are in the sitemap.
+
+**A change to an English page is a change to its Korean copy too.** `node
+scripts/check-translations.mjs` fails when a pair disagrees on an outside address (the
+download file names above all) or an element id the scripts write into; the words
+themselves it cannot check.
+
+The top bar's switch is the other language's name, not a flag: flag emoji show as bare
+letters on Windows, and English has no one flag. Nothing redirects. `lang.js` shows a
+browser whose languages include Korean a one-line offer of the Korean page on the English
+one, and a click on either language, or closing the offer, is remembered so it does not come
+back. The offer's address is the page's own `hreflang="ko"` link, so a page without a Korean
+copy offers nothing.
+
+What stays English on the Korean pages: each plugin's name, description and tags (the
+registry carries English only), the docs site, the privacy page (and the pricing and terms
+pages), which the Korean footer marks as `(영문)`. The Korean pages use the editor's own
+Korean for the words the two share (`src/i18n/ko.json` there) — 플러그인 찾아보기, 장식물,
+로케이션, 도움말 ▸ 버그 신고 내용 복사.
 
 ## Before the first numbered release
 

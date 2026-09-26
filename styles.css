@@ -515,3 +515,64 @@ footer .dim { margin-left: auto; }
   .downloads th, .downloads td { padding: 9px 6px; }
   footer .dim { margin-left: 0; }
 }
+
+/* ── languages ──────────────────────────────────────────── */
+
+/* The language switch in the top bar: the other language's own name, never a flag — flag
+   emoji show as bare letters on Windows, and English has no one flag. */
+.topbar-links a.lang-switch {
+  padding-left: 16px;
+  border-left: 1px solid var(--border-strong);
+}
+
+/* Korean pages. Hangul breaks between any two syllables unless told otherwise, which splits
+   words across lines; keep-all breaks only at spaces, the way Korean is set. Segoe UI and Inter
+   have no Hangul, so the Korean faces come right after them and the browser falls through to
+   them glyph by glyph — Latin text keeps the site's face. */
+html:lang(ko) {
+  --font-ui: "Inter", "Segoe UI", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR",
+    system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+}
+html:lang(ko) body {
+  line-height: 1.75;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+/* The one-line offer of the Korean page, shown once to a browser that asks for Korean
+   (lang.js) and never again after either choice. */
+.lang-suggest {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 8px 44px 8px 16px;
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--border);
+  font-size: 13.5px;
+  color: var(--text-dim);
+  word-break: keep-all;
+}
+.lang-suggest button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 2px 8px;
+  border: 0;
+  background: none;
+  color: var(--text-faint);
+  font: inherit;
+  font-size: 18px;
+  cursor: pointer;
+}
+.lang-suggest button:hover { color: var(--text); }
+
+@media (max-width: 620px) {
+  .topbar-links a.lang-switch { padding-left: 12px; }
+  /* Seven links do not fit a phone's width; GitHub and the issue tracker are in the footer too. */
+  .topbar-links a.topbar-github,
+  .topbar-links a.topbar-issues { display: none; }
+}

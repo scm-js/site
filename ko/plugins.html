@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>scmJS 플러그인 — 스타크래프트 맵 에디터</title>
+    <meta
+      name="description"
+      content="scmJS용으로 공개된 플러그인 목록입니다. 플러그인마다 하는 일, 기본으로 켜져 있는지, 소스가 어디 있는지를 보여 줍니다."
+    />
+    <link rel="canonical" href="https://scmjs.dev/ko/plugins.html" />
+    <link rel="alternate" hreflang="en" href="https://scmjs.dev/plugins.html" />
+    <link rel="alternate" hreflang="ko" href="https://scmjs.dev/ko/plugins.html" />
+    <link rel="alternate" hreflang="x-default" href="https://scmjs.dev/plugins.html" />
+    <script src="../lang.js" defer></script>
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../styles.css" />
+    <meta property="og:title" content="scmJS 플러그인" />
+    <meta
+      property="og:description"
+      content="scmJS용으로 공개된 플러그인 목록입니다. 플러그인마다 하는 일과 소스가 어디 있는지를 보여 줍니다."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta property="og:url" content="https://scmjs.dev/ko/plugins.html" />
+    <meta property="og:site_name" content="scmJS" />
+    <meta property="og:image" content="https://scmjs.dev/images/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <!-- Cloudflare Web Analytics: visits and referrers, no cookies. -->
+    <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "4f6f300eb17c49e8b16331e1e96f6b2a"}'></script>
+  </head>
+  <body>
+    <!-- The Korean copy of plugins.html. Shared with index.html, plugins.html and ko/index.html;
+         keep the four in step. -->
+    <nav class="topbar">
+      <a class="topbar-mark" href="./">
+        <img src="../logo.svg" alt="" width="22" height="22" />
+        <span>scm<span>JS</span></span>
+      </a>
+      <div class="topbar-links">
+        <a href="./#download">다운로드</a>
+        <a class="is-here" href="plugins.html">플러그인</a>
+        <a href="https://docs.scmjs.dev">문서</a>
+        <a class="topbar-github" href="https://github.com/scm-js/scm-js">GitHub</a>
+        <a class="topbar-issues" href="https://github.com/scm-js/scm-js/issues">이슈</a>
+        <a class="lang-switch" href="/plugins.html" lang="en" hreflang="en" data-lang="en">English</a>
+        <a class="topbar-cta" href="https://editor.scmjs.dev"
+          >에디터 열기</a
+        >
+      </div>
+    </nav>
+
+    <main>
+      <section class="page-head">
+        <h1 class="page-title">플러그인</h1>
+        <p class="lede">
+          플러그인은 <code>plugin.json</code> 매니페스트 파일과 그 옆의
+          <code>plugin.ts</code> 또는 <code>plugin.js</code>로 이루어집니다.
+          플러그인 API로 에디터를 폭넓게 고치고 기능을 더할 수 있습니다.
+          에디터 안에서는 <strong>플러그인 ▸ 플러그인 찾아보기</strong>에서 볼
+          수 있습니다.
+        </p>
+        <p class="lede">
+          직접 만든 플러그인은
+          <a
+            href="https://github.com/scm-js/registry/issues/new?template=submit-plugin.yml"
+            target="_blank"
+            >이 이슈 양식</a
+          >을 작성해 목록에 올릴 수 있습니다.
+        </p>
+        <p class="note">
+          이 목록은 에디터의 플러그인 찾아보기가 읽는 것과 같은 색인(<a
+            href="https://github.com/scm-js/registry"
+            >scm-js/registry</a
+          >)을 그대로 보여 주므로, 지금 에디터에서 받을 수 있는 플러그인과 항상
+          같습니다. 플러그인 설명은 색인에 적힌 영어 원문 그대로입니다.
+        </p>
+      </section>
+
+      <section>
+        <div class="plugin-list" id="list">
+          <p class="dim" id="status">레지스트리를 불러오는 중…</p>
+        </div>
+      </section>
+
+      <section id="write">
+        <h2>플러그인 만들기</h2>
+        <div class="cards">
+          <article class="card">
+            <div class="card-main">
+              <h3>API</h3>
+              <p>
+                플러그인은 파일 두 개입니다. 코드가 어디 있는지 적은
+                <code>plugin.json</code>과, <code>activate(api)</code>를 기본
+                내보내기로 하는 진입 파일입니다. 플러그인을 켜면 에디터가 이
+                함수를 한 번 호출하면서 <code>api</code>를 넘겨줍니다.
+              </p>
+              <p>
+                이것으로 열린 맵을 읽고 쓰고, 에디터 화면에 무언가를 더하고(메뉴와
+                컨텍스트 메뉴 항목, 단축키, 대화 상자, 떠 있는 패널, 포인터를
+                맡는 맵 도구, 캔버스 위에 그리는 오버레이), 게임의
+                <code>.dat</code> 테이블을 디코딩된 형태로 읽을 수 있습니다.
+                등록한 것은 플러그인을 끄면 모두 자동으로 치워집니다.
+              </p>
+              <p>
+                모든 쓰기는
+                <code>api.document.edit(label, tx =&gt; …)</code>를 거칩니다.
+                콜백이 한 일은 실행 취소 <em>한 단계</em>가 되고, 건드린 CHK
+                섹션이 표시되며, 화면이 다시 그려집니다. 그래서 플러그인의 편집도
+                다른 붓질처럼 실행 취소와 다시 실행에 들어갑니다.
+              </p>
+              <p>
+                API는 Promise를 기본으로 합니다. 비동기인 것은 모두
+                <code>Promise</code>를 돌려주고, <code>activate</code>와 대화
+                상자 버튼의 <code>run</code>은 <code>async</code>여도 되며,
+                사용자가 취소하면 거부 대신 <code>null</code>이나
+                <code>false</code>로 끝납니다. 단 하나의 예외는
+                <code>edit</code>에 넘기는 콜백입니다. 콜백이 돌아오는 순간
+                커밋되므로, <code>async</code> 콜백은 첫 <code>await</code>
+                전까지 한 일만 커밋하고 나머지는 실행 취소 단계 밖에서 쓰게
+                됩니다. 그래픽, 맵에서 고른 위치, 네트워크 요청은
+                <em>먼저</em> 기다린 다음 한 번에 쓰세요. TypeScript는 async
+                콜백을 아예 거부하고, 일반 JavaScript에서는 실행할 때 잡아냅니다.
+              </p>
+              <pre><code>export default function activate(api) {
+  api.menu.add("Tools", {
+    label: "Marine here…",
+    enabled: () =&gt; api.document.isOpen(),
+    async run() {
+      // Asynchronous, so await it. Esc or a right-click resolves null.
+      const at = await api.ui.pickTile({ prompt: "Where does the marine go?" });
+      if (!at) return;
+
+      // Synchronous, so the whole thing is one undo entry called "Place a marine".
+      api.document.edit("Place a marine", (tx) =&gt; {
+        const px = api.consts.TILE_PX;
+        tx.placeUnit(0, 0, at.x * px + px / 2, at.y * px + px / 2);
+      });
+    },
+  });
+}</code></pre>
+              <p class="dim">
+                TypeScript는 브라우저에서 변환되므로, 파일 하나짜리 플러그인에는
+                도구가 전혀 필요 없습니다. npm 의존성이 필요한 저장소는 번들을
+                커밋하고 매니페스트에 그 이름을 적습니다.
+              </p>
+            </div>
+            <div class="card-aside">
+              <p>
+                <a href="https://docs.scmjs.dev/plugins/writing-a-plugin/"
+                  >제작자 가이드 (영문)</a
+                >
+                ·
+                <a href="https://www.npmjs.com/package/@scm-js/plugin-api"
+                  >@scm-js/plugin-api</a
+                >
+              </p>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-main">
+              <h3>목록에 오르려면</h3>
+              <p>
+                scm-js 조직에 있는 <code>plugin-…</code> 이름의 저장소나,
+                <code>scmjs</code>와 <code>plugin</code> 토픽이 달린 저장소는
+                레지스트리 생성기가 가장 최근의 semver 태그로 가져갑니다. 그 밖의
+                플러그인은 에디터에 주소를 붙여 넣어 설치할 수 있습니다.
+              </p>
+            </div>
+            <div class="card-aside">
+              <p>
+                <a href="https://github.com/scm-js/plugin-hello-world"
+                  >복사해서 시작할 Hello World</a
+                >
+                ·
+                <a href="https://github.com/scm-js/registry">레지스트리</a>
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <a href="https://github.com/scm-js/scm-js">GitHub</a>
+      <a href="https://github.com/scm-js/scm-js/releases">릴리스</a>
+      <a href="https://docs.scmjs.dev/api/">플러그인 API (영문)</a>
+      <a href="https://github.com/scm-js/scm-js/issues">버그 신고</a>
+      <span class="dim"
+        >MIT 라이선스. 블리자드 엔터테인먼트와 관련이 없으며 블리자드의 보증을
+        받지 않았습니다.</span
+      >
+      <a href="../privacy.html">개인정보 처리방침 (영문)</a>
+      <span class="dim">방문 통계는 쿠키 없이 Cloudflare Web Analytics로 집계합니다.</span>
+    </footer>
+
+    <script>
+      // The same script as plugins.html's, with its words in Korean. The registry carries
+      // English only, so each plugin's name and description stay as written there.
+      (function () {
+        var INDEX =
+          "https://raw.githubusercontent.com/scm-js/registry/main/index.json";
+
+        // Keep in step with the DEFAULTS in plugins.html (the editor's DEFAULT_REMOTE_PLUGINS).
+        var DEFAULTS = [
+          "plugin-eudplib",
+          "plugin-image-to-terrain",
+          "plugin-paint",
+          "plugin-repair",
+          "plugin-scm-scx",
+          "plugin-scmjs-dev",
+          "plugin-stamp-library",
+          "plugin-trigscript",
+          "plugin-walkability",
+        ];
+
+        var list = document.getElementById("list");
+        var status = document.getElementById("status");
+
+        function esc(s) {
+          return String(s == null ? "" : s).replace(/[&<>"]/g, function (ch) {
+            return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[
+              ch
+            ];
+          });
+        }
+
+        function repoName(p) {
+          var m = /([^/]+)$/.exec(p.repo || p.spec || "");
+          return m ? m[1] : "";
+        }
+
+        function img(src) {
+          return (
+            '<img class="pl-icon" src="' +
+            esc(src) +
+            '" alt="" onerror="this.onerror=null;this.src=\'../logo.svg\'" />'
+          );
+        }
+
+        function icon(p) {
+          if (!p.icon) return img("../logo.svg");
+          if (/^(https?:|data:)/.test(p.icon)) return img(p.icon);
+          if (!/[./]/.test(p.icon))
+            return '<span class="pl-icon pl-emoji">' + esc(p.icon) + "</span>";
+          var repo = /github\.com\/([^/]+\/[^/]+)/.exec(p.repo || "");
+          if (!repo) return img("../logo.svg");
+          return img(
+            "https://raw.githubusercontent.com/" +
+              repo[1] +
+              "/" +
+              (p.commit || "HEAD") +
+              "/" +
+              p.icon.replace(/^\.?\//, ""),
+          );
+        }
+
+        function when(iso) {
+          if (!iso) return "";
+          return new Date(iso).toLocaleDateString("ko-KR", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          });
+        }
+
+        function card(p) {
+          var isDefault = DEFAULTS.indexOf(repoName(p)) !== -1;
+          var tags = (p.tags || [])
+            .map(function (t) {
+              return '<span class="pl-tag">' + esc(t) + "</span>";
+            })
+            .join("");
+          // The name, description and tags are the registry's English; lang="en" says so, for
+          // a screen reader's voice and the browser's hyphenation.
+          return (
+            '<article class="plugin' +
+            (isDefault ? " is-default" : "") +
+            '">' +
+            '<div class="pl-head">' +
+            icon(p) +
+            '<div class="pl-name"><h3 lang="en">' +
+            esc(p.name || repoName(p)) +
+            "</h3>" +
+            '<span class="pl-version">' +
+            esc(p.version || "") +
+            (p.author ? " · " + esc(p.author) : "") +
+            "</span></div>" +
+            '<span class="pl-badge">' +
+            (isDefault ? "기본으로 켜짐" : "플러그인 찾아보기") +
+            "</span>" +
+            "</div>" +
+            '<p lang="en">' +
+            esc(p.description || "") +
+            "</p>" +
+            '<div class="pl-foot">' +
+            '<span class="pl-tags" lang="en">' +
+            tags +
+            "</span>" +
+            '<span class="pl-links"><a href="' +
+            esc(p.repo || p.homepage || "#") +
+            '">소스</a>' +
+            (p.repo
+              ? ' · <a href="' + esc(p.repo) + '/issues">이슈</a>'
+              : "") +
+            (p.updated
+              ? '<span class="dim"> · ' +
+                esc(when(p.updated)) +
+                " 업데이트</span>"
+              : "") +
+            "</span>" +
+            "</div>" +
+            "</article>"
+          );
+        }
+
+        fetch(INDEX)
+          .then(function (r) {
+            return r.ok ? r.json() : Promise.reject(r.status);
+          })
+          .then(function (index) {
+            var plugins = (index.plugins || []).slice();
+            if (!plugins.length) return Promise.reject("empty");
+            function sortName(p) {
+              return (p.name || repoName(p)).toLocaleLowerCase();
+            }
+            plugins.sort(function (a, b) {
+              return sortName(a).localeCompare(sortName(b));
+            });
+            list.innerHTML = plugins.map(card).join("");
+          })
+          .catch(function () {
+            status.className = "note";
+            status.innerHTML =
+              "지금은 레지스트리를 읽을 수 없습니다. 레지스트리는 " +
+              '<a href="https://github.com/scm-js/registry">github.com/scm-js/registry</a>에 있으며, ' +
+              "에디터의 <strong>플러그인 ▸ 플러그인 찾아보기…</strong>도 같은 목록을 읽습니다.";
+          });
+      })();
+    </script>
+  </body>
+</html>

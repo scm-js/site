@@ -1,46 +1,47 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>scmJS — StarCraft: Brood War map editor for the browser, Windows, macOS and Linux</title>
+    <title>scmJS — 브라우저와 Windows, macOS, Linux에서 쓰는 스타크래프트: 브루드 워 맵 에디터</title>
     <meta
       name="description"
-      content="A free, open source StarCraft and Brood War map editor that runs in the browser and on Windows, macOS and Linux. Opens .scm, .scx and .chk files, including protected maps, and saves maps the game will play."
+      content="브라우저와 Windows, macOS, Linux에서 실행되는 무료 오픈 소스 스타크래프트·브루드 워 맵 에디터입니다. 보호된 맵을 포함해 .scm, .scx, .chk 파일을 열고, 게임에서 플레이할 수 있는 맵으로 저장합니다."
     />
-    <link rel="canonical" href="https://scmjs.dev/" />
+    <link rel="canonical" href="https://scmjs.dev/ko/" />
     <link rel="alternate" hreflang="en" href="https://scmjs.dev/" />
     <link rel="alternate" hreflang="ko" href="https://scmjs.dev/ko/" />
     <link rel="alternate" hreflang="x-default" href="https://scmjs.dev/" />
-    <script src="lang.js" defer></script>
-    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="styles.css" />
-    <script src="globe.js" defer></script>
+    <script src="../lang.js" defer></script>
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../styles.css" />
+    <script src="../globe.js" defer></script>
     <meta property="og:site_name" content="scmJS" />
-    <meta property="og:title" content="scmJS — a StarCraft: Brood War map editor" />
+    <meta property="og:title" content="scmJS — 스타크래프트: 브루드 워 맵 에디터" />
     <meta
       property="og:description"
-      content="A free, open source StarCraft and Brood War map editor, in the browser or as a desktop app for Windows, macOS and Linux."
+      content="브라우저에서, 또는 Windows, macOS, Linux용 데스크톱 앱으로 쓰는 무료 오픈 소스 스타크래프트·브루드 워 맵 에디터입니다."
     />
     <meta property="og:type" content="website" />
-    <meta property="og:locale" content="en_US" />
-    <meta property="og:locale:alternate" content="ko_KR" />
-    <meta property="og:url" content="https://scmjs.dev/" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta property="og:url" content="https://scmjs.dev/ko/" />
     <meta property="og:image" content="https://scmjs.dev/images/og.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="The scmJS editor with a Jungle World map open: the terrain palette, the map, the minimap and the layer list." />
+    <meta property="og:image:alt" content="정글 맵을 연 scmJS 에디터: 지형 팔레트, 맵, 미니맵, 레이어 목록." />
     <meta name="twitter:card" content="summary_large_image" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
         "name": "scmJS",
-        "description": "A StarCraft and Brood War map editor that runs in the browser and on Windows, macOS and Linux.",
-        "url": "https://scmjs.dev/",
+        "description": "브라우저와 Windows, macOS, Linux에서 실행되는 스타크래프트·브루드 워 맵 에디터.",
+        "inLanguage": "ko",
+        "url": "https://scmjs.dev/ko/",
         "applicationCategory": "DesignApplication",
         "operatingSystem": "Windows, macOS, Linux, Web browser",
-        "downloadUrl": "https://scmjs.dev/#download",
+        "downloadUrl": "https://scmjs.dev/ko/#download",
         "installUrl": "https://editor.scmjs.dev/",
         "screenshot": "https://scmjs.dev/images/editor.webp",
         "license": "https://opensource.org/licenses/MIT",
@@ -53,34 +54,32 @@
     <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "4f6f300eb17c49e8b16331e1e96f6b2a"}'></script>
   </head>
   <body>
-    <!-- Shared with plugins.html and the two ko/ pages; keep the four in step. -->
+    <!-- The Korean copy of index.html: the same markup, links and file names, the words in
+         Korean. Shared with index.html, plugins.html and ko/plugins.html; keep the four in step. -->
     <nav class="topbar">
-      <a class="topbar-mark" href="/">
-        <img src="logo.svg" alt="" width="22" height="22" />
+      <a class="topbar-mark" href="./">
+        <img src="../logo.svg" alt="" width="22" height="22" />
         <span>scm<span>JS</span></span>
       </a>
       <div class="topbar-links">
-        <a href="#download">Download</a>
-        <a href="plugins.html">Plugins</a>
-        <a href="https://docs.scmjs.dev">Docs</a>
+        <a href="#download">다운로드</a>
+        <a href="plugins.html">플러그인</a>
+        <a href="https://docs.scmjs.dev">문서</a>
         <a class="topbar-github" href="https://github.com/scm-js/scm-js">GitHub</a>
-        <a class="topbar-issues" href="https://github.com/scm-js/scm-js/issues">Issues</a>
-        <a class="lang-switch" href="/ko/" lang="ko" hreflang="ko" data-lang="ko">한국어</a>
+        <a class="topbar-issues" href="https://github.com/scm-js/scm-js/issues">이슈</a>
+        <a class="lang-switch" href="/" lang="en" hreflang="en" data-lang="en">English</a>
         <a class="topbar-cta" href="https://editor.scmjs.dev"
-          >Open the editor</a
+          >에디터 열기</a
         >
       </div>
     </nav>
-    <!-- The splash screen's drifting starfield, across the top of the page behind the mark and
-         the wordmark; globe.js paints it into the same loop that turns the globe. -->
     <canvas class="stars" id="stars" hidden aria-hidden="true"></canvas>
     <header class="hero">
       <div class="globe">
-        <!-- The About dialog's turning wireframe; globe.js swaps the flat mark out for it. -->
         <canvas id="globe" hidden aria-hidden="true"></canvas>
         <img
           class="globe-fallback"
-          src="logo.svg"
+          src="../logo.svg"
           alt=""
           width="180"
           height="180"
@@ -89,80 +88,77 @@
       <p class="wordmark">scm<span>JS</span></p>
 
       <h1 class="tagline">
-        A StarCraft: Brood War map editor for the browser, Windows, macOS and
-        Linux.
+        브라우저와 Windows, macOS, Linux에서 쓰는 스타크래프트: 브루드 워 맵 에디터.
       </h1>
       <div class="rule"></div>
       <p class="sub">
-        scmJS is a free, open source StarCraft 1 map editor written in
-        TypeScript. Open, edit and save <code>.scm</code>, <code>.scx</code>
-        and <code>.chk</code> maps for Brood War and StarCraft: Remastered,
-        including protected ones, in a browser tab or as a desktop app.
+        scmJS는 TypeScript로 작성된 무료 오픈 소스 스타크래프트 1 맵
+        에디터입니다. 브루드 워와 스타크래프트: 리마스터의
+        <code>.scm</code>, <code>.scx</code>, <code>.chk</code> 맵을 보호된
+        맵까지 포함해 브라우저 탭이나 데스크톱 앱에서 열고, 편집하고, 저장할 수
+        있습니다.
       </p>
 
       <div class="launch">
         <a class="btn primary" href="https://editor.scmjs.dev">
-          <span class="btn-main">Open the editor</span>
-          <span class="btn-note" id="stable-note"
-            >the newest numbered release</span
-          >
+          <span class="btn-main">에디터 열기</span>
+          <span class="btn-note" id="stable-note">최신 정식 릴리스</span>
         </a>
         <a class="btn" href="https://nightly.editor.scmjs.dev">
-          <span class="btn-main">Open the nightly</span>
+          <span class="btn-main">나이틀리 열기</span>
           <span class="btn-note" id="nightly-note"
-            >main, rebuilt each night</span
+            >main 브랜치, 매일 밤 새로 빌드</span
           >
         </a>
       </div>
 
       <p class="beta">
-        <span class="beta-chip">Beta</span>
-        scmJS is still under development. Make sure you backup any map files you
-        deem important before editing.
+        <span class="beta-chip">베타</span>
+        scmJS는 아직 개발 중입니다. 중요한 맵 파일은 편집하기 전에 꼭 백업해
+        두세요.
       </p>
 
       <p class="beta bugs">
-        <span class="beta-chip bugs-chip">Bug?</span>
+        <span class="beta-chip bugs-chip">버그</span>
         <span>
           <span class="bugs-lead"
             ><a href="https://github.com/scm-js/scm-js/issues/new"
-              >Report it on the issue tracker</a
+              >이슈 트래커에 신고해 주세요</a
             >.</span
           >
-          In the editor, use <strong>Help ▸ Copy Bug Report</strong> to get a log to attach to the issue.
+          에디터에서 <strong>도움말 ▸ 버그 신고 내용 복사</strong>를 누르면
+          이슈에 첨부할 로그를 얻을 수 있습니다.
+        </span>
       </p>
     </header>
 
     <main>
       <section id="download">
-        <h2>Downloads</h2>
+        <h2>다운로드</h2>
         <p class="lede">
-          The desktop app consists of an electron wrapper around the editor with
-          some extra features: an auto updater (you may opt into the nightly
-          line from application preferences), automatic detection of Starcraft 1
-          installations, and native file association and 'open with...' support.
-          Nothing is signed yet, so Windows shows SmartScreen's warning and
-          macOS needs
-          <code>xattr -d com.apple.quarantine</code> before it will run.
+          데스크톱 앱은 에디터를 Electron으로 감싼 것으로, 몇 가지 기능이 더
+          있습니다. 자동 업데이트(앱의 환경 설정에서 나이틀리 채널을 고를 수
+          있습니다), 스타크래프트 1 설치 위치 자동 감지, 파일 연결과 '연결
+          프로그램' 지원입니다. 아직 코드 서명이 되어 있지 않아 Windows에서는
+          SmartScreen 경고가 뜨고, macOS에서는 실행하기 전에
+          <code>xattr -d com.apple.quarantine</code>이 필요합니다.
         </p>
 
-        <!-- globe.js aside, this is the one thing on the page JavaScript builds:
-             the visitor's own platform is not knowable from the markup. -->
         <div class="pick" id="pick" hidden></div>
 
         <table class="downloads">
           <thead>
             <tr>
-              <th>Platform</th>
+              <th>플랫폼</th>
               <th>
-                Latest release<span class="col-when" id="col-stable"></span>
+                최신 릴리스<span class="col-when" id="col-stable"></span>
               </th>
-              <th>Nightly<span class="col-when" id="col-nightly"></span></th>
+              <th>나이틀리<span class="col-when" id="col-nightly"></span></th>
             </tr>
           </thead>
           <tbody>
             <tr data-os="windows">
-              <th scope="row">Windows <span class="dim">installer</span></th>
+              <th scope="row">Windows <span class="dim">설치 프로그램</span></th>
               <td>
                 <a
                   href="https://github.com/scm-js/scm-js/releases/latest/download/scmJS-windows-x64-setup.exe"
@@ -172,13 +168,13 @@
               <td>
                 <a
                   href="https://github.com/scm-js/scm-js/releases/download/nightly/scmJS-windows-x64-setup.exe"
-                  >nightly .exe</a
+                  >나이틀리 .exe</a
                 >
               </td>
             </tr>
             <tr data-os="windows">
               <th scope="row">
-                Windows <span class="dim">zip, no install</span>
+                Windows <span class="dim">zip, 설치 없이</span>
               </th>
               <td>
                 <a
@@ -189,12 +185,12 @@
               <td>
                 <a
                   href="https://github.com/scm-js/scm-js/releases/download/nightly/scmJS-windows-x64.zip"
-                  >nightly .zip</a
+                  >나이틀리 .zip</a
                 >
               </td>
             </tr>
             <tr data-os="macos">
-              <th scope="row">macOS <span class="dim">Apple silicon</span></th>
+              <th scope="row">macOS <span class="dim">Apple 실리콘</span></th>
               <td>
                 <a
                   href="https://github.com/scm-js/scm-js/releases/latest/download/scmJS-macos-arm64.dmg"
@@ -204,7 +200,7 @@
               <td>
                 <a
                   href="https://github.com/scm-js/scm-js/releases/download/nightly/scmJS-macos-arm64.dmg"
-                  >nightly .dmg</a
+                  >나이틀리 .dmg</a
                 >
               </td>
             </tr>
@@ -219,7 +215,7 @@
               <td>
                 <a
                   href="https://github.com/scm-js/scm-js/releases/download/nightly/scmJS-macos-x64.dmg"
-                  >nightly .dmg</a
+                  >나이틀리 .dmg</a
                 >
               </td>
             </tr>
@@ -234,7 +230,7 @@
               <td>
                 <a
                   href="https://github.com/scm-js/scm-js/releases/download/nightly/scmJS-linux-x86_64.AppImage"
-                  >nightly .AppImage</a
+                  >나이틀리 .AppImage</a
                 >
               </td>
             </tr>
@@ -249,7 +245,7 @@
               <td>
                 <a
                   href="https://github.com/scm-js/scm-js/releases/download/nightly/scmJS-linux-amd64.deb"
-                  >nightly .deb</a
+                  >나이틀리 .deb</a
                 >
               </td>
             </tr>
@@ -257,37 +253,39 @@
         </table>
 
         <p class="note">
-          All nightly builds are the same build as
-          <a href="https://nightly.editor.scmjs.dev">nightly.editor.scmjs.dev</a
-          >. Every asset, and the notes for each version, are on the
-          <a href="https://github.com/scm-js/scm-js/releases">releases page</a>.
+          나이틀리 빌드는 모두
+          <a href="https://nightly.editor.scmjs.dev">nightly.editor.scmjs.dev</a>와
+          같은 빌드입니다. 모든 파일과 버전별 변경 내역은
+          <a href="https://github.com/scm-js/scm-js/releases">릴리스 페이지</a>에
+          있습니다.
         </p>
       </section>
 
       <section id="other">
-        <h2>Other ways to run it</h2>
+        <h2>다른 실행 방법</h2>
         <div class="cards">
           <article class="card">
             <div class="card-main">
-              <h3>In a container</h3>
+              <h3>컨테이너로</h3>
               <p>
-                The latest version release is available as a docker image. To
-                pull and run locally:
+                최신 릴리스는 Docker 이미지로도 제공됩니다. 받아서 로컬에서
+                실행하려면:
               </p>
               <pre><code>docker run --rm -p 8080:80 \
   ghcr.io/scm-js/scm-js:latest</code></pre>
               <p class="dim">
-                Then go to <code>http://localhost:8080</code> in your browser.
+                그다음 브라우저에서 <code>http://localhost:8080</code>으로
+                접속하세요.
               </p>
             </div>
           </article>
           <article class="card">
             <div class="card-main">
-              <h3>On your own web server</h3>
+              <h3>직접 운영하는 웹 서버에서</h3>
               <p>
-                Every release has a <code>scmJS-web.zip</code> - this is the
-                built bundle, static files, with no server serve mechanism.
-                Unpack it anywhere that serves files from the root.
+                릴리스마다 <code>scmJS-web.zip</code>이 있습니다. 빌드된 번들로,
+                서버 기능 없이 정적 파일만 들어 있습니다. 루트에서 파일을
+                제공하는 곳이라면 어디에 풀어도 됩니다.
               </p>
             </div>
             <div class="card-aside">
@@ -299,18 +297,19 @@
                 ·
                 <a
                   href="https://github.com/scm-js/scm-js/releases/download/nightly/scmJS-web.zip"
-                  >nightly</a
+                  >나이틀리</a
                 >
               </p>
             </div>
           </article>
           <article class="card">
             <div class="card-main">
-              <h3>From source</h3>
+              <h3>소스에서</h3>
               <p>
-                Node required (22 or newer). Clone, <code>npm install</code>,
-                then <code>npm run dev</code> to run the development server or
-                <code>npm run build:desktop</code> for an installer.
+                Node 22 이상이 필요합니다. 저장소를 클론하고
+                <code>npm install</code>을 실행한 뒤, 개발 서버는
+                <code>npm run dev</code>, 설치 프로그램은
+                <code>npm run build:desktop</code>으로 만듭니다.
               </p>
             </div>
             <div class="card-aside">
@@ -320,7 +319,7 @@
                 >
                 ·
                 <a href="https://docs.scmjs.dev/development/"
-                  >development notes</a
+                  >개발 노트 (영문)</a
                 >
               </p>
             </div>
@@ -329,26 +328,25 @@
       </section>
 
       <section id="graphics">
-        <h2>It ships no game data</h2>
+        <h2>게임 데이터는 들어 있지 않습니다</h2>
         <p>
-          The tilesets, unit graphics and <code>.dat</code> tables are property
-          of Blizzard Entertainment and are not redistributable. On first run
-          the editor will present options to either Download them directly from
-          Blizzard or allow you to drop them in. Desktop builds will search on
-          disk to attempt to find the files.
+          타일셋, 유닛 그래픽, <code>.dat</code> 테이블은 블리자드
+          엔터테인먼트의 자산이며 재배포할 수 없습니다. 처음 실행하면 에디터가
+          블리자드에서 직접 내려받을지, 파일을 끌어다 놓을지 고르게 합니다.
+          데스크톱 버전은 디스크에서 파일을 먼저 찾아봅니다.
         </p>
         <p>
-          If no game data is found, the editor will still function but fallback
-          into a degraded state.
+          게임 데이터가 없어도 에디터는 동작하지만, 일부 기능이 제한된 상태로
+          실행됩니다.
         </p>
       </section>
 
       <section id="what">
-        <h2>What it does</h2>
+        <h2>주요 기능</h2>
         <figure class="shot">
           <img
-            src="images/editor.webp"
-            alt="The scmJS editor with Big Game Hunters open on the Terrain layer: the terrain palette on the left, the map in the middle, the minimap, layer list and properties on the right."
+            src="../images/editor.webp"
+            alt="Big Game Hunters 맵을 지형 레이어로 연 scmJS 에디터: 왼쪽에 지형 팔레트, 가운데에 맵, 오른쪽에 미니맵, 레이어 목록, 속성."
             width="1400"
             height="900"
             loading="lazy"
@@ -356,99 +354,95 @@
         </figure>
         <ul class="features">
           <li>
-            <strong>Terrain</strong> Full isometric support, rectangle and
-            single-tile brushes, flood fill, a pixel-accurate blend tool,
-            symmetry, and terrain replacement across the map.
+            <strong>지형</strong> 아이소메트릭 완전 지원, 사각형·단일 타일
+            브러시, 채우기, 픽셀 단위로 정확한 블렌드 도구, 대칭, 맵 전체의 지형
+            바꾸기.
           </li>
           <li>
-            <strong>Objects</strong> Draw units, sprites, doodads and locations
-            using the games own graphics and idling animations.
+            <strong>오브젝트</strong> 유닛, 스프라이트, 장식물, 로케이션을 게임
+            자체의 그래픽과 대기 애니메이션으로 그립니다.
           </li>
           <li>
-            <strong>Triggers</strong> A classic editor, a classic trigger script
-            SCMDraft option, and the briefing list, with an optional
-            TypeScript-subset script compiler available as a plugin.
+            <strong>트리거</strong> 클래식 트리거 에디터, SCMDraft 방식의 텍스트
+            트리거, 브리핑 목록. TypeScript의 부분집합으로 쓰는 스크립트
+            컴파일러를 플러그인으로 추가할 수 있습니다.
           </li>
           <li>
-            <strong>Editing together</strong> Share the map you have open and
-            send the link. Everyone who opens it edits the same map at the same
-            time, each in their own editor, and sees the others' changes and
-            pointers as they happen. Sharing takes a free scmjs.dev account;
-            joining takes only the link.
+            <strong>함께 편집</strong> 열어 둔 맵을 공유하고 링크를 보내세요.
+            링크를 연 사람은 모두 각자의 에디터에서 같은 맵을 동시에 편집하고,
+            서로의 변경과 포인터를 바로 볼 수 있습니다. 공유하려면 무료
+            scmjs.dev 계정이 필요하고, 참여는 링크만 있으면 됩니다.
           </li>
           <li>
-            <strong>The file</strong> Every map file (CHK) section is kept in
-            the order it found it, and only the ones you change are re-encoded.
-            Protected and unusual maps are fully supported.
+            <strong>맵 파일</strong> 맵 파일(CHK)의 모든 섹션을 원래 순서대로
+            유지하고, 바꾼 섹션만 다시 인코딩합니다. 보호된 맵과 특이한 맵도
+            모두 지원합니다.
           </li>
           <li>
-            <strong>Plugins</strong> scmJS has a sophisticated plugin system
-            allowing for powerful extensions. Plugins for scmscx.com
-            integration, map repair, walkability analysis, a painting tool and
-            TrigScript, triggers written as TypeScript, are enabled by default.
-            Browse Plugins to see more!
+            <strong>플러그인</strong> 플러그인으로 에디터를 폭넓게 확장할 수
+            있습니다. scmscx.com 연동, 맵 복구, 이동 가능 지역 분석, 페인트
+            도구, 그리고 트리거를 TypeScript로 작성하는 TrigScript가 기본으로
+            켜져 있습니다. 더 많은 플러그인은
+            <a href="plugins.html">플러그인 목록</a>에서 볼 수 있습니다.
           </li>
         </ul>
         <p>
-          See <a href="https://docs.scmjs.dev/guide/">the user guide</a>
-          for documentation.
+          자세한 사용법은
+          <a href="https://docs.scmjs.dev/guide/">사용자 가이드</a>(영문)에
+          있습니다.
         </p>
       </section>
 
       <section id="coming-from">
-        <h2>Coming from StarEdit or SCMDraft</h2>
+        <h2>StarEdit이나 SCMDraft를 쓰던 분께</h2>
         <p>
-          The layers, palettes and dialogs follow StarEdit and SCMDraft 2, so
-          the editor should feel familiar.
-          Triggers can be imported and exported as SCMDraft
-          <code>.trg</code> files with the text trigger editor plugin - this uses SCMDraft's TrigEdit syntax,
-          so triggers copied out of SCMDraft paste straight in.
+          레이어, 팔레트, 대화 상자가 StarEdit과 SCMDraft 2를 따르므로 익숙하게
+          쓸 수 있습니다. 텍스트 트리거 에디터 플러그인으로 트리거를 SCMDraft
+          <code>.trg</code> 파일로 가져오고 내보낼 수 있습니다. SCMDraft의
+          TrigEdit 문법을 그대로 쓰므로, SCMDraft에서 복사한 트리거를 바로 붙여
+          넣을 수 있습니다.
         </p>
       </section>
     </main>
 
     <footer>
       <a href="https://github.com/scm-js/scm-js">GitHub</a>
-      <a href="https://github.com/scm-js/scm-js/releases">Releases</a>
-      <a href="https://docs.scmjs.dev/api/">Plugin API</a>
-      <a href="https://github.com/scm-js/scm-js/issues">Report a bug</a>
+      <a href="https://github.com/scm-js/scm-js/releases">릴리스</a>
+      <a href="https://docs.scmjs.dev/api/">플러그인 API (영문)</a>
+      <a href="https://github.com/scm-js/scm-js/issues">버그 신고</a>
       <span class="dim"
-        >MIT. Not affiliated with or endorsed by Blizzard Entertainment.</span
+        >MIT 라이선스. 블리자드 엔터테인먼트와 관련이 없으며 블리자드의 보증을
+        받지 않았습니다.</span
       >
-      <a href="privacy.html">Privacy</a>
-      <span class="dim">Visits are counted with Cloudflare Web Analytics, without cookies.</span>
+      <a href="../privacy.html">개인정보 처리방침 (영문)</a>
+      <span class="dim">방문 통계는 쿠키 없이 Cloudflare Web Analytics로 집계합니다.</span>
     </footer>
 
     <script>
-      // Three enhancements over markup that already works without them: the card offering the
-      // visitor's own platform, the version and date beside the launch buttons, and the matching
-      // rows marked in the table. Everything below is allowed to fail — the releases API is 60
-      // requests an hour per IP for anonymous callers, and every link on this page is a plain
-      // href that never needs it.
+      // The same script as index.html's, with its words in Korean and dates in the Korean
+      // form. Everything below is allowed to fail; every link above is a plain href.
       (function () {
         var STABLE =
           "https://github.com/scm-js/scm-js/releases/latest/download/";
         var NIGHTLY =
           "https://github.com/scm-js/scm-js/releases/download/nightly/";
 
-        // One recommended file per platform with the other build of the same release beside it;
-        // the table under the card stays the full list.
         var PLATFORMS = {
           windows: {
             name: "Windows",
             file: "scmJS-windows-x64-setup.exe",
-            what: "installer, 64-bit",
+            what: "설치 프로그램, 64비트",
             alt: {
-              text: "or the zip that needs no installing",
+              text: "또는 설치가 필요 없는 zip",
               file: "scmJS-windows-x64.zip",
             },
           },
           macos: {
             name: "macOS",
             file: "scmJS-macos-arm64.dmg",
-            what: "Apple silicon",
+            what: "Apple 실리콘",
             alt: {
-              text: "or the build for an Intel Mac",
+              text: "또는 Intel Mac용 빌드",
               file: "scmJS-macos-x64.dmg",
             },
           },
@@ -457,7 +451,7 @@
             file: "scmJS-linux-x86_64.AppImage",
             what: "AppImage, x86-64",
             alt: {
-              text: "or the .deb for Debian and Ubuntu",
+              text: "또는 Debian·Ubuntu용 .deb",
               file: "scmJS-linux-amd64.deb",
             },
           },
@@ -483,23 +477,23 @@
 
         function draw() {
           card.innerHTML =
-            '<div class="pick-head">You look like you are on <strong>' +
+            '<div class="pick-head"><strong>' +
             spec.name +
-            "</strong>.</div>" +
+            "</strong>를 쓰고 계신 것 같습니다.</div>" +
             '<div class="pick-actions">' +
             '<a class="btn primary" href="' +
             STABLE +
             spec.file +
-            '"><span class="btn-main">Download for ' +
+            '"><span class="btn-main">' +
             spec.name +
-            '</span><span class="btn-note" id="pick-stable-note">' +
+            '용 다운로드</span><span class="btn-note" id="pick-stable-note">' +
             spec.what +
             "</span></a>" +
             '<a class="btn" href="' +
             NIGHTLY +
             spec.file +
-            '"><span class="btn-main">Nightly build</span>' +
-            '<span class="btn-note" id="pick-nightly-note">main, rebuilt each night</span></a>' +
+            '"><span class="btn-main">나이틀리 빌드</span>' +
+            '<span class="btn-note" id="pick-nightly-note">main 브랜치, 매일 밤 새로 빌드</span></a>' +
             "</div>" +
             '<p class="pick-alt">' +
             spec.alt.text +
@@ -517,9 +511,6 @@
           var rows = document.querySelectorAll("tr[data-os='" + os + "']");
           for (var i = 0; i < rows.length; i++) rows[i].classList.add("mine");
 
-          // An Intel Mac and an Apple silicon one report the same platform string; only Chromium
-          // will say which, and only when asked for it. Safari cannot, so the default stays the
-          // Apple silicon build with the Intel one named beside it.
           if (
             os === "macos" &&
             navigator.userAgentData &&
@@ -534,7 +525,7 @@
                   file: "scmJS-macos-x64.dmg",
                   what: "Intel",
                   alt: {
-                    text: "or the build for Apple silicon",
+                    text: "또는 Apple 실리콘용 빌드",
                     file: "scmJS-macos-arm64.dmg",
                   },
                 };
@@ -551,17 +542,13 @@
         }
 
         function date(when) {
-          return new Date(when).toLocaleDateString(undefined, {
+          return new Date(when).toLocaleDateString("ko-KR", {
             year: "numeric",
             month: "short",
             day: "numeric",
           });
         }
 
-        // A numbered release is published once, so `published_at` is its date. The nightly
-        // is one long-lived release whose assets are replaced in place, which leaves
-        // `published_at` frozen at the day the tag was first cut — the newest asset upload
-        // is the only field that moves with the build.
         function built(rel) {
           var newest = 0;
           (rel.assets || []).forEach(function (a) {
@@ -593,14 +580,12 @@
               if (spec)
                 note("pick-stable-note", rel.tag_name + " · " + spec.what);
             })
-            .catch(function () {
-              /* the buttons already say what they are */
-            });
+            .catch(function () {});
           nightly
             .then(function (rel) {
-              note("nightly-note", "built " + date(built(rel)));
-              note("pick-nightly-note", "built " + date(built(rel)));
-              note("col-nightly", "built " + date(built(rel)));
+              note("nightly-note", date(built(rel)) + " 빌드");
+              note("pick-nightly-note", date(built(rel)) + " 빌드");
+              note("col-nightly", date(built(rel)) + " 빌드");
             })
             .catch(function () {});
         }

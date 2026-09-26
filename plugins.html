@@ -9,6 +9,10 @@
       content="The plugins published for scmJS — what each one does, which ship switched on, and where the code is."
     />
     <link rel="canonical" href="https://scmjs.dev/plugins.html" />
+    <link rel="alternate" hreflang="en" href="https://scmjs.dev/plugins.html" />
+    <link rel="alternate" hreflang="ko" href="https://scmjs.dev/ko/plugins.html" />
+    <link rel="alternate" hreflang="x-default" href="https://scmjs.dev/plugins.html" />
+    <script src="lang.js" defer></script>
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="styles.css" />
     <meta property="og:title" content="scmJS plugins" />
@@ -17,6 +21,8 @@
       content="The plugins published for scmJS — what each one does and where the code is."
     />
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="ko_KR" />
     <meta property="og:url" content="https://scmjs.dev/plugins.html" />
     <meta property="og:site_name" content="scmJS" />
     <meta property="og:image" content="https://scmjs.dev/images/og.jpg" />
@@ -27,7 +33,7 @@
     <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "4f6f300eb17c49e8b16331e1e96f6b2a"}'></script>
   </head>
   <body>
-    <!-- Shared with index.html; keep the two in step. -->
+    <!-- Shared with index.html and the two ko/ pages; keep the four in step. -->
     <nav class="topbar">
       <a class="topbar-mark" href="/">
         <img src="logo.svg" alt="" width="22" height="22" />
@@ -37,8 +43,9 @@
         <a href="index.html#download">Download</a>
         <a class="is-here" href="plugins.html">Plugins</a>
         <a href="https://docs.scmjs.dev">Docs</a>
-        <a href="https://github.com/scm-js/scm-js">GitHub</a>
-        <a href="https://github.com/scm-js/scm-js/issues">Issues</a>
+        <a class="topbar-github" href="https://github.com/scm-js/scm-js">GitHub</a>
+        <a class="topbar-issues" href="https://github.com/scm-js/scm-js/issues">Issues</a>
+        <a class="lang-switch" href="/ko/plugins.html" lang="ko" hreflang="ko" data-lang="ko">한국어</a>
         <a class="topbar-cta" href="https://editor.scmjs.dev"
           >Open the editor</a
         >
