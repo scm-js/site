@@ -13,6 +13,7 @@ buttons and the download list. No build step: what is committed is what is serve
 | `favicon.svg` | that same file with the square |
 | `images/` | `editor.webp`, the guide's plain editor picture (`docs/images/editor-plain.webp` in the editor), and `og.jpg`, the 1200×630 link preview cut from the same picture |
 | `ko/` | the Korean copies of `index.html` and `plugins.html` — see *The Korean pages* below |
+| `header.js` | the top bar's two live items: which game data this browser holds (it reads the stamps the editor at `/editor/` keeps in the browser's private file storage, and links to `/editor/data`), and the scmjs.dev account (the session the editor's scmjs.dev plugin keeps in `localStorage`; sign in and out here and the editor follows). It asks the server nothing on a page view by a signed-out visitor |
 | `lang.js` | remembers the language picked in the top bar, and offers the Korean page once to a browser that asks for Korean |
 | `scripts/check-translations.mjs` | checks each Korean page against its English one: the same outside addresses and ids |
 | `robots.txt`, `sitemap.xml` | for search engines; the sitemap lists this site's pages (docs.scmjs.dev writes its own). Add a page to both the sitemap and its `<link rel="canonical">` |
