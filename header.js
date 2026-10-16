@@ -79,7 +79,8 @@
     var id = (stamp.profile && stamp.profile.id) || profileId;
     if (from.indexOf(REMASTERED) === 0 || id === "remastered") return "remastered";
     if (id && id !== "starcraft") return "mod";
-    return /^https?:\/\//i.test(from) ? "download" : "classic";
+    // (`staredit`: the download's archives picked by hand, which the editor knows by their sizes.)
+    return stamp.staredit || /^https?:\/\//i.test(from) ? "download" : "classic";
   }
 
   function stampIn(dir) {
