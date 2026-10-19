@@ -21,7 +21,10 @@
     <meta name="twitter:card" content="summary_large_image" />
     <!-- Cloudflare Web Analytics: visits and referrers, no cookies. -->
     <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "4f6f300eb17c49e8b16331e1e96f6b2a"}'></script>
+    <!-- Our own visit count: no cookies, no identifier (see privacy.html, section 1). -->
+    <script defer src="/_e.js"></script>
     <script src="header.js" defer></script>
+    <script defer src="count-switch.js"></script>
   </head>
   <body>
     <!-- Shared with index.html; keep the four in step. -->
@@ -44,15 +47,16 @@
     <main class="legal">
       <section class="page-head">
         <h1 class="page-title">Privacy</h1>
-        <p class="updated">Last updated: 12 October 2026</p>
+        <p class="updated">Last updated: 18 October 2026</p>
         <p class="lede">
           The short version: the editor sends us nothing about your maps, and
-          apart from counting visits, nothing at all unless you press something
-          that says it will. We keep
+          apart from counting visits and which of its features are used,
+          nothing at all unless you press something that says it will. We keep
           what an account needs and what a bill needs, and not the contents of
           your maps or what you typed. The only things counted are visits to our
-          websites and downloads of the game graphics, without cookies (section
-          1). There is no advertising and nothing that follows you between
+          websites, which parts of the editor are used, and downloads of the
+          game graphics, without cookies (section 1), and you can turn the
+          counting off. There is no advertising and nothing that follows you between
           sites.
         </p>
       </section>
@@ -72,17 +76,63 @@
           your IP address as it would for any page on their site.
         </p>
         <p>
-          This site, the documentation, and the editor at scmjs.dev/editor and
-          nightly.editor.scmjs.dev count visits with
+          This site, the documentation, the editor at scmjs.dev/editor (and the
+          nightly beside it) and the game page at scmjs.dev/play count visits
+          with a small script of our own. When a page opens, it sends us the
+          page's address — without anything after a <code>?</code> except
+          campaign tags (<code>utm_source</code>, <code>utm_medium</code>,
+          <code>utm_campaign</code>), and with the code in a map, share or join
+          link taken out — the site you came from, your browser's language and
+          screen width, and whether this is your first visit today, this week,
+          this month or ever (from the dates described in section 2). When you
+          leave the page or switch away from it, it sends how many seconds the
+          page was in view. Cloudflare adds your country and region.
+        </p>
+        <p>
+          Our server turns your IP address and browser name into a code, using a
+          random value that exists only in the server's memory and is replaced
+          every day at midnight UTC. It stores the code, not your address or
+          your browser name. That lets us count how many different people came
+          on one day, but not recognise you the next day, and once the day's
+          value is gone nobody can work out whose code it was. The script sets
+          no cookies and learns nothing about your maps. The desktop app,
+          copies of the editor hosted by other people, and automated browsers
+          send none of it.
+        </p>
+        <p>
+          The editor at scmjs.dev also counts which of its features are used.
+          When you use one, it sends the feature's name and a few words about
+          it from fixed lists: for example that a dialog opened and which one,
+          that a map was saved and as which kind of file, which layer an edit
+          was on, or which plugin's menu item was used (a plugin you installed
+          from your own address is just "other"). It never sends the map, its
+          name, a file name or anything you typed. These go with the visit
+          count, under the same daily code, and are kept as long (section 7).
+          On this site and the documentation, a click on a link to another site
+          is counted with the address it goes to.
+        </p>
+        <p>
+          To stop all of this counting in your browser, untick
+          <strong>Preferences ▸ General ▸ Count which parts of the editor are
+          used</strong> in the editor, or use the button below. Either one
+          stops the visit count too, for scmjs.dev and the editor. It is kept
+          as an entry, <code>scmjs.counting</code>, in your browser, so
+          clearing your browser storage turns counting back on.
+        </p>
+        <p class="count-switch" hidden>
+          <button type="button" class="btn" id="count-switch"></button>
+          <span id="count-state"></span>
+        </p>
+        <p>
+          While we compare the two, the same pages also count visits with
           <a href="https://www.cloudflare.com/web-analytics/" target="_blank" rel="noopener"
             >Cloudflare Web Analytics</a
-          >. It records the page, where you came from, your country, browser
-          and device type, and how fast the page loaded. It sets no cookies,
-          keeps no identifier for you, and learns nothing about your maps. The
-          desktop app and copies of the editor hosted by other people do not
-          send it. When the editor downloads the StarCraft graphics through our
+          >, which records the page, where you came from, your country, browser
+          and device type, and how fast the page loaded, with no cookies and no
+          identifier. When the editor downloads the StarCraft graphics through our
           forwarder, we count that download too, with your country and which of
-          our sites asked for it, and nothing else.
+          our sites asked for it, and nothing else. The switch above does not
+          reach Cloudflare's count; most ad blockers stop it.
         </p>
         <p>
           This site and the editor at scmjs.dev/editor are served through
@@ -121,6 +171,13 @@
           </li>
           <li>your AI options and the on/off ticks.</li>
         </ul>
+        <p>
+          On scmjs.dev and docs.scmjs.dev the visit counting keeps one more
+          entry, <code>scmjs.visits</code>: the day, week and month of your
+          last visit and the week of your first. It holds no identifier, and
+          is how weekly and monthly visitors are counted without one. If you
+          turned counting off, <code>scmjs.counting</code> says so.
+        </p>
         <p>
           Clearing your browser storage removes all of it. The account page on
           this site also sets one cookie, described in section 6.
@@ -269,6 +326,10 @@
           <li>
             <strong>Trial and sign-up IP records</strong> — kept for the period
             the anti-abuse rules look back over, and cleared after.
+          </li>
+          <li>
+            <strong>Visit counts</strong> — about 13 months (400 days), then
+            deleted.
           </li>
           <li><strong>Maps</strong> — until you delete them or the account.</li>
           <li>
