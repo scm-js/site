@@ -105,7 +105,12 @@
           it from fixed lists: for example that a dialog opened and which one,
           that a map was saved and as which kind of file, which layer an edit
           was on, or which plugin's menu item was used (a plugin you installed
-          from your own address is just "other"). It never sends the map, its
+          from your own address is just "other"). When something goes wrong,
+          it sends where in the editor's code the error happened: the kind of
+          error, and the file, line and function for up to six steps leading
+          to it, only for the editor's own code and the plugins we publish
+          (anything else is just "plugin" or "other"). It never sends the
+          error's message. It never sends the map, its
           name, a file name or anything you typed. These go with the visit
           count, under the same daily code, and are kept as long (section 7).
           The game page counts a replay when one starts playing, with nothing
