@@ -47,9 +47,9 @@
     <main class="legal">
       <section class="page-head">
         <h1 class="page-title">Privacy</h1>
-        <p class="updated">Last updated: 19 October 2026</p>
+        <p class="updated">Last updated: 27 October 2026</p>
         <p class="lede">
-          The short version: the editor sends us nothing about your maps, and
+          The short version: the editor sends us nothing of what is in your maps, and
           apart from counting visits and which of its features are used,
           nothing at all unless you press something that says it will. We keep
           what an account needs and what a bill needs, and not the contents of
@@ -79,20 +79,27 @@
           This site, the documentation, the editor at scmjs.dev/editor (and the
           nightly beside it) and the game page at scmjs.dev/play count visits
           with a small script of our own. When a page opens, it sends us the
-          page's address — without anything after a <code>?</code> except
-          campaign tags (<code>utm_source</code>, <code>utm_medium</code>,
+          page's address, the site you came from, your browser's language and
+          screen width, the version of the editor when the page is the editor,
+          a random number for this page view, and whether this is your first
+          visit today, this week, this month or ever, with the week of your
+          first visit (from the dates described in section 2). Our server keeps
+          the address without anything after a <code>?</code> except campaign
+          tags (<code>utm_source</code>, <code>utm_medium</code>,
           <code>utm_campaign</code>), and with the code in a map, share or join
-          link taken out — the site you came from, your browser's language and
-          screen width, and whether this is your first visit today, this week,
-          this month or ever (from the dates described in section 2). When you
-          leave the page or switch away from it, it sends how many seconds the
-          page was in view. Cloudflare adds your country and region.
+          link taken out; it keeps only the name of the site you came from, the
+          main part of your language (<code>en</code>, not
+          <code>en-CA</code>), and your screen width as a range. When you leave
+          the page or switch away from it, the script sends how many seconds
+          the page was in view. Cloudflare adds your country and region.
         </p>
         <p>
-          Our server turns your IP address and browser name into a code, using a
-          random value that exists only in the server's memory and is replaced
-          every day at midnight UTC. It stores the code, not your address or
-          your browser name. That lets us count how many different people came
+          Our server turns your IP address and your browser's identifying
+          string (its User-Agent) into a code, using a random value that exists
+          only in the server's memory and is replaced every day at midnight UTC.
+          It stores the code and the kind of browser, system and device (for
+          example Chrome, Windows, desktop), not your address or that string.
+          That lets us count how many different people came
           on one day, but not recognise you the next day, and once the day's
           value is gone nobody can work out whose code it was. The script sets
           no cookies and learns nothing about your maps. The desktop app,
@@ -100,18 +107,25 @@
           send none of it.
         </p>
         <p>
-          The editor at scmjs.dev also counts which of its features are used.
-          When you use one, it sends the feature's name and a few words about
-          it from fixed lists: for example that a dialog opened and which one,
-          that a map was saved and as which kind of file, which layer an edit
-          was on, or which plugin's menu item was used (a plugin you installed
-          from your own address is just "other"). When something goes wrong,
-          it sends where in the editor's code the error happened: the kind of
-          error, and the file, line and function for up to six steps leading
-          to it, only for the editor's own code and the plugins we publish
-          (anything else is just "plugin" or "other"). It never sends the
-          error's message. It never sends the map, its
-          name, a file name or anything you typed. These go with the visit
+          The editor at scmjs.dev also counts which of its features are used,
+          with the version of the editor. When you use one, it sends the
+          feature's name and a few words about it from fixed lists: for example
+          that a dialog opened and which one, which layer an edit was on, which
+          plugin's menu item was used (a plugin you installed from your own
+          address is just "other"), or that a map was opened or saved, as which
+          kind of file, with its tileset, its size and the version of the map
+          format. When the editor starts, it sends the language it is shown in,
+          which kind of game data it has and how many plugins are running. When
+          something goes wrong, it sends where in the editor's code the error
+          happened: the kind of error, and the file, line and function for up
+          to six steps leading to it — for an error while drawing the screen,
+          some of those are the parts of the editor it happened in — only for
+          the editor's own code and the plugins we publish (anything else is
+          just "plugin" or "other"). It also says whether your browser was
+          translating the page, since a translator changing the page is a
+          common cause of errors. It never sends the error's message. It never
+          sends what is in the map, its name, a file name or anything you
+          typed. These go with the visit
           count, under the same daily code, and are kept as long (section 7).
           The game page counts a replay when one starts playing, with nothing
           about the replay itself. On this site and the documentation, a click
@@ -143,12 +157,17 @@
         <p>
           This site and the editor at scmjs.dev/editor are served through
           Cloudflare, which sees your IP address and the page you asked for,
-          as any web host does. The editor used to be at editor.scmjs.dev; the
+          as any web host does. Cloudflare also keeps a log of the requests that
+          reach our workers on scmjs.dev and its forwarders (the addresses
+          asked for, a shared map's link among them, and what Cloudflare adds,
+          such as your country) for the few days it keeps such logs. The editor
+          used to be at editor.scmjs.dev; the
           first time you open it at its new address it copies the settings
           your browser kept for the old one, your sign-in among them, from one
-          address to the other inside your browser. Nothing is sent to us. When someone pastes a link to a stored map or a shared map
-          somewhere that shows previews (Discord, Slack, a forum), the card
-          shows that map's name, who shared it, its size and players, and its
+          address to the other inside your browser. Nothing is sent to us.
+          When someone pastes a link to a stored map or a shared map somewhere
+          that shows previews (Discord, Slack, a forum), the card shows that
+          map's name, who shared it, its tileset, size and players, and its
           picture, to anyone who can see the link. Making the card stores
           nothing and does not count as opening the map.
         </p>
@@ -159,6 +178,12 @@
           somewhere (a forum post, a README, a website), anyone who sees it sees
           the same things a link's card shows. The card's own address opens
           nothing; only the link you put around it does.
+        </p>
+        <p>
+          The editor's scmscx search asks scmscx.com through a forwarder of
+          ours. What you search for passes through it, is kept by Cloudflare
+          for up to five minutes so the same search is not asked twice, and is
+          in the request log above. We do not count it.
         </p>
       </section>
 
@@ -178,15 +203,26 @@
           <li>your AI options and the on/off ticks.</li>
         </ul>
         <p>
+          The server keeps the device identifier with your trial (section 7).
+        </p>
+        <p>
           On scmjs.dev and docs.scmjs.dev the visit counting keeps one more
           entry, <code>scmjs.visits</code>: the day, week and month of your
           last visit and the week of your first. It holds no identifier, and
           is how weekly and monthly visitors are counted without one. If you
-          turned counting off, <code>scmjs.counting</code> says so.
+          turned counting off, <code>scmjs.counting</code> says so. The
+          language you pick in this site's top bar is kept as
+          <code>scmjs-lang</code>.
         </p>
         <p>
-          Clearing your browser storage removes all of it. The account page on
-          this site also sets one cookie, described in section 6.
+          The editor keeps its own settings in your browser too, the StarCraft
+          graphics it was given or downloaded, and — unless you turn them off —
+          recovery copies of maps with unsaved changes and the copy of a file
+          that a save replaced. None of it is sent anywhere.
+        </p>
+        <p>
+          Clearing your browser storage removes all of it. The account page at
+          api.scmjs.dev also sets one cookie, described in section 6.
         </p>
       </section>
 
@@ -199,8 +235,9 @@
             uses for you, your display name there, and your email address where
             the provider says it is verified (Discord and Google do; Battle.net
             sends none). We use the email only to tell two sign-ins apart as the
-            same person, and to reach you about your account. We do not email
-            you otherwise.
+            same person, to reach you about your account, and to fill it in on
+            Stripe's payment page when you buy credit. We do not email you
+            otherwise.
           </li>
           <li>
             <strong>A ledger.</strong> One row per charge and per top-up: when,
@@ -209,17 +246,20 @@
             of.
           </li>
           <li>
-            <strong>Per-request diagnostics.</strong> For each AI request: the
-            feature, the model, how long it took, how many tokens it used, what
-            it cost, and whether it failed.
+            <strong>Per-request diagnostics.</strong> For each AI request: your
+            account and display name, the feature, the model and its settings,
+            how long it took, how many tokens it used, what it cost, which tools
+            it used, and whether it failed (for a failure, the start of the
+            model provider's error message).
             <strong>Not the content</strong> — not your prompt, not your map,
             not the answer.
           </li>
           <li>
             <strong>Your IP address</strong>, recorded against a trial when one
-            starts and against a sign-in when one happens. This is the only
-            thing that stops the free credit being collected over and over from
-            one machine, and it is used for nothing else.
+            starts and against your first sign-in. This is the only thing that
+            stops the free credit being collected over and over from one
+            machine, it is used for nothing else, and it is cleared after seven
+            days (section 7).
           </li>
           <li>
             <strong>Maps you chose to upload</strong>, with their revisions,
@@ -241,7 +281,7 @@
             they are gone when sharing ends: when the person who shared the map
             stops, half an hour after the last person leaves, or when the server
             restarts. People who join from a link need no account. The server's
-            log notes that your account opened a shared map, and when.
+            log notes that your account started sharing a map, and when.
           </li>
           <li>
             <strong>Maps you keep open.</strong> If you choose to keep a shared
@@ -251,11 +291,19 @@
             the names of the people who changed it since its last revision,
             which go into that revision's note. If the server restarts while
             people are in the map, the names they typed to join are stored
-            until the map is opened again, so their editors can reconnect. The
+            until the map is opened again, with what lets each editor reconnect
+            (its colour, a random token, and the account if they were signed
+            in). The
             chat is still held in
             memory only and is gone once everyone has left. When sharing ends,
             the changes and names go; the map and its revisions stay with your
             other maps.
+          </li>
+          <li>
+            <strong>Online games, while they run.</strong> A game on the play
+            page goes through the server to the other players and is held in its
+            memory only. The server's log notes that your account opened a
+            game, and when.
           </li>
         </ul>
       </section>
@@ -307,9 +355,9 @@
       <section>
         <h2>6. Cookies</h2>
         <p>
-          One, on the account page on this site: it holds your sign-in session.
-          It is <code>HttpOnly</code>, <code>SameSite=Lax</code> and
-          <code>Secure</code>, lasts 60 days without use, and exists only so
+          One, on the account page at api.scmjs.dev: it holds your sign-in
+          session. It is <code>HttpOnly</code>, <code>SameSite=Lax</code> and
+          <code>Secure</code>, lasts 60 days from when you signed in, and exists only so
           that the page knows who you are. There are no analytics or advertising
           cookies (the visit counting above uses none), so there is nothing to
           consent to and no banner.
@@ -330,8 +378,15 @@
             exists; they carry no content.
           </li>
           <li>
-            <strong>Trial and sign-up IP records</strong> — kept for the period
-            the anti-abuse rules look back over, and cleared after.
+            <strong>Trials</strong> — a trial account that never signs in is
+            deleted after 120 days without use.
+          </li>
+          <li>
+            <strong>Trial and sign-up IP records</strong> — the address is
+            cleared after seven days, the period the limits look back over. What
+            stays is that this browser's device identifier has had its trial and
+            that your sign-in has had its sign-up credit, so each is given only
+            once.
           </li>
           <li>
             <strong>Visit counts</strong> — about 13 months (400 days), then
@@ -354,8 +409,10 @@
         <h2>8. Deleting everything</h2>
         <p>
           The account page has a delete button. It removes your account, your
-          identities, your balance, your ledger and every map you stored. It is
-          immediate and it is not reversible — including any credit you have
+          identities, your balance, your ledger, the diagnostics of your AI
+          requests and every map you stored. What stays is the note in section
+          7 that your sign-in and browser have had their free credit, without
+          your address. It is immediate and it is not reversible — including any credit you have
           left, so spend or ask for a refund of that first.
         </p>
         <p>
