@@ -60,10 +60,9 @@
         <h1 class="page-title">Plugins</h1>
         <p class="lede">
           A plugin is a <code>plugin.ts</code> or <code>plugin.js</code> next to
-          a <code>plugin.json</code> manifest file. The plugin API is powerful,
-          allowing for extensive customization and additional functionality.
-          Access them in <strong>Plugins ▸ Browse Plugins</strong> from inside
-          the editor.
+          a <code>plugin.json</code> manifest file. Plugins can read and edit
+          the open map and add menu items, tools, dialogs and panels. Install
+          them from <strong>Plugins ▸ Browse Plugins…</strong> in the editor.
         </p>
         <p class="lede">
           Add your own plugin to the list by
@@ -74,10 +73,11 @@
           >.
         </p>
         <p class="note">
-          This list is the same index the editor's own browser reads (<a
+          This list is read live from the same index the editor's Browse
+          Plugins reads (<a
             href="https://github.com/scm-js/registry"
             >scm-js/registry</a
-          >) and is a live reflection of what the editor currently offers.
+          >), so the two always match.
         </p>
       </section>
 
@@ -111,22 +111,21 @@
                 Every write goes through
                 <code>api.document.edit(label, tx =&gt; …)</code>. Whatever the
                 callback does becomes <em>one</em> undo entry, marks the CHK
-                sections it touched, and repaints - this results in the plugin's
-                edit hooking into undo/redo like any other stroke.
+                sections it touched, and repaints. The plugin's edit then undoes
+                and redoes like any other stroke.
               </p>
               <p>
-                The API is promise-first: anything asynchronous returns a
-                <code>Promise</code>, <code>activate</code> and a dialog
-                button's <code>run</code> may be <code>async</code>, and a
-                dismissal resolves <code>null</code> or
-                <code>false</code> rather than rejecting. The one exception is
-                the callback you hand to <code>edit</code>: it commits the
-                moment that callback returns, so an <code>async</code> one would
-                commit whatever ran before its first <code>await</code> and let
-                the rest write outside the entry. Await the graphics, the map
-                pick or the fetch <em>first</em>, then write in one go.
-                TypeScript refuses an async builder outright, and a
-                plain-JavaScript one is caught at runtime.
+                The API is promise-first. Anything asynchronous returns a
+                <code>Promise</code>, and <code>activate</code> and a dialog
+                button's <code>run</code> may be <code>async</code>. A dismissal
+                resolves to <code>null</code> or <code>false</code>; it does not
+                reject. The exception is the callback you hand to <code>edit</code>. It
+                commits the moment the callback returns, so an
+                <code>async</code> one would commit only what ran before its
+                first <code>await</code>, and the rest would write outside the
+                entry. Await the graphics, the map pick or the fetch
+                <em>first</em>, then write in one go. TypeScript refuses an
+                async builder, and a plain-JavaScript one is caught at run time.
               </p>
               <pre><code>export default function activate(api) {
   api.menu.add("Tools", {
@@ -147,8 +146,8 @@
 }</code></pre>
               <p class="dim">
                 TypeScript is transpiled in the browser, so a one-file plugin
-                needs no toolchain at all; a repository that wants npm
-                dependencies commits a bundle and names it in the manifest.
+                needs no toolchain. A repository that wants npm dependencies
+                commits a bundle and names it in the manifest.
               </p>
             </div>
             <div class="card-aside">
@@ -214,11 +213,12 @@
         // editor (DEFAULT_REMOTE_PLUGINS). The registry does not record this, so it is written
         // here; if that set ever changes, this line is what to edit.
         var DEFAULTS = [
-          "plugin-eudplib",
+          "plugin-aftermath",
           "plugin-image-to-terrain",
           "plugin-paint",
           "plugin-repair",
           "plugin-scm-scx",
+          "plugin-scm-sim",
           "plugin-scmjs-dev",
           "plugin-stamp-library",
           "plugin-trigscript",

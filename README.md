@@ -1,114 +1,113 @@
 # scmjs.dev
 
-The landing page for [scmJS](https://github.com/scm-js/scm-js) — the logo, the two launch
-buttons and the download list. No build step: what is committed is what is served.
+The landing page for [scmJS](https://github.com/scm-js/scm-js): the logo, the buttons that
+open the editor and the nightly, the download list, the plugin list and the privacy page.
+There is no build step. What is committed is what is served.
 
-| | |
+| File | What it is |
 | --- | --- |
-| `index.html` | the landing page, and the script that enhances it |
+| `index.html` | the landing page, with a small script that adds to it |
 | `plugins.html` | the plugin list, read live from the registry |
-| `globe.js` | the turning wireframe mark and the starfield behind it — a plain-JS copy of the editor's `WireSphere.tsx` and `starfield.ts` |
-| `styles.css` | the editor's own palette (`src/styles/tokens.css` over there) |
-| `logo.svg` | the flat mark: shown until `globe.js` runs, and for a reader with no JavaScript |
-| `favicon.svg` | that same file with the square |
-| `images/` | `editor.webp`, the guide's plain editor picture (`docs/images/editor-plain.webp` in the editor), and `og.jpg`, the 1200×630 link preview cut from the same picture |
-| `ko/` | the Korean copies of `index.html` and `plugins.html` — see *The Korean pages* below |
-| `header.js` | the top bar's two live items: which game data this browser holds (it reads the stamps the editor at `/editor/` keeps in the browser's private file storage, and links to `/editor/data`), and the scmjs.dev account (the session the editor's scmjs.dev plugin keeps in `localStorage`; sign in and out here and the editor follows). It asks the server nothing on a page view by a signed-out visitor |
+| `privacy.html` | the privacy policy |
+| `globe.js` | the turning wireframe mark and the starfield behind it, copied from the editor's `WireSphere.tsx` and `starfield.ts` |
+| `styles.css` | the editor's own palette (`src/styles/tokens.css` there) |
+| `logo.svg` | the flat mark, shown until `globe.js` runs and to readers without JavaScript |
+| `favicon.svg` | the same mark with a square behind it |
+| `images/` | `editor.webp`, the editor picture from the guide, and `og.jpg`, the 1200×630 link preview |
+| `ko/` | the Korean copies of `index.html` and `plugins.html` (see below) |
+| `header.js` | the top bar's two live items: which game data this browser holds, and the scmjs.dev account |
 | `lang.js` | remembers the language picked in the top bar, and offers the Korean page once to a browser that asks for Korean |
-| `scripts/check-translations.mjs` | checks each Korean page against its English one: the same outside addresses and ids |
-| `robots.txt`, `sitemap.xml` | for search engines; the sitemap lists this site's pages (docs.scmjs.dev writes its own). Add a page to both the sitemap and its `<link rel="canonical">` |
-| `CNAME` | `scmjs.dev`, which is where a branch-served Pages site keeps its custom domain |
-| `.nojekyll` | turns off the Jekyll pass such a site otherwise gets |
+| `scripts/check-translations.mjs` | checks each Korean page against its English one |
+| `robots.txt`, `sitemap.xml` | for search engines |
+| `CNAME`, `.nojekyll` | GitHub Pages settings: the custom domain, and no Jekyll pass |
+
+A new page goes in `sitemap.xml` and gets its own `<link rel="canonical">`.
+
+The site and the editor at `scmjs.dev/editor/` share one origin. That is how `header.js`
+can read what the editor keeps in the browser: the game data stamps in the browser's
+private file storage, and the session the editor's scmjs.dev plugin keeps in
+`localStorage`. Signing in or out in the top bar does the same in the editor. A
+signed-out visitor's page view asks the server nothing.
 
 ## Deploying
 
 Settings ▸ Pages ▸ Deploy from a branch, `main` at `/`. A push is a deploy.
 
-DNS for the apex is one CNAME to `scm-js.github.io`. A CNAME at a zone apex is illegal in
-plain DNS — the root already carries SOA and NS records and a CNAME cannot sit beside them —
-but the zone is on Cloudflare, which flattens the apex record and answers with A records, so
-what goes on the wire is legal. Keep it DNS-only (grey cloud) so GitHub can issue the
-certificate. Flattening follows GitHub if it ever renumbers the `185.199.108–111.153`
-addresses those A records would otherwise pin. It is the same kind of record `docs` and the
-editor's `editor` and `nightly.editor` sites already use, so nothing here collides with those.
+DNS for the apex is one CNAME to `scm-js.github.io`. The zone is on Cloudflare, which
+flattens the apex CNAME into A records. Keep the record DNS-only (grey cloud) so GitHub
+can issue the certificate.
 
-## Why it is not an app
+## Download links
 
-Every link on the page is fixed. The stable downloads are GitHub's
-`/releases/latest/download/<name>` redirect, which resolves to the newest release that is
-not a prerelease — so the buttons never need updating and never land on a nightly. That
-redirect can only work against a fixed file name, which is why `electron-builder.yml` in
-the editor keeps the version out of the asset names: **the file names on this page and the
-`artifactName` fields over there are one thing, and changing either alone breaks the
-downloads.** The nightly links name the `nightly` tag directly, that release being one
-rolling prerelease whose assets are replaced in place.
+Every link on the page is fixed. The stable downloads use GitHub's
+`/releases/latest/download/<name>` redirect, which goes to the newest release that is not
+a prerelease. The buttons never need updating and never land on a nightly. The nightly
+links name the `nightly` tag, a single prerelease whose files are replaced each night.
 
-`globe.js` is the same drawing the About dialog turns over the same sky the splash screen
-drifts, ported out of the editor's `src/components/ui/WireSphere.tsx` and five functions of
-`src/components/splash/starfield.ts` with only the types removed — same sphere, same fov, same
-tumble, same stars, same pink. It is a copy and not a fetch because this site has no build step
-and should not depend on the editor's bundle; the drawing does not change. It sits still for a
-reader who asked for reduced motion, and stops while the tab is hidden.
+The redirect only works with fixed file names. That is why the editor's
+`electron-builder.yml` keeps the version out of the asset names. **The file names on this
+page and the `artifactName` fields in the editor must change together, or the downloads
+break.**
 
-The stars are one full-width canvas across the top of the page, drawn in the globe's own rAF loop
-rather than a second one and masked away above the launch buttons: the sky is part of the hero,
-not a backdrop for the downloads table. It is `#stars` in `index.html` and `.stars` in the
-stylesheet, and its count comes from its own area, so the splash's density holds on a phone. The
-loop stops when the hero scrolls off. `plugins.html` has no hero and does not load the script, so
-it gets none of this. Under the whole thing is the pink `radial-gradient` on `body`, which is
-what a reader with no JavaScript sees on its own.
+The script at the bottom of `index.html` is optional. It puts the version and date next
+to the launch buttons (one anonymous request each to the releases API, which allows 60 an
+hour per IP) and marks the table rows for the visitor's platform. Both fail quietly, and
+the page reads correctly without them.
 
-The script at the bottom of `index.html` does two things, both optional: it puts the
-version and date next to the launch buttons (one request each to the releases API,
-anonymous, 60 an hour per IP) and marks the table rows matching the visitor's platform.
-Both are caught on failure and the page reads correctly without either.
+## The globe and the stars
+
+`globe.js` is the drawing from the editor's About dialog and splash screen, ported from
+`src/components/ui/WireSphere.tsx` and `src/components/splash/starfield.ts` with only the
+types removed. It is a copy because this site has no build step and should not depend on
+the editor's bundle. It holds still for readers who asked for reduced motion, and stops
+while the tab is hidden or the hero has scrolled off.
+
+The stars are one full-width canvas (`#stars`) across the top of the page, drawn in the
+same animation loop as the globe and masked away above the launch buttons. `plugins.html`
+does not load the script. Readers without JavaScript see the pink gradient on `body`.
 
 ## The plugins page
 
-`plugins.html` fetches `scm-js/registry`'s `index.json` from raw.githubusercontent (which
-sends `access-control-allow-origin: *` and caches for five minutes) and renders a card per
-plugin — the same index the editor's own **Plugins ▸ Browse Plugins…** reads, so the page
-cannot drift from what the editor offers. A failed fetch says so and hands over the link
-rather than leaving an empty page.
+`plugins.html` fetches `scm-js/registry`'s `index.json` from raw.githubusercontent.com
+and shows a card per plugin. It is the same index the editor's **Plugins ▸ Browse
+Plugins…** reads, so the two match. If the fetch fails, the page says so and links to the
+registry.
 
-Two things the index does not carry:
+The index does not record two things:
 
-- **Which plugins ship switched on.** That lives in the editor's `src/plugins/defaults.ts`
-  (`DEFAULT_REMOTE_PLUGINS`), so the five repository names are written into the `DEFAULTS`
-  array in this page's script. If that set ever changes, this is the line to edit.
-- **Resolved icons.** A manifest's `icon` is usually `icon.svg`, a file beside the manifest,
-  so the page builds `raw.githubusercontent.com/<owner>/<repo>/<commit>/<icon>` from the
-  entry's own `repo` and `commit` — the same resolution the editor's loader does. An emoji is
-  used as it stands, and anything that fails to load falls back to the app mark.
+- Which plugins are on by default. That list is in the editor's
+  `src/plugins/defaults.ts` (`DEFAULT_REMOTE_PLUGINS`) and is copied into the `DEFAULTS`
+  array in this page's script. Change both together.
+- Icon addresses. A manifest's `icon` is usually a file beside it, so the page builds
+  `raw.githubusercontent.com/<owner>/<repo>/<commit>/<icon>` from the entry's `repo` and
+  `commit`, as the editor's loader does. An emoji is used as it is, and an icon that fails
+  to load falls back to the app mark.
 
 ## The Korean pages
 
-`ko/index.html` and `ko/plugins.html` are hand-kept copies of the English pages: the same
-markup, links, file names and scripts, with the words in Korean. They are real pages rather
-than text swapped in by a script, so search engines index them and they read without
-JavaScript. Each pair names the other with `<link rel="alternate" hreflang>`, English is the
-`x-default`, and both Korean addresses are in the sitemap.
+`ko/index.html` and `ko/plugins.html` are hand-kept copies of the English pages. They
+have the same markup, links, file names and scripts, with the words in Korean. They are
+real pages, so search engines index them and they work without JavaScript. Each pair
+names the other with `<link rel="alternate" hreflang>`, English is the `x-default`, and
+both Korean addresses are in the sitemap.
 
-**A change to an English page is a change to its Korean copy too.** `node
-scripts/check-translations.mjs` fails when a pair disagrees on an outside address (the
-download file names above all) or an element id the scripts write into; the words
-themselves it cannot check.
+**A change to an English page needs the same change in its Korean copy.**
+`node scripts/check-translations.mjs` fails when a pair disagrees on an outside address
+(above all the download file names) or on an element id the scripts write into. It
+cannot check the words.
 
-The top bar's switch is the other language's name, not a flag: flag emoji show as bare
-letters on Windows, and English has no one flag. Nothing redirects. `lang.js` shows a
-browser whose languages include Korean a one-line offer of the Korean page on the English
-one, and a click on either language, or closing the offer, is remembered so it does not come
-back. The offer's address is the page's own `hreflang="ko"` link, so a page without a Korean
-copy offers nothing.
+The language switch in the top bar shows the other language's name. Nothing redirects.
+On the English page, `lang.js` shows a one-line offer of the Korean page to a browser
+whose languages include Korean. A click on either language, or closing the offer, is
+remembered. A page without a Korean copy has no `hreflang="ko"` link and offers nothing.
 
-What stays English on the Korean pages: each plugin's name, description and tags (the
-registry carries English only), the docs site, the privacy page (and the pricing and terms
-pages), which the Korean footer marks as `(영문)`. The Korean pages use the editor's own
-Korean for the words the two share (`src/i18n/ko.json` there) — 플러그인 찾아보기, 장식물,
-로케이션, 도움말 ▸ 버그 신고 내용 복사.
+These stay in English on the Korean pages, and the Korean footer marks links to them
+with `(영문)`:
 
-## Before the first numbered release
+- each plugin's name, description and tags (the registry is English only)
+- the docs site
+- the privacy page
 
-`releases/latest` answers 404 while `nightly` is the only release there is, so the stable
-button keeps its written label and every link in the *Latest release* column 404s. Cutting
-`v0.1.0` fixes both with nothing to change here.
+Where the Korean pages use words the editor also uses, they take the editor's own Korean
+(`src/i18n/ko.json` there), for example 플러그인 찾아보기, 장식물, 로케이션 and
+도움말 ▸ 버그 신고 내용 복사.

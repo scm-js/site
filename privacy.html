@@ -49,15 +49,15 @@
         <h1 class="page-title">Privacy</h1>
         <p class="updated">Last updated: 27 October 2026</p>
         <p class="lede">
-          The short version: the editor sends us nothing of what is in your maps, and
-          apart from counting visits and which of its features are used,
+          The short version: the editor sends us nothing of what is in your maps.
+          Apart from counting visits and which of its features are used, it sends
           nothing at all unless you press something that says it will. We keep
-          what an account needs and what a bill needs, and not the contents of
-          your maps or what you typed. The only things counted are visits to our
-          websites, which parts of the editor are used, and downloads of the
-          game graphics, without cookies (section 1), and you can turn the
-          counting off. There is no advertising and nothing that follows you between
-          sites.
+          what an account needs and what a bill needs. We do not keep the
+          contents of your maps or what you typed. The only things counted are
+          visits to our websites, which parts of the editor are used, and
+          downloads of the game graphics. The counting uses no cookies
+          (section 1), and you can turn the counting off. There is no advertising and
+          nothing that follows you between sites.
         </p>
       </section>
 
@@ -70,7 +70,7 @@
           learning who you are.
         </p>
         <p>
-          The pages on this site make two requests to GitHub on your behalf —
+          The pages on this site make two requests to GitHub on your behalf:
           the release version beside the download buttons, and the plugin list
           on the plugins page. Those go to GitHub, not to us, and GitHub sees
           your IP address as it would for any page on their site.
@@ -87,7 +87,7 @@
           the address without anything after a <code>?</code> except campaign
           tags (<code>utm_source</code>, <code>utm_medium</code>,
           <code>utm_campaign</code>), and with the code in a map, share or join
-          link taken out; it keeps only the name of the site you came from, the
+          link taken out. It keeps only the name of the site you came from, the
           main part of your language (<code>en</code>, not
           <code>en-CA</code>), and your screen width as a range. When you leave
           the page or switch away from it, the script sends how many seconds
@@ -118,10 +118,11 @@
           which kind of game data it has and how many plugins are running. When
           something goes wrong, it sends where in the editor's code the error
           happened: the kind of error, and the file, line and function for up
-          to six steps leading to it — for an error while drawing the screen,
-          some of those are the parts of the editor it happened in — only for
-          the editor's own code and the plugins we publish (anything else is
-          just "plugin" or "other"). It also says whether your browser was
+          to six steps leading to it. For an error while drawing the screen,
+          some of those steps are the parts of the editor it happened in. These
+          details are sent only for the editor's own code and the plugins we
+          publish; anything else is just "plugin" or "other". It also says
+          whether your browser was
           translating the page, since a translator changing the page is a
           common cause of errors. It never sends the error's message. It never
           sends what is in the map, its name, a file name or anything you
@@ -190,15 +191,15 @@
       <section>
         <h2>2. What is kept in your browser</h2>
         <p>
-          Under <strong>Preferences ▸ Browser storage</strong> in the editor,
+          Under <strong>Preferences ▸ Storage</strong> in the editor,
           listed under the scmjs.dev plugin:
         </p>
         <ul>
           <li>your sign-in session, if you have signed in;</li>
           <li>
             a random device identifier, which is what the one free trial per
-            browser is counted against — it is not linked to you and is not an
-            advertising identifier;
+            browser is counted against (it is not linked to you and is not an
+            advertising identifier);
           </li>
           <li>your AI options and the on/off ticks.</li>
         </ul>
@@ -215,8 +216,8 @@
           <code>scmjs-lang</code>.
         </p>
         <p>
-          The editor keeps its own settings in your browser too, the StarCraft
-          graphics it was given or downloaded, and — unless you turn them off —
+          The editor also keeps its own settings in your browser, the StarCraft
+          graphics it was given or downloaded, and, unless you turn them off,
           recovery copies of maps with unsaved changes and the copy of a file
           that a save replaced. None of it is sent anywhere.
         </p>
@@ -251,8 +252,8 @@
             how long it took, how many tokens it used, what it cost, which tools
             it used, and whether it failed (for a failure, the start of the
             model provider's error message).
-            <strong>Not the content</strong> — not your prompt, not your map,
-            not the answer.
+            <strong>Not the content</strong>: not your prompt, your map or
+            the answer.
           </li>
           <li>
             <strong>Your IP address</strong>, recorded against a trial when one
@@ -315,17 +316,17 @@
           <a href="https://www.anthropic.com" target="_blank" rel="noopener"
             >Anthropic</a
           >, through their API. To answer it we send what the request needs:
-          what you typed, and the parts of the open map that are relevant —
-          which for something like a review or the assistant may be most of the
-          map's contents, and may include a screenshot of the map if you ticked
-          the picture box.
+          what you typed, and the parts of the open map that are relevant. For
+          something like a review or the assistant, that may be most of the
+          map's contents, and it may include a screenshot of the map if you
+          ticked the picture box.
         </p>
         <p>
           Anthropic processes this under their commercial API terms: API inputs
-          and outputs are not used to train their models. Part of the request —
-          the fixed instructions and reference tables, which are the same for
-          everybody — is held in their prompt cache for up to an hour so that
-          repeat requests cost less; the part of the request that is your map is
+          and outputs are not used to train their models. Part of the request
+          (the fixed instructions and reference tables, which are the same for
+          everybody) is held in their prompt cache for up to an hour so that
+          repeat requests cost less. The part of the request that is your map is
           what makes a request unique and is not shared with anyone.
         </p>
         <p>
@@ -368,37 +369,37 @@
         <h2>7. How long it is kept</h2>
         <ul>
           <li>
-            <strong>Your account and ledger</strong> — until you delete the
+            <strong>Your account and ledger</strong>: until you delete the
             account. Some ledger rows may be kept after that, with the account
             no longer identifiable, where tax or accounting rules require a
             record of a payment.
           </li>
           <li>
-            <strong>Per-request diagnostics</strong> — kept while the account
+            <strong>Per-request diagnostics</strong>: kept while the account
             exists; they carry no content.
           </li>
           <li>
-            <strong>Trials</strong> — a trial account that never signs in is
+            <strong>Trials</strong>: a trial account that never signs in is
             deleted after 120 days without use.
           </li>
           <li>
-            <strong>Trial and sign-up IP records</strong> — the address is
+            <strong>Trial and sign-up IP records</strong>: the address is
             cleared after seven days, the period the limits look back over. What
             stays is that this browser's device identifier has had its trial and
             that your sign-in has had its sign-up credit, so each is given only
             once.
           </li>
           <li>
-            <strong>Visit counts</strong> — about 13 months (400 days), then
+            <strong>Visit counts</strong>: about 13 months (400 days), then
             deleted.
           </li>
-          <li><strong>Maps</strong> — until you delete them or the account.</li>
+          <li><strong>Maps</strong>: until you delete them or the account.</li>
           <li>
-            <strong>Shared maps</strong> — only while they are shared; nothing
+            <strong>Shared maps</strong>: only while they are shared; nothing
             of them is kept afterwards.
           </li>
           <li>
-            <strong>Maps kept open</strong> — the map and its revisions like any
+            <strong>Maps kept open</strong>: the map and its revisions like any
             of your maps; the changes and names that go with keeping it open
             until sharing ends.
           </li>
@@ -412,8 +413,8 @@
           identities, your balance, your ledger, the diagnostics of your AI
           requests and every map you stored. What stays is the note in section
           7 that your sign-in and browser have had their free credit, without
-          your address. It is immediate and it is not reversible — including any credit you have
-          left, so spend or ask for a refund of that first.
+          your address. It is immediate and cannot be undone. That includes any
+          credit you have left, so spend it or ask for a refund first.
         </p>
         <p>
           You can also ask us for a copy of what we hold, or ask us to correct
