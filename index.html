@@ -110,7 +110,7 @@
             >the newest numbered release</span
           >
         </a>
-        <a class="btn" href="https://nightly.editor.scmjs.dev">
+        <a class="btn" href="https://scmjs.dev/nightly/">
           <span class="btn-main">Open the nightly</span>
           <span class="btn-note" id="nightly-note"
             >main, rebuilt each night</span
@@ -120,8 +120,8 @@
 
       <p class="beta">
         <span class="beta-chip">Beta</span>
-        scmJS is still under development. Make sure you backup any map files you
-        deem important before editing.
+        scmJS is still under development. Back up any map you care about
+        before you edit it.
       </p>
 
       <p class="beta bugs">
@@ -140,13 +140,12 @@
       <section id="download">
         <h2>Downloads</h2>
         <p class="lede">
-          The desktop app consists of an electron wrapper around the editor with
-          some extra features: an auto updater (you may opt into the nightly
-          line from application preferences), automatic detection of Starcraft 1
-          installations, and native file association and 'open with...' support.
-          Nothing is signed yet, so Windows shows SmartScreen's warning and
-          macOS needs
-          <code>xattr -d com.apple.quarantine</code> before it will run.
+          The desktop app is the same editor in an Electron window. It also
+          updates itself (you can switch to the nightly in its preferences),
+          finds your StarCraft installation, and opens map files you
+          double-click or open with it. The app is not signed yet, so Windows
+          shows a SmartScreen warning, and on macOS you need to run
+          <code>xattr -d com.apple.quarantine</code> before it will start.
         </p>
 
         <!-- globe.js aside, this is the one thing on the page JavaScript builds:
@@ -261,7 +260,7 @@
 
         <p class="note">
           All nightly builds are the same build as
-          <a href="https://nightly.editor.scmjs.dev">nightly.editor.scmjs.dev</a
+          <a href="https://scmjs.dev/nightly/">scmjs.dev/nightly</a
           >. Every asset, and the notes for each version, are on the
           <a href="https://github.com/scm-js/scm-js/releases">releases page</a>.
         </p>
@@ -274,8 +273,8 @@
             <div class="card-main">
               <h3>In a container</h3>
               <p>
-                The latest version release is available as a docker image. To
-                pull and run locally:
+                Each numbered release is also a Docker image. To pull it and
+                run it on your machine:
               </p>
               <pre><code>docker run --rm -p 8080:80 \
   ghcr.io/scm-js/scm-js:latest</code></pre>
@@ -288,9 +287,9 @@
             <div class="card-main">
               <h3>On your own web server</h3>
               <p>
-                Every release has a <code>scmJS-web.zip</code> - this is the
-                built bundle, static files, with no server serve mechanism.
-                Unpack it anywhere that serves files from the root.
+                Every release has a <code>scmJS-web.zip</code>: the built
+                editor as static files, with no server of its own. Unpack it
+                anywhere that serves files from the root.
               </p>
             </div>
             <div class="card-aside">
@@ -311,7 +310,7 @@
             <div class="card-main">
               <h3>From source</h3>
               <p>
-                Node required (22 or newer). Clone, <code>npm install</code>,
+                You need Node 22.18 or newer. Clone, <code>npm install</code>,
                 then <code>npm run dev</code> to run the development server or
                 <code>npm run build:desktop</code> for an installer.
               </p>
@@ -334,15 +333,15 @@
       <section id="graphics">
         <h2>It ships no game data</h2>
         <p>
-          The tilesets, unit graphics and <code>.dat</code> tables are property
-          of Blizzard Entertainment and are not redistributable. On first run
-          the editor will present options to either Download them directly from
-          Blizzard or allow you to drop them in. Desktop builds will search on
-          disk to attempt to find the files.
+          The tilesets, unit graphics and <code>.dat</code> tables belong to
+          Blizzard Entertainment and cannot be redistributed. On first run the
+          editor asks where to get them: your own StarCraft folder, or
+          Blizzard's free map editor download, which it can fetch for you. The
+          desktop app looks for your StarCraft installation by itself.
         </p>
         <p>
-          If no game data is found, the editor will still function but fallback
-          into a degraded state.
+          Without game data the editor still opens and edits maps, but
+          draws them without the game's graphics.
         </p>
       </section>
 
@@ -359,18 +358,19 @@
         </figure>
         <ul class="features">
           <li>
-            <strong>Terrain</strong> Full isometric support, rectangle and
+            <strong>Terrain</strong> Isometric terrain, rectangle and
             single-tile brushes, flood fill, a pixel-accurate blend tool,
             symmetry, and terrain replacement across the map.
           </li>
           <li>
-            <strong>Objects</strong> Draw units, sprites, doodads and locations
-            using the games own graphics and idling animations.
+            <strong>Objects</strong> Units, sprites, doodads and locations,
+            drawn with the game's own graphics and idle animations.
           </li>
           <li>
-            <strong>Triggers</strong> A classic editor, a classic trigger script
-            SCMDraft option, and the briefing list, with an optional
-            TypeScript-subset script compiler available as a plugin.
+            <strong>Triggers</strong> The classic trigger and mission briefing
+            editors. The TrigScript plugin, on from the start, lets you write
+            triggers in TypeScript. Another plugin edits triggers as text in
+            SCMDraft's syntax.
           </li>
           <li>
             <strong>Editing together</strong> Share the map you have open and
@@ -380,16 +380,16 @@
             joining takes only the link.
           </li>
           <li>
-            <strong>The file</strong> Every map file (CHK) section is kept in
-            the order it found it, and only the ones you change are re-encoded.
-            Protected and unusual maps are fully supported.
+            <strong>The file</strong> The sections of the map file (CHK) stay
+            in their original order, and only the ones you change are written
+            again. Protected and unusual maps open and save.
           </li>
           <li>
-            <strong>Plugins</strong> scmJS has a sophisticated plugin system
-            allowing for powerful extensions. Plugins for scmscx.com
-            integration, map repair, walkability analysis, a painting tool and
-            TrigScript, triggers written as TypeScript, are enabled by default.
-            Browse Plugins to see more!
+            <strong>Plugins</strong> Plugins can add tools, dialogs and menu
+            items. Several are on from the start, among them map repair,
+            walkability analysis, painting tools, replay analysis, scmscx.com
+            search and TrigScript. Plugins ▸ Browse Plugins… in the editor
+            lists the rest.
           </li>
         </ul>
         <p>
@@ -402,10 +402,10 @@
         <h2>Coming from StarEdit or SCMDraft</h2>
         <p>
           The layers, palettes and dialogs follow StarEdit and SCMDraft 2, so
-          the editor should feel familiar.
-          Triggers can be imported and exported as SCMDraft
-          <code>.trg</code> files with the text trigger editor plugin - this uses SCMDraft's TrigEdit syntax,
-          so triggers copied out of SCMDraft paste straight in.
+          the editor should feel familiar. Triggers import and export as
+          SCMDraft <code>.trg</code> files. The Text Trigger Editor (the
+          TrigEdit plugin, off at first) uses SCMDraft's TrigEdit syntax, so
+          triggers copied out of SCMDraft paste straight in.
         </p>
       </section>
     </main>
