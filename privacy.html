@@ -49,8 +49,8 @@
         <h1 class="page-title">Privacy</h1>
         <p class="updated">Last updated: 3 November 2026</p>
         <p class="lede">
-          The short version: the editor sends us nothing of what is in your maps.
-          Apart from counting visits and which of its features are used, it sends
+          The short version: the editor never sends us your maps or anything
+          written in them. Apart from counting visits and which of its features are used, it sends
           nothing at all unless you press something that says it will. We keep
           what an account needs and what a bill needs. We do not keep the
           contents of your maps or what you typed. The only things counted are
@@ -112,9 +112,10 @@
           feature's name and a few words about it from fixed lists: for example
           that a dialog opened and which one, which layer an edit was on, which
           plugin's menu item was used (a plugin you installed from your own
-          address is just "other"), or that a map was opened or saved, as which
-          kind of file, with its tileset, its size and the version of the map
-          format. When the editor starts, it sends the language it is shown in,
+          address is just "other"), which kind of unit was placed and how many
+          (by its number in the game's list of units, never its name), or that a
+          map was opened or saved, as which kind of file, with its tileset, its
+          size and the version of the map format. When the editor starts, it sends the language it is shown in,
           which kind of game data it has and how many plugins are running. When
           something goes wrong, it sends where in the editor's code the error
           happened: the kind of error, and the file, line and function for up
@@ -127,7 +128,7 @@
           command. It also says whether your browser was
           translating the page, since a translator changing the page is a
           common cause of errors. It never sends the error's message. It never
-          sends what is in the map, its name, a file name or anything you
+          sends the map itself, its name, its text, a file name or anything you
           typed. These go with the visit
           count, under the same daily code, and are kept as long (section 7).
           The game page counts a replay when one starts playing, with nothing
@@ -141,6 +142,19 @@
           stops the visit count too, for scmjs.dev and the editor. It is kept
           as an entry, <code>scmjs.counting</code>, in your browser, so
           clearing your browser storage turns counting back on.
+        </p>
+        <p>
+          Some of these counts are also shown to everyone, as totals, on the
+          <a href="stats/">numbers page</a>: the tilesets, sizes and versions of
+          maps made and opened, the layers edits are on, undo and redo, the units
+          placed, hotkeys, dialogs, the editor's language, the plugins we publish
+          that are running, and the hour of the day people edit in. Each is
+          added up over at least the last 30 days and shown one at a time, never
+          two together. A value is left out unless it was sent on at least ten
+          person-days (one person on one day is one) and by at least three
+          different people on one of those days. Nothing from the current day
+          is shown, and every number is rounded. Errors, preferences, menu items, countries and the daily codes
+          are never shown there.
         </p>
         <p class="count-switch" hidden>
           <button type="button" class="btn" id="count-switch"></button>
@@ -462,6 +476,7 @@
       <a href="https://github.com/scm-js/scm-js/releases">Releases</a>
       <a href="https://docs.scmjs.dev/api/">Plugin API</a>
       <a href="https://github.com/scm-js/scm-js/issues">Report a bug</a>
+      <a href="stats/">Stats</a>
       <a href="privacy.html">Privacy</a>
       <a href="mailto:support@scmjs.dev">support@scmjs.dev</a>
       <span class="dim"

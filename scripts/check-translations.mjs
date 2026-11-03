@@ -11,6 +11,7 @@ import { readFileSync } from "node:fs";
 const PAIRS = [
   ["index.html", "ko/index.html"],
   ["plugins.html", "ko/plugins.html"],
+  ["stats/index.html", "ko/stats/index.html"],
 ];
 
 // Addresses that are meant to differ between the two: the page's own address and its
