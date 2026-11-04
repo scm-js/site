@@ -22,7 +22,6 @@
         last30: "최근 30일",
         all: "{date}부터",
         through: "{from} – {to} (UTC), 매시간 갱신",
-        tiles: { people: "편집기 사용(사람·일)", made: "새로 만든 맵", opened: "연 맵", units: "배치한 유닛", tested: "맵 테스트", replays: "연 리플레이" },
         made: "만든 맵",
         opened: "연 맵",
         share: "{n}%",
@@ -54,7 +53,7 @@
         versionOpened: "연 맵",
         name: "이름",
         count: "수",
-        hero: { people: "편집기 사용(사람·일)", edits: "편집", made: "새로 만든 맵", opened: "연 맵", saved: "저장", units: "배치한 유닛", tested: "맵 테스트", replays: "연 리플레이" },
+        hero: { people: "하루 평균 사용자", edits: "편집", made: "새로 만든 맵", opened: "연 맵", saved: "저장", units: "배치한 유닛", tested: "맵 테스트", replays: "연 리플레이" },
         sizeOnly: "가장 흔한 크기는 {size}입니다.",
         hourLocal: "가장 바쁜 시간은 UTC {h}시, 지금 계신 곳 시간으로 {local}입니다.",
         undoOf: "편집 100번마다",
@@ -69,7 +68,6 @@
         last30: "Last 30 days",
         all: "Since {date}",
         through: "{from} – {to} (UTC), updated every hour",
-        tiles: { people: "Person-days in the editor", made: "Maps made", opened: "Maps opened", units: "Units placed", tested: "Test Map launches", replays: "Replays opened" },
         made: "Made",
         opened: "Opened",
         share: "{n}%",
@@ -101,7 +99,7 @@
         versionOpened: "Opened",
         name: "Name",
         count: "Count",
-        hero: { people: "Person-days in the editor", edits: "Edits", made: "Maps made", opened: "Maps opened", saved: "Saves", units: "Units placed", tested: "Test Map launches", replays: "Replays opened" },
+        hero: { people: "People a day, on average", edits: "Edits", made: "Maps made", opened: "Maps opened", saved: "Saves", units: "Units placed", tested: "Test Map launches", replays: "Replays opened" },
         sizeOnly: "The most common size is {size}.",
         hourLocal: "The busiest hour is {h}:00 UTC, {local} where you are.",
         undoOf: "in every 100 edits",
@@ -491,8 +489,12 @@
 
     // The headline numbers: only those with enough people behind them, the rest wait.
     var tiles = slot("st-tiles");
+    // The server sends each day's people added up (the visitor code changes daily, so nothing
+    // can say two days' visits are one person's); over the days counted that is a daily average.
+    var first = stats.since && stats.since > w.from ? stats.since : w.from;
+    var days = Math.round((Date.parse(w.to) - Date.parse(first)) / 86400000) + 1;
     [
-      [T.hero.people, w.people],
+      [T.hero.people, days > 0 ? Math.round(w.people / days) : null],
       [T.hero.edits, w.totals.edits],
       [T.hero.made, w.totals.made],
       [T.hero.opened, w.totals.opened],
