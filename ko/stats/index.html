@@ -14,8 +14,10 @@
     <link rel="alternate" hreflang="x-default" href="https://scmjs.dev/stats/" />
     <script src="/lang.js" defer></script>
     <script src="/header.js" defer></script>
+    <script src="/globe.js" defer></script>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/stats/stats.css?v=2" />
     <meta property="og:title" content="숫자로 보는 scmJS" />
     <meta
       property="og:description"
@@ -54,50 +56,44 @@
       </div>
     </nav>
 
+    <!-- 홈페이지와 같은 하늘: globe.js가 별만 그립니다. -->
+    <canvas class="stars" id="stars" hidden aria-hidden="true"></canvas>
+
     <main class="stats-page">
-      <section class="page-head">
-        <h1 class="page-title">숫자로 보는 scmJS</h1>
-        <p class="lede">
+      <header class="hero st-hero">
+        <span class="st-live"><span class="st-live-dot"></span>실시간 · 매시간 갱신</span>
+        <h1 class="st-title">숫자로 보는 <span class="st-mark">scm</span>JS</h1>
+        <p class="st-lede">
           scmjs.dev의 에디터에서 사람들이 하는 일을 합친 숫자입니다. 고르는
           지형과 크기, 배치하는 유닛, 되돌리기 횟수, 작업하는 시간대를 보여
           줍니다.
         </p>
-        <p class="note">
-          <strong>환경 설정 ▸ 일반 ▸ 개인정보</strong>에서 집계를 켜 둔 사람들의
-          숫자입니다. 데스크톱 앱과 다른 곳에서 호스팅한 에디터는 아무것도 보내지
-          않습니다. 하루에 서로 다른 세 사람 이상이 보냈고 모두 합쳐 10인·일
-          이상인 값만 보여 줍니다. 오늘의 숫자는 보여 주지 않으며, 모든
-          숫자는 반올림합니다. 무엇을 집계하는지는
-          <a href="/privacy.html">개인정보 처리방침 (영문)</a>에 있습니다.
-        </p>
-      </section>
-
-      <p class="dim" id="stats-status">숫자를 불러오는 중…</p>
+        <p class="st-status" id="stats-status">숫자를 불러오는 중…</p>
+        <div class="st-filters" id="stats-filters" hidden>
+          <div class="st-tabs" id="stats-window"></div>
+          <span class="st-range" id="stats-range"></span>
+        </div>
+      </header>
 
       <div id="stats" hidden>
-        <div class="st-filters">
-          <div class="st-tabs" id="stats-window"></div>
-          <span class="dim" id="stats-range"></span>
-        </div>
+        <div class="st-heroes" id="st-tiles"></div>
 
-        <div class="st-tiles" id="st-tiles"></div>
-
-        <section>
-          <h2>만든 맵과 연 맵</h2>
+        <section class="st-card">
+          <h2 class="st-kicker">지형</h2>
           <p class="st-line" id="st-tilesets-line"></p>
           <p class="note">새로 만드는 맵과 여는 맵에서 각 지형이 차지하는 비율입니다.</p>
           <div id="st-tilesets"></div>
         </section>
 
-        <section>
-          <h2>맵 크기</h2>
+        <section class="st-card">
+          <h2 class="st-kicker">맵 크기</h2>
           <p class="st-line" id="st-sizes-line"></p>
-          <p class="note">가로는 너비, 세로는 높이이며 단위는 타일입니다.</p>
+          <p class="note">모든 맵을 가장 큰 크기인 256 × 256 타일 안에 같은 비율로 그렸습니다.</p>
           <div id="st-sizes"></div>
         </section>
 
-        <section>
-          <h2>편집이 이루어지는 곳</h2>
+        <section class="st-card">
+          <h2 class="st-kicker">편집이 이루어지는 곳</h2>
           <p class="st-line" id="st-layers-line"></p>
           <div class="st-cols">
             <div class="st-col">
@@ -107,24 +103,28 @@
             <div class="st-col">
               <h3>지형 도구</h3>
               <div id="st-modes"></div>
-            </div>
-          </div>
-          <div class="st-cols">
-            <div class="st-col">
-              <h3>대칭</h3>
+              <h3 class="st-h3-gap">대칭</h3>
               <div id="st-mirror"></div>
             </div>
           </div>
         </section>
 
-        <section>
-          <h2>되돌리기</h2>
-          <p class="st-line" id="st-undo-line"></p>
-          <div class="st-tiles" id="st-undo"></div>
-        </section>
+        <div class="st-pair-cards">
+          <section class="st-card">
+            <h2 class="st-kicker">되돌리기</h2>
+            <p class="st-line" id="st-undo-line"></p>
+            <div id="st-undo"></div>
+          </section>
 
-        <section>
-          <h2>가장 많이 배치된 유닛</h2>
+          <section class="st-card">
+            <h2 class="st-kicker">키보드와 마우스</h2>
+            <p class="st-line" id="st-keys-line"></p>
+            <div id="st-keys"></div>
+          </section>
+        </div>
+
+        <section class="st-card">
+          <h2 class="st-kicker">가장 많이 배치된 유닛</h2>
           <p class="st-line" id="st-units-line"></p>
           <p class="note">
             맵에 놓은 모든 유닛을 종류별로 셉니다. 옮기거나 속성을 바꾼 것은
@@ -133,53 +133,49 @@
           <div class="st-cols" id="st-units"></div>
         </section>
 
-        <section>
-          <h2>키보드와 마우스</h2>
-          <p class="st-line" id="st-keys-line"></p>
-          <div id="st-keys"></div>
-        </section>
-
-        <section>
-          <h2>대화 상자</h2>
+        <section class="st-card">
+          <h2 class="st-kicker">대화 상자</h2>
           <p class="st-line" id="st-dialogs-line"></p>
           <div id="st-dialogs"></div>
         </section>
 
-        <section>
-          <h2>작업하는 시간대</h2>
+        <section class="st-card">
+          <h2 class="st-kicker">작업하는 시간대</h2>
           <p class="st-line" id="st-hours-line"></p>
           <p class="note">하루 중 시간대별로 편집한 사람 수입니다.</p>
           <div id="st-hours"></div>
         </section>
 
-        <section>
-          <h2>형식</h2>
-          <div class="st-cols">
-            <div class="st-col">
-              <h3>맵 버전</h3>
-              <div id="st-versions"></div>
-            </div>
-            <div class="st-col">
-              <h3>연 파일</h3>
-              <div id="st-exts"></div>
-            </div>
-          </div>
-        </section>
+        <div class="st-pair-cards">
+          <section class="st-card">
+            <h2 class="st-kicker">형식</h2>
+            <h3>맵 버전</h3>
+            <div id="st-versions"></div>
+            <h3 class="st-h3-gap">연 파일</h3>
+            <div id="st-exts"></div>
+          </section>
 
-        <section>
-          <h2>언어와 플러그인</h2>
-          <div class="st-cols">
-            <div class="st-col">
-              <h3>에디터 언어</h3>
-              <div id="st-languages"></div>
-            </div>
-            <div class="st-col">
-              <h3>실행 중인 플러그인</h3>
-              <div id="st-plugins"></div>
-            </div>
-          </div>
-        </section>
+          <section class="st-card">
+            <h2 class="st-kicker">언어와 플러그인</h2>
+            <h3>에디터 언어</h3>
+            <div id="st-languages"></div>
+            <h3 class="st-h3-gap">실행 중인 플러그인</h3>
+            <div id="st-plugins"></div>
+          </section>
+        </div>
       </div>
+
+      <aside class="beta st-how">
+        <span class="beta-chip bugs-chip">집계</span>
+        <span>
+          <strong>환경 설정 ▸ 일반 ▸ 개인정보</strong>에서 집계를 켜 둔 사람들의
+          숫자입니다. 데스크톱 앱과 다른 곳에서 호스팅한 에디터는 아무것도 보내지
+          않습니다. 하루에 서로 다른 세 사람 이상이 보냈고 모두 합쳐 10인·일
+          이상인 값만 보여 줍니다. 오늘의 숫자는 보여 주지 않으며, 모든
+          숫자는 반올림합니다. 무엇을 집계하는지는
+          <a href="/privacy.html">개인정보 처리방침 (영문)</a>에 있습니다.
+        </span>
+      </aside>
     </main>
 
     <footer>
@@ -196,7 +192,7 @@
       <span class="dim">방문 통계는 쿠키 없이 Cloudflare Web Analytics로 집계합니다.</span>
     </footer>
 
-    <script src="/stats/names.js"></script>
-    <script src="/stats/stats.js"></script>
+    <script src="/stats/names.js?v=2"></script>
+    <script src="/stats/stats.js?v=2"></script>
   </body>
 </html>

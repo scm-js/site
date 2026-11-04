@@ -14,8 +14,10 @@
     <link rel="alternate" hreflang="x-default" href="https://scmjs.dev/stats/" />
     <script src="/lang.js" defer></script>
     <script src="/header.js" defer></script>
+    <script src="/globe.js" defer></script>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/stats/stats.css?v=2" />
     <meta property="og:title" content="scmJS in numbers" />
     <meta
       property="og:description"
@@ -54,51 +56,44 @@
       </div>
     </nav>
 
+    <!-- The home page's sky: globe.js paints it, with nothing to turn but the stars. -->
+    <canvas class="stars" id="stars" hidden aria-hidden="true"></canvas>
+
     <main class="stats-page">
-      <section class="page-head">
-        <h1 class="page-title">scmJS in numbers</h1>
-        <p class="lede">
+      <header class="hero st-hero">
+        <span class="st-live"><span class="st-live-dot"></span>Live · updated every hour</span>
+        <h1 class="st-title"><span class="st-mark">scm</span>JS in numbers</h1>
+        <p class="st-lede">
           What people do in the editor at scmjs.dev, added up: the tilesets and
           sizes they pick, the units they place, how often they undo, and when
           they map.
         </p>
-        <p class="note">
-          These come from people who left counting on in
-          <strong>Preferences ▸ General ▸ Privacy</strong>. The desktop app and
-          copies hosted elsewhere send nothing. A value is left out unless at
-          least three different people sent it on one day, and it was sent on
-          ten person-days in all. Nothing from today is shown, and every number
-          is rounded. The <a href="/privacy.html">privacy page</a> says exactly what
-          is counted.
-        </p>
-      </section>
-
-      <p class="dim" id="stats-status">Loading the numbers…</p>
+        <p class="st-status" id="stats-status">Loading the numbers…</p>
+        <div class="st-filters" id="stats-filters" hidden>
+          <div class="st-tabs" id="stats-window"></div>
+          <span class="st-range" id="stats-range"></span>
+        </div>
+      </header>
 
       <div id="stats" hidden>
-        <div class="st-filters">
-          <div class="st-tabs" id="stats-window"></div>
-          <span class="dim" id="stats-range"></span>
-        </div>
+        <div class="st-heroes" id="st-tiles"></div>
 
-        <div class="st-tiles" id="st-tiles"></div>
-
-        <section>
-          <h2>Made and opened</h2>
+        <section class="st-card">
+          <h2 class="st-kicker">Tilesets</h2>
           <p class="st-line" id="st-tilesets-line"></p>
           <p class="note">Each tileset's share of the maps people start, and of the maps they open.</p>
           <div id="st-tilesets"></div>
         </section>
 
-        <section>
-          <h2>Map sizes</h2>
+        <section class="st-card">
+          <h2 class="st-kicker">Map sizes</h2>
           <p class="st-line" id="st-sizes-line"></p>
-          <p class="note">Width across, height down, in tiles.</p>
+          <p class="note">Each map drawn to scale inside the largest there is, 256 × 256 tiles.</p>
           <div id="st-sizes"></div>
         </section>
 
-        <section>
-          <h2>Where the work goes</h2>
+        <section class="st-card">
+          <h2 class="st-kicker">Where the work goes</h2>
           <p class="st-line" id="st-layers-line"></p>
           <div class="st-cols">
             <div class="st-col">
@@ -108,24 +103,28 @@
             <div class="st-col">
               <h3>Terrain tools</h3>
               <div id="st-modes"></div>
-            </div>
-          </div>
-          <div class="st-cols">
-            <div class="st-col">
-              <h3>Mirrors</h3>
+              <h3 class="st-h3-gap">Mirrors</h3>
               <div id="st-mirror"></div>
             </div>
           </div>
         </section>
 
-        <section>
-          <h2>Undo</h2>
-          <p class="st-line" id="st-undo-line"></p>
-          <div class="st-tiles" id="st-undo"></div>
-        </section>
+        <div class="st-pair-cards">
+          <section class="st-card">
+            <h2 class="st-kicker">Undo</h2>
+            <p class="st-line" id="st-undo-line"></p>
+            <div id="st-undo"></div>
+          </section>
 
-        <section>
-          <h2>Most placed units</h2>
+          <section class="st-card">
+            <h2 class="st-kicker">Keyboard or mouse</h2>
+            <p class="st-line" id="st-keys-line"></p>
+            <div id="st-keys"></div>
+          </section>
+        </div>
+
+        <section class="st-card">
+          <h2 class="st-kicker">Most placed units</h2>
           <p class="st-line" id="st-units-line"></p>
           <p class="note">
             Every unit put on a map, by its type. A move or a change of
@@ -134,53 +133,50 @@
           <div class="st-cols" id="st-units"></div>
         </section>
 
-        <section>
-          <h2>Keyboard or mouse</h2>
-          <p class="st-line" id="st-keys-line"></p>
-          <div id="st-keys"></div>
-        </section>
-
-        <section>
-          <h2>Dialogs</h2>
+        <section class="st-card">
+          <h2 class="st-kicker">Dialogs</h2>
           <p class="st-line" id="st-dialogs-line"></p>
           <div id="st-dialogs"></div>
         </section>
 
-        <section>
-          <h2>When people map</h2>
+        <section class="st-card">
+          <h2 class="st-kicker">When people map</h2>
           <p class="st-line" id="st-hours-line"></p>
           <p class="note">People editing in each hour of the day.</p>
           <div id="st-hours"></div>
         </section>
 
-        <section>
-          <h2>Formats</h2>
-          <div class="st-cols">
-            <div class="st-col">
-              <h3>Map versions</h3>
-              <div id="st-versions"></div>
-            </div>
-            <div class="st-col">
-              <h3>Files opened</h3>
-              <div id="st-exts"></div>
-            </div>
-          </div>
-        </section>
+        <div class="st-pair-cards">
+          <section class="st-card">
+            <h2 class="st-kicker">Formats</h2>
+            <h3>Map versions</h3>
+            <div id="st-versions"></div>
+            <h3 class="st-h3-gap">Files opened</h3>
+            <div id="st-exts"></div>
+          </section>
 
-        <section>
-          <h2>Languages and plugins</h2>
-          <div class="st-cols">
-            <div class="st-col">
-              <h3>The editor's language</h3>
-              <div id="st-languages"></div>
-            </div>
-            <div class="st-col">
-              <h3>Plugins running</h3>
-              <div id="st-plugins"></div>
-            </div>
-          </div>
-        </section>
+          <section class="st-card">
+            <h2 class="st-kicker">Languages and plugins</h2>
+            <h3>The editor's language</h3>
+            <div id="st-languages"></div>
+            <h3 class="st-h3-gap">Plugins running</h3>
+            <div id="st-plugins"></div>
+          </section>
+        </div>
       </div>
+
+      <aside class="beta st-how">
+        <span class="beta-chip bugs-chip">How</span>
+        <span>
+          These come from people who left counting on in
+          <strong>Preferences ▸ General ▸ Privacy</strong>. The desktop app and
+          copies hosted elsewhere send nothing. A value is left out unless at
+          least three different people sent it on one day, and it was sent on
+          ten person-days in all. Nothing from today is shown, and every number
+          is rounded. The <a href="/privacy.html">privacy page</a> says exactly what
+          is counted.
+        </span>
+      </aside>
     </main>
 
     <footer>
@@ -196,7 +192,7 @@
       <span class="dim">Visits are counted with Cloudflare Web Analytics, without cookies.</span>
     </footer>
 
-    <script src="/stats/names.js"></script>
-    <script src="/stats/stats.js"></script>
+    <script src="/stats/names.js?v=2"></script>
+    <script src="/stats/stats.js?v=2"></script>
   </body>
 </html>
