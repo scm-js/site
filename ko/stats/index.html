@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>숫자로 보는 scmJS</title>
+    <meta
+      name="description"
+      content="scmJS 맵 에디터의 합계: 사람들이 쓰는 지형과 맵 크기, 배치하는 유닛, 되돌리기 횟수, 작업하는 시간대. 쿠키나 식별자 없이 집계합니다."
+    />
+    <link rel="canonical" href="https://scmjs.dev/ko/stats/" />
+    <link rel="alternate" hreflang="en" href="https://scmjs.dev/stats/" />
+    <link rel="alternate" hreflang="ko" href="https://scmjs.dev/ko/stats/" />
+    <link rel="alternate" hreflang="x-default" href="https://scmjs.dev/stats/" />
+    <script src="/lang.js" defer></script>
+    <script src="/header.js" defer></script>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css" />
+    <meta property="og:title" content="숫자로 보는 scmJS" />
+    <meta
+      property="og:description"
+      content="scmJS에서 사람들이 쓰는 지형과 맵 크기, 배치하는 유닛, 되돌리기 횟수, 작업하는 시간대."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta property="og:url" content="https://scmjs.dev/ko/stats/" />
+    <meta property="og:site_name" content="scmJS" />
+    <meta property="og:image" content="https://scmjs.dev/images/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <!-- Cloudflare Web Analytics: visits and referrers, no cookies. -->
+    <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "4f6f300eb17c49e8b16331e1e96f6b2a"}'></script>
+    <!-- Our own visit count: no cookies, no identifier (see privacy.html, section 1). -->
+    <script defer src="/_e.js"></script>
+  </head>
+  <body>
+    <nav class="topbar">
+      <a class="topbar-mark" href="/ko/">
+        <img src="/logo.svg" alt="" width="22" height="22" />
+        <span>scm<span>JS</span></span>
+      </a>
+      <div class="topbar-links">
+        <a href="/ko/#download">다운로드</a>
+        <a href="/ko/plugins.html">플러그인</a>
+        <a href="https://docs.scmjs.dev">문서</a>
+        <a class="topbar-github" href="https://github.com/scm-js/scm-js">GitHub</a>
+        <a class="topbar-issues" href="https://github.com/scm-js/scm-js/issues">이슈</a>
+        <a class="lang-switch" href="/stats/" lang="en" hreflang="en" data-lang="en">English</a>
+        <a class="topbar-cta" href="/editor/"
+          >에디터 열기</a
+        >
+      </div>
+    </nav>
+
+    <main class="stats-page">
+      <section class="page-head">
+        <h1 class="page-title">숫자로 보는 scmJS</h1>
+        <p class="lede">
+          scmjs.dev의 에디터에서 사람들이 하는 일을 합친 숫자입니다. 고르는
+          지형과 크기, 배치하는 유닛, 되돌리기 횟수, 작업하는 시간대를 보여
+          줍니다.
+        </p>
+        <p class="note">
+          <strong>환경 설정 ▸ 일반 ▸ 개인정보</strong>에서 집계를 켜 둔 사람들의
+          숫자입니다. 데스크톱 앱과 다른 곳에서 호스팅한 에디터는 아무것도 보내지
+          않습니다. 하루에 서로 다른 세 사람 이상이 보냈고 모두 합쳐 10인·일
+          이상인 값만 보여 줍니다. 오늘의 숫자는 보여 주지 않으며, 모든
+          숫자는 반올림합니다. 무엇을 집계하는지는
+          <a href="/privacy.html">개인정보 처리방침 (영문)</a>에 있습니다.
+        </p>
+      </section>
+
+      <p class="dim" id="stats-status">숫자를 불러오는 중…</p>
+
+      <div id="stats" hidden>
+        <div class="st-filters">
+          <div class="st-tabs" id="stats-window"></div>
+          <span class="dim" id="stats-range"></span>
+        </div>
+
+        <div class="st-tiles" id="st-tiles"></div>
+
+        <section>
+          <h2>만든 맵과 연 맵</h2>
+          <p class="st-line" id="st-tilesets-line"></p>
+          <p class="note">새로 만드는 맵과 여는 맵에서 각 지형이 차지하는 비율입니다.</p>
+          <div id="st-tilesets"></div>
+        </section>
+
+        <section>
+          <h2>맵 크기</h2>
+          <p class="st-line" id="st-sizes-line"></p>
+          <p class="note">가로는 너비, 세로는 높이이며 단위는 타일입니다.</p>
+          <div id="st-sizes"></div>
+        </section>
+
+        <section>
+          <h2>편집이 이루어지는 곳</h2>
+          <p class="st-line" id="st-layers-line"></p>
+          <div class="st-cols">
+            <div class="st-col">
+              <h3>레이어별 편집</h3>
+              <div id="st-layers"></div>
+            </div>
+            <div class="st-col">
+              <h3>지형 도구</h3>
+              <div id="st-modes"></div>
+            </div>
+          </div>
+          <div class="st-cols">
+            <div class="st-col">
+              <h3>대칭</h3>
+              <div id="st-mirror"></div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>되돌리기</h2>
+          <p class="st-line" id="st-undo-line"></p>
+          <div class="st-tiles" id="st-undo"></div>
+        </section>
+
+        <section>
+          <h2>가장 많이 배치된 유닛</h2>
+          <p class="st-line" id="st-units-line"></p>
+          <p class="note">
+            맵에 놓은 모든 유닛을 종류별로 셉니다. 옮기거나 속성을 바꾼 것은
+            배치가 아니고, 붙여넣기는 배치입니다.
+          </p>
+          <div class="st-cols" id="st-units"></div>
+        </section>
+
+        <section>
+          <h2>키보드와 마우스</h2>
+          <p class="st-line" id="st-keys-line"></p>
+          <div id="st-keys"></div>
+        </section>
+
+        <section>
+          <h2>대화 상자</h2>
+          <p class="st-line" id="st-dialogs-line"></p>
+          <div id="st-dialogs"></div>
+        </section>
+
+        <section>
+          <h2>작업하는 시간대</h2>
+          <p class="st-line" id="st-hours-line"></p>
+          <p class="note">하루 중 시간대별로 편집한 사람 수입니다.</p>
+          <div id="st-hours"></div>
+        </section>
+
+        <section>
+          <h2>형식</h2>
+          <div class="st-cols">
+            <div class="st-col">
+              <h3>맵 버전</h3>
+              <div id="st-versions"></div>
+            </div>
+            <div class="st-col">
+              <h3>연 파일</h3>
+              <div id="st-exts"></div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>언어와 플러그인</h2>
+          <div class="st-cols">
+            <div class="st-col">
+              <h3>에디터 언어</h3>
+              <div id="st-languages"></div>
+            </div>
+            <div class="st-col">
+              <h3>실행 중인 플러그인</h3>
+              <div id="st-plugins"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <a href="https://github.com/scm-js/scm-js">GitHub</a>
+      <a href="https://github.com/scm-js/scm-js/releases">릴리스</a>
+      <a href="https://docs.scmjs.dev/api/">플러그인 API (영문)</a>
+      <a href="https://github.com/scm-js/scm-js/issues">버그 신고</a>
+      <span class="dim"
+        >MIT 라이선스. 블리자드 엔터테인먼트와 관련이 없으며 블리자드의 보증을
+        받지 않았습니다.</span
+      >
+      <a href="/ko/stats/">통계</a>
+      <a href="/privacy.html">개인정보 처리방침 (영문)</a>
+      <span class="dim">방문 통계는 쿠키 없이 Cloudflare Web Analytics로 집계합니다.</span>
+    </footer>
+
+    <script src="/stats/names.js"></script>
+    <script src="/stats/stats.js"></script>
+  </body>
+</html>

@@ -9,12 +9,13 @@ There is no build step. What is committed is what is served.
 | `index.html` | the landing page, with a small script that adds to it |
 | `plugins.html` | the plugin list, read live from the registry |
 | `privacy.html` | the privacy policy |
+| `stats/` | the numbers page (`index.html`, `stats.js`, and `names.js`, the editor's names for units, hotkeys and dialogs) |
 | `globe.js` | the turning wireframe mark and the starfield behind it, copied from the editor's `WireSphere.tsx` and `starfield.ts` |
 | `styles.css` | the editor's own palette (`src/styles/tokens.css` there) |
 | `logo.svg` | the flat mark, shown until `globe.js` runs and to readers without JavaScript |
 | `favicon.svg` | the same mark with a square behind it |
 | `images/` | `editor.webp`, the editor picture from the guide, and `og.jpg`, the 1200×630 link preview |
-| `ko/` | the Korean copies of `index.html` and `plugins.html` (see below) |
+| `ko/` | the Korean copies of `index.html`, `plugins.html` and `stats/index.html` (see below) |
 | `header.js` | the top bar's two live items: which game data this browser holds, and the scmjs.dev account |
 | `lang.js` | remembers the language picked in the top bar, and offers the Korean page once to a browser that asks for Korean |
 | `scripts/check-translations.mjs` | checks each Korean page against its English one |
@@ -83,13 +84,33 @@ The index does not record two things:
   `commit`, as the editor's loader does. An emoji is used as it is, and an icon that fails
   to load falls back to the app mark.
 
+## The numbers page
+
+`stats/index.html` reads `api.scmjs.dev/v1/stats` and draws it: the tilesets and sizes of
+maps made and opened, edits by layer, undo, units placed, hotkeys, dialogs, the hours people
+edit in, map versions, languages and plugins. The server has already added the numbers up
+and left out anything too few people sent (ai-server, `src/stats/public.ts`); the page only
+draws what it is given. Until the server has `stats.public.enabled` on, it answers 404 and
+the page says no numbers are published yet. `?server=http://localhost:<port>` points the page
+at a local ai-server.
+
+The counts carry ids (a unit's number, a dialog's id), never names. `stats/names.js` holds
+the names the page shows for them, in English and Korean, taken from the editor's own
+tables and its `src/i18n/ko.json`. When the editor renames something, regenerate that file
+from the editor rather than editing it by hand. An id the file does not know is shown as
+the id.
+
+The chart colours are darker steps of the site's gold and teal, checked for colour-blind
+separation on the page's dark surfaces. Every chart has a table view under it.
+
 ## The Korean pages
 
-`ko/index.html` and `ko/plugins.html` are hand-kept copies of the English pages. They
-have the same markup, links, file names and scripts, with the words in Korean. They are
-real pages, so search engines index them and they work without JavaScript. Each pair
-names the other with `<link rel="alternate" hreflang>`, English is the `x-default`, and
-both Korean addresses are in the sitemap.
+`ko/index.html`, `ko/plugins.html` and `ko/stats/index.html` are hand-kept copies of the
+English pages. They have the same markup, links, file names and scripts, with the words in
+Korean. They are real pages, so search engines index them, and the first two work without
+JavaScript (the numbers page needs it to read the numbers). Each pair names the other with
+`<link rel="alternate" hreflang>`, English is the `x-default`, and every Korean address is
+in the sitemap.
 
 **A change to an English page needs the same change in its Korean copy.**
 `node scripts/check-translations.mjs` fails when a pair disagrees on an outside address

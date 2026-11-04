@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>What people make with scmJS, in numbers</title>
+    <meta
+      name="description"
+      content="Totals from the scmJS map editor: the tilesets and map sizes people use, which units they place, how often they undo, and when they map. Counted without cookies or identifiers."
+    />
+    <link rel="canonical" href="https://scmjs.dev/stats/" />
+    <link rel="alternate" hreflang="en" href="https://scmjs.dev/stats/" />
+    <link rel="alternate" hreflang="ko" href="https://scmjs.dev/ko/stats/" />
+    <link rel="alternate" hreflang="x-default" href="https://scmjs.dev/stats/" />
+    <script src="/lang.js" defer></script>
+    <script src="/header.js" defer></script>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css" />
+    <meta property="og:title" content="scmJS in numbers" />
+    <meta
+      property="og:description"
+      content="The tilesets and map sizes people use in scmJS, the units they place, how often they undo, and when they map."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="ko_KR" />
+    <meta property="og:url" content="https://scmjs.dev/stats/" />
+    <meta property="og:site_name" content="scmJS" />
+    <meta property="og:image" content="https://scmjs.dev/images/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <!-- Cloudflare Web Analytics: visits and referrers, no cookies. -->
+    <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "4f6f300eb17c49e8b16331e1e96f6b2a"}'></script>
+    <!-- Our own visit count: no cookies, no identifier (see privacy.html, section 1). -->
+    <script defer src="/_e.js"></script>
+  </head>
+  <body>
+    <nav class="topbar">
+      <a class="topbar-mark" href="/">
+        <img src="/logo.svg" alt="" width="22" height="22" />
+        <span>scm<span>JS</span></span>
+      </a>
+      <div class="topbar-links">
+        <a href="/#download">Download</a>
+        <a href="/plugins.html">Plugins</a>
+        <a href="https://docs.scmjs.dev">Docs</a>
+        <a class="topbar-github" href="https://github.com/scm-js/scm-js">GitHub</a>
+        <a class="topbar-issues" href="https://github.com/scm-js/scm-js/issues">Issues</a>
+        <a class="lang-switch" href="/ko/stats/" lang="ko" hreflang="ko" data-lang="ko">한국어</a>
+        <a class="topbar-cta" href="/editor/"
+          >Open the editor</a
+        >
+      </div>
+    </nav>
+
+    <main class="stats-page">
+      <section class="page-head">
+        <h1 class="page-title">scmJS in numbers</h1>
+        <p class="lede">
+          What people do in the editor at scmjs.dev, added up: the tilesets and
+          sizes they pick, the units they place, how often they undo, and when
+          they map.
+        </p>
+        <p class="note">
+          These come from people who left counting on in
+          <strong>Preferences ▸ General ▸ Privacy</strong>. The desktop app and
+          copies hosted elsewhere send nothing. A value is left out unless at
+          least three different people sent it on one day, and it was sent on
+          ten person-days in all. Nothing from today is shown, and every number
+          is rounded. The <a href="/privacy.html">privacy page</a> says exactly what
+          is counted.
+        </p>
+      </section>
+
+      <p class="dim" id="stats-status">Loading the numbers…</p>
+
+      <div id="stats" hidden>
+        <div class="st-filters">
+          <div class="st-tabs" id="stats-window"></div>
+          <span class="dim" id="stats-range"></span>
+        </div>
+
+        <div class="st-tiles" id="st-tiles"></div>
+
+        <section>
+          <h2>Made and opened</h2>
+          <p class="st-line" id="st-tilesets-line"></p>
+          <p class="note">Each tileset's share of the maps people start, and of the maps they open.</p>
+          <div id="st-tilesets"></div>
+        </section>
+
+        <section>
+          <h2>Map sizes</h2>
+          <p class="st-line" id="st-sizes-line"></p>
+          <p class="note">Width across, height down, in tiles.</p>
+          <div id="st-sizes"></div>
+        </section>
+
+        <section>
+          <h2>Where the work goes</h2>
+          <p class="st-line" id="st-layers-line"></p>
+          <div class="st-cols">
+            <div class="st-col">
+              <h3>Edits by layer</h3>
+              <div id="st-layers"></div>
+            </div>
+            <div class="st-col">
+              <h3>Terrain tools</h3>
+              <div id="st-modes"></div>
+            </div>
+          </div>
+          <div class="st-cols">
+            <div class="st-col">
+              <h3>Mirrors</h3>
+              <div id="st-mirror"></div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Undo</h2>
+          <p class="st-line" id="st-undo-line"></p>
+          <div class="st-tiles" id="st-undo"></div>
+        </section>
+
+        <section>
+          <h2>Most placed units</h2>
+          <p class="st-line" id="st-units-line"></p>
+          <p class="note">
+            Every unit put on a map, by its type. A move or a change of
+            properties isn't a placement; a paste is.
+          </p>
+          <div class="st-cols" id="st-units"></div>
+        </section>
+
+        <section>
+          <h2>Keyboard or mouse</h2>
+          <p class="st-line" id="st-keys-line"></p>
+          <div id="st-keys"></div>
+        </section>
+
+        <section>
+          <h2>Dialogs</h2>
+          <p class="st-line" id="st-dialogs-line"></p>
+          <div id="st-dialogs"></div>
+        </section>
+
+        <section>
+          <h2>When people map</h2>
+          <p class="st-line" id="st-hours-line"></p>
+          <p class="note">People editing in each hour of the day.</p>
+          <div id="st-hours"></div>
+        </section>
+
+        <section>
+          <h2>Formats</h2>
+          <div class="st-cols">
+            <div class="st-col">
+              <h3>Map versions</h3>
+              <div id="st-versions"></div>
+            </div>
+            <div class="st-col">
+              <h3>Files opened</h3>
+              <div id="st-exts"></div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Languages and plugins</h2>
+          <div class="st-cols">
+            <div class="st-col">
+              <h3>The editor's language</h3>
+              <div id="st-languages"></div>
+            </div>
+            <div class="st-col">
+              <h3>Plugins running</h3>
+              <div id="st-plugins"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <a href="https://github.com/scm-js/scm-js">GitHub</a>
+      <a href="https://github.com/scm-js/scm-js/releases">Releases</a>
+      <a href="https://docs.scmjs.dev/api/">Plugin API</a>
+      <a href="https://github.com/scm-js/scm-js/issues">Report a bug</a>
+      <span class="dim"
+        >MIT. Not affiliated with or endorsed by Blizzard Entertainment.</span
+      >
+      <a href="/stats/">Stats</a>
+      <a href="/privacy.html">Privacy</a>
+      <span class="dim">Visits are counted with Cloudflare Web Analytics, without cookies.</span>
+    </footer>
+
+    <script src="/stats/names.js"></script>
+    <script src="/stats/stats.js"></script>
+  </body>
+</html>
