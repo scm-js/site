@@ -374,7 +374,8 @@
     tiles.appendChild(tile(T.tiles.people, count(w.people)));
     tiles.appendChild(tile(T.tiles.made, w.totals.made == null ? null : count(w.totals.made)));
     tiles.appendChild(tile(T.tiles.opened, w.totals.opened == null ? null : count(w.totals.opened)));
-    tiles.appendChild(tile(T.tiles.units, count(w.units.total)));
+    // Below the threshold the server sends 0 and no breakdown: not enough people yet, not none.
+    tiles.appendChild(tile(T.tiles.units, w.units.total > 0 ? count(w.units.total) : null));
     tiles.appendChild(tile(T.tiles.tested, w.totals.tested == null ? null : count(w.totals.tested)));
     tiles.appendChild(tile(T.tiles.replays, w.totals.replays == null ? null : count(w.totals.replays)));
 
