@@ -1,0 +1,189 @@
+/* The top bar, on every page of scmjs.dev: the mark, the three doors (Editor, Play, Replays), the
+   site's own links, and the two live items header.js adds (the game data this browser holds, and
+   the account). A file of its own because the play page at /play/ loads it too, without the rest
+   of the site's stylesheet: every colour here falls back to its own value, and nothing outside
+   .topbar is styled. */
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 0 24px;
+  height: 52px;
+  /* The editor's own menu bar: raised a step above the page, a dark hairline under it and a
+     highlight along the top edge. Translucent because it is sticky; the solid colour is for a
+     browser with no backdrop-filter. */
+  background: var(--bg-2, #191d25);
+  background: rgba(25, 29, 37, 0.82);
+  backdrop-filter: blur(12px) saturate(130%);
+  -webkit-backdrop-filter: blur(12px) saturate(130%);
+  border-bottom: 1px solid var(--bg-0, #0a0c10);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.045) inset;
+  color: var(--text-dim, #99a2b3);
+  font: 13.5px/1.4 var(--font-ui, "Inter", "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif);
+  text-align: left;
+}
+.topbar *, .topbar *::before, .topbar *::after { box-sizing: border-box; }
+.topbar a { color: var(--text-dim, #99a2b3); text-decoration: none; }
+.topbar a:hover { color: var(--text, #dde2ea); text-decoration: none; }
+
+.topbar-mark {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #ff5fa2 !important;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+.topbar-mark span span { color: var(--text, #dde2ea); }
+
+/* The doors: what a visitor came to do. The one the page belongs to is gold. */
+.topbar-doors { display: flex; align-items: center; gap: 2px; }
+.topbar-doors a {
+  padding: 6px 12px;
+  border-radius: 3px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.topbar-doors a:hover { background: rgba(255, 255, 255, 0.04); }
+.topbar-doors a.is-here,
+.topbar-doors a.is-here:hover { color: var(--gold, #e6b95c); background: rgba(230, 185, 92, 0.1); }
+
+.topbar-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-left: auto;
+}
+.topbar-links a.is-here { color: var(--gold, #e6b95c); }
+
+/* The two live items header.js puts in the bar. Neither is in the HTML, so a page without the
+   script has neither. */
+.topbar-links a.topbar-data {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 10px;
+  border: 1px solid var(--border-strong, #3b4453);
+  border-radius: 999px;
+  font-size: 12.5px;
+  white-space: nowrap;
+}
+.topbar-data-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--text-faint, #5d6675); }
+.topbar-data[data-state="download"] .topbar-data-dot { background: var(--teal, #4fd1c5); }
+.topbar-data[data-state="own"] .topbar-data-dot { background: var(--gold, #e6b95c); }
+.topbar-links a.topbar-data[data-state="own"] { color: var(--text, #dde2ea); }
+
+.topbar-account { position: relative; }
+.topbar-account-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 190px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text-dim, #99a2b3);
+  font: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.topbar-account-button:hover,
+.topbar-account-button[aria-expanded="true"] { color: var(--text, #dde2ea); }
+/* Signed in: the account as a chip, its first letter in the mark's colours. */
+.topbar-account-button.is-in {
+  padding: 3px 11px 3px 3px;
+  border: 1px solid var(--border-strong, #3b4453);
+  border-radius: 999px;
+  background: var(--bg-3, #222732);
+  color: var(--text, #dde2ea);
+}
+.topbar-account-initial {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff5fa2, #a06cf0);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+}
+.topbar-account-name { overflow: hidden; text-overflow: ellipsis; }
+.topbar-account-menu {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  z-index: 20;
+  min-width: 190px;
+  padding: 6px;
+  border: 1px solid var(--border-strong, #3b4453);
+  border-radius: 3px;
+  background: var(--bg-2, #191d25);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+.topbar-account-menu[hidden], .topbar-account-menu:empty { display: none; }
+.topbar-account-item {
+  display: block;
+  width: 100%;
+  padding: 7px 10px;
+  border: 0;
+  border-radius: 3px;
+  background: none;
+  color: var(--text, #dde2ea) !important;
+  font: inherit;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.topbar-account-item:hover { background: var(--bg-4, #2b313e); }
+.topbar-account-note {
+  margin: 4px 0 0;
+  padding: 7px 10px;
+  max-width: 240px;
+  color: var(--text-dim, #99a2b3);
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+
+/* The way into the editor, where it has always been: the bar's right end, in gold. The Editor door
+   says the same; this is for whoever comes back looking for the button. */
+.topbar-links a.topbar-cta {
+  padding: 6px 14px;
+  white-space: nowrap;
+  border: 1px solid var(--gold-dim, #a9853c);
+  border-radius: 3px;
+  background: rgba(230, 185, 92, 0.1);
+  color: var(--gold, #e6b95c);
+}
+.topbar-links a.topbar-cta:hover { background: rgba(230, 185, 92, 0.18); color: var(--gold, #e6b95c); }
+
+/* The language switch: the other language's own name, never a flag (flag emoji show as bare
+   letters on Windows, and English has no one flag). */
+.topbar-links a.lang-switch { padding-left: 16px; border-left: 1px solid var(--border-strong, #3b4453); }
+
+/* Narrower than the bar's full row: the site's own links go first (they are in the footer too),
+   then the data item shrinks to its dot. The doors stay at every width. */
+@media (max-width: 1100px) {
+  .topbar-links a.topbar-more { display: none; }
+}
+@media (max-width: 760px) {
+  /* The Editor door is right there in the bar. */
+  .topbar-links a.topbar-cta { display: none; }
+}
+@media (max-width: 620px) {
+  .topbar { gap: 8px; padding: 0 12px; }
+  .topbar-links { gap: 12px; font-size: 13px; }
+  .topbar-mark > span { display: none; }
+  .topbar-doors a { padding: 6px 8px; }
+  .topbar-data-label { display: none; }
+  .topbar-links a.topbar-data { padding: 6px; }
+  .topbar-links a.lang-switch { padding-left: 12px; }
+  .topbar-account-name { max-width: 84px; }
+}

@@ -16,6 +16,7 @@
     <script src="header.js" defer></script>
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="header.css" />
     <meta property="og:title" content="scmJS plugins" />
     <meta
       property="og:description"
@@ -37,21 +38,22 @@
   </head>
   <body>
     <!-- Shared with index.html and the two ko/ pages; keep the four in step. -->
-    <nav class="topbar">
+    <nav class="topbar" data-here="">
       <a class="topbar-mark" href="/">
         <img src="logo.svg" alt="" width="22" height="22" />
         <span>scm<span>JS</span></span>
       </a>
+      <div class="topbar-doors">
+        <a href="/editor/" data-door="editor">Editor</a>
+        <a href="/play/" data-door="play">Play</a>
+        <a href="/replay/" data-door="replays">Replays</a>
+      </div>
       <div class="topbar-links">
-        <a href="index.html#download">Download</a>
-        <a class="is-here" href="plugins.html">Plugins</a>
-        <a href="https://docs.scmjs.dev">Docs</a>
-        <a class="topbar-github" href="https://github.com/scm-js/scm-js">GitHub</a>
-        <a class="topbar-issues" href="https://github.com/scm-js/scm-js/issues">Issues</a>
+        <a class="topbar-more is-here" href="/plugins.html">Plugins</a>
+        <a class="topbar-more" href="https://docs.scmjs.dev">Docs</a>
+        <a class="topbar-more" href="/#download">Download</a>
         <a class="lang-switch" href="/ko/plugins.html" lang="ko" hreflang="ko" data-lang="ko">한국어</a>
-        <a class="topbar-cta" href="/editor/"
-          >Open the editor</a
-        >
+        <a class="topbar-cta" href="/editor/">Open the editor</a>
       </div>
     </nav>
 

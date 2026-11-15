@@ -1,13 +1,21 @@
 /*
- * The top bar's two live items: what game data this browser holds, and the scmjs.dev
- * account. Both are optional — every page reads correctly without this file, and each item
- * simply stays out of the bar when what it needs is missing.
+ * The top bar, on every page of the site and on the play page at /play/.
+ *
+ * The site's own pages write the bar's fixed part in their HTML (the mark, the three doors, the
+ * site's links), so it reads without this file. A page that leaves the bar empty,
+ * `<nav class="topbar" data-here="play"></nav>`, has it built here: that is how the play page,
+ * which is built and deployed apart from the site, carries the same bar. `data-here` names the
+ * door the page belongs to ("editor", "play", "replays", or nothing).
+ *
+ * Then the two live items, on every page. Both are optional: each simply stays out of the bar
+ * when what it needs is missing.
  *
  * The site and the editor (scmjs.dev/editor/) are one origin, so what the editor keeps is
  * here to read:
  *
  *  - Game data is in the browser's private file storage: `gamedata/stamp.json` for the
- *    game's own files, `gamedata-profiles/<id>/stamp.json` for a set kept beside them. A
+ *    game's own files, `gamedata-profiles/<id>/stamp.json` for a set kept beside them, and
+ *    `game-archives/stamp.json` for the archives the play page keeps. A
  *    stamp says where a copy came from, which is all the label needs (the editor's
  *    `gamedata/copies.ts` is the same rule — keep the two in step). The item links to the
  *    editor's Game Data page, where copies are added and removed. Nothing is read but the
@@ -16,21 +24,33 @@
  *    here is the plugin's own flow (a popup the server points at the provider, which posts
  *    the session back) and writes the session where the plugin reads it, so the editor is
  *    signed in too. Signing out clears it for both.
+ *
+ * What the site's other scripts need of the account is on `window.scmjsSite`: `call(path)`
+ * asks the server as whoever is signed in, `bytes(path)` fetches a file the same way, and
+ * `account` is the signed-in account or null. A page hears a change as the `scmjs:account`
+ * event on `document`.
  */
 (function () {
-  var bar = document.querySelector(".topbar-links");
-  if (!bar) return;
+  var nav = document.querySelector(".topbar");
+  if (!nav) return;
   var ko = document.documentElement.lang === "ko";
   var T = ko
     ? {
         none: "게임 데이터 없음",
-        download: "에디터 그래픽",
+        graphics: "에디터 그래픽",
         classic: "스타크래프트 1.16",
         remastered: "스타크래프트: 리마스터",
         both: "스타크래프트 1.16 + 리마스터",
         noneTitle: "이 브라우저에 스타크래프트 파일이 없습니다. 추가하려면 누르세요.",
         downloadTitle: "블리자드의 무료 다운로드로 받은 에디터용 그래픽입니다. 관리하려면 누르세요.",
         ownTitle: "가지고 계신 스타크래프트에서 가져온 파일이 이 브라우저에 있습니다. 관리하려면 누르세요.",
+        editor: "에디터",
+        play: "플레이",
+        replays: "리플레이",
+        plugins: "플러그인",
+        docs: "문서",
+        download: "다운로드",
+        library: "보관함",
         signIn: "로그인",
         signInWith: "{name}(으)로 로그인",
         account: "계정",
@@ -41,13 +61,20 @@
       }
     : {
         none: "No game data",
-        download: "Editor graphics",
+        graphics: "Editor graphics",
         classic: "StarCraft 1.16",
         remastered: "StarCraft: Remastered",
         both: "StarCraft 1.16 + Remastered",
         noneTitle: "This browser holds none of StarCraft's files. Click to add them.",
         downloadTitle: "The editor's graphics, from Blizzard's free download. Click to manage them.",
         ownTitle: "Files from your own StarCraft are kept in this browser. Click to manage them.",
+        editor: "Editor",
+        play: "Play",
+        replays: "Replays",
+        plugins: "Plugins",
+        docs: "Docs",
+        download: "Download",
+        library: "Library",
         signIn: "Sign in",
         signInWith: "Sign in with {name}",
         account: "Account",
@@ -56,6 +83,47 @@
         blocked: "The browser blocked the sign-in window. Allow popups for this site and try again.",
         failed: "The sign-in did not go through. Try again in a moment.",
       };
+
+  function el(tag, cls, text, href) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text) e.textContent = text;
+    if (href) e.href = href;
+    return e;
+  }
+  /* The fixed part, for a page that leaves the bar empty. The same markup the site's pages write. */
+  if (!nav.querySelector(".topbar-links")) {
+    var home = ko ? "/ko/" : "/";
+    var mark = nav.appendChild(el("a", "topbar-mark", "", home));
+    var img = mark.appendChild(document.createElement("img"));
+    img.src = "/logo.svg";
+    img.alt = "";
+    img.width = img.height = 22;
+    var word = mark.appendChild(el("span", "", "scm"));
+    word.appendChild(el("span", "", "JS"));
+    var doors = nav.appendChild(el("div", "topbar-doors"));
+    doors.appendChild(el("a", "", T.editor, "/editor/")).setAttribute("data-door", "editor");
+    doors.appendChild(el("a", "", T.play, "/play/")).setAttribute("data-door", "play");
+    doors.appendChild(el("a", "", T.replays, "/replay/")).setAttribute("data-door", "replays");
+    var links = nav.appendChild(el("div", "topbar-links"));
+    links.appendChild(el("a", "topbar-more", T.plugins, ko ? "/ko/plugins.html" : "/plugins.html"));
+    links.appendChild(el("a", "topbar-more", T.docs, "https://docs.scmjs.dev"));
+    links.appendChild(el("a", "topbar-more", T.download, home + "#download"));
+  }
+  var here = nav.getAttribute("data-here");
+  var door = here && nav.querySelector('.topbar-doors [data-door="' + here + '"]');
+  if (door) {
+    door.classList.add("is-here");
+    door.setAttribute("aria-current", "page");
+  }
+  var bar = nav.querySelector(".topbar-links");
+  nav.setAttribute("data-ready", "");
+
+  var site = (window.scmjsSite = window.scmjsSite || {});
+  site.account = null;
+  function tell() {
+    document.dispatchEvent(new CustomEvent("scmjs:account", { detail: { account: site.account } }));
+  }
 
   var before = bar.querySelector(".lang-switch") || bar.querySelector(".topbar-cta");
   function add(el) {
@@ -120,7 +188,19 @@
           return next();
         })
         .catch(function () {});
-      return Promise.all([own, sets]).then(function () { return kinds; });
+      // The play page's own copy: the 1.16.1 archives it keeps whole for the game to run from.
+      // Its stamp lists the files with their sizes, and the free download's two archives are
+      // known by theirs (the play page's `ownFiles.ts`, STAREDIT_SIZES: keep the two in step).
+      var played = root
+        .getDirectoryHandle("game-archives")
+        .then(stampIn)
+        .then(function (s) {
+          if (!s) return;
+          var sizes = (s.files || []).map(function (f) { return f.bytes; });
+          kinds.push(sizes.indexOf(66927148) >= 0 && sizes.indexOf(21786162) >= 0 ? "download" : "classic");
+        })
+        .catch(function () {});
+      return Promise.all([own, sets, played]).then(function () { return kinds; });
     });
   }
 
@@ -135,7 +215,7 @@
     a.setAttribute("data-state", state);
     a.title = state === "own" ? T.ownTitle : state === "download" ? T.downloadTitle : T.noneTitle;
     a.appendChild(make("span", "topbar-data-dot"));
-    a.appendChild(make("span", "topbar-data-label", state === "own" ? (own.length > 1 ? T.both : own[0]) : state === "download" ? T.download : T.none));
+    a.appendChild(make("span", "topbar-data-label", state === "own" ? (own.length > 1 ? T.both : own[0]) : state === "download" ? T.graphics : T.none));
     // Before the account, whichever of the two is ready first.
     bar.insertBefore(a, bar.querySelector(".topbar-account") || before);
   }
@@ -185,7 +265,22 @@
     });
   }
 
-  if (settings() === null) return;
+  site.call = call;
+  /** A file from the server, as whoever is signed in: its bytes and the name the server gives it. */
+  site.bytes = function (path) {
+    var s = settings();
+    var headers = {};
+    if (s && s.session) headers.Authorization = "Bearer " + s.session;
+    return fetch(server() + path, { headers: headers }).then(function (res) {
+      if (!res.ok) throw new Error(String(res.status));
+      var named = /filename\*=UTF-8''([^;]+)/.exec(res.headers.get("content-disposition") || "");
+      return res.arrayBuffer().then(function (b) {
+        return { bytes: new Uint8Array(b), name: named ? decodeURIComponent(named[1]) : "" };
+      });
+    });
+  };
+
+  if (settings() === null) { tell(); return; }
 
   var wrap = add(make("div", "topbar-account"));
   var button = wrap.appendChild(make("button", "topbar-account-button"));
@@ -220,9 +315,12 @@
   var listed = false; // the sign-in menu has been asked for
   function signedOut() {
     signedInNow = false;
+    site.account = null;
+    button.className = "topbar-account-button";
     button.textContent = T.signIn;
     menu.textContent = "";
     listed = false;
+    tell();
   }
   /*
    * The server is asked which sign-ins it offers only when somebody goes for the button
@@ -250,13 +348,20 @@
 
   function signedIn(account) {
     signedInNow = true;
-    button.textContent = account.name || T.account;
+    site.account = account;
+    var name = account.name || T.account;
+    button.className = "topbar-account-button is-in";
+    button.textContent = "";
+    button.appendChild(make("span", "topbar-account-initial", name.charAt(0).toUpperCase()));
+    button.appendChild(make("span", "topbar-account-name", name));
     menu.textContent = "";
+    item("a", T.library).href = "/library";
     var page = item("a", T.accountPage);
     page.href = server() + "/account";
     page.target = "_blank";
     page.rel = "noopener";
     askInfo().then(function (i) { if (i.accounts && i.accounts.accountUrl) page.href = i.accounts.accountUrl; }, function () {});
+    tell();
     item("button", T.signOut).addEventListener("click", function () {
       call("/v1/auth/logout", { method: "POST", json: {} }).catch(function () {});
       keep({ session: "" });

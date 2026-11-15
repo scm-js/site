@@ -1,7 +1,8 @@
 # scmjs.dev
 
-The landing page for [scmJS](https://github.com/scm-js/scm-js): the logo, the buttons that
-open the editor and the nightly, the download list, the plugin list and the privacy page.
+The site around [scmJS](https://github.com/scm-js/scm-js): the home page with its three doors
+(the editor, the game at `/play/`, replay analysis at `/replay/`) and the place to drop a map or
+a replay, the account's library, the download list, the plugin list and the privacy page.
 There is no build step. What is committed is what is served.
 
 | File | What it is |
@@ -16,7 +17,10 @@ There is no build step. What is committed is what is served.
 | `favicon.svg` | the same mark with a square behind it |
 | `images/` | `editor.webp`, the editor picture from the guide, and `og.jpg`, the 1200×630 link preview |
 | `ko/` | the Korean copies of `index.html`, `plugins.html` and `stats/index.html` (see below) |
-| `header.js` | the top bar's two live items: which game data this browser holds, and the scmjs.dev account |
+| `library.html`, `library.js` | the signed-in account's maps and replays, each with buttons that open it in the editor, the game or the replay analysis |
+| `replay.html` | the Replays page (served at `/replay/`): where a replay is dropped, and the account's replays |
+| `open.js` | the drop zone, the sheet that asks what to do with a dropped file, and the hand-over of the file to the editor or the play page in a new tab |
+| `header.js`, `header.css` | the top bar: the three doors, and its two live items (which game data this browser holds, and the scmjs.dev account). The play page loads both files too and has its bar built by the script |
 | `lang.js` | remembers the language picked in the top bar, and offers the Korean page once to a browser that asks for Korean |
 | `scripts/check-translations.mjs` | checks each Korean page against its English one |
 | `robots.txt`, `sitemap.xml` | for search engines |
