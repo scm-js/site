@@ -117,7 +117,7 @@
     locations: ["Locations", "로케이션"], fog: ["Fog of War", "전장의 안개"], clipboard: ["Cut / Copy / Paste", "잘라내기 / 복사 / 붙여넣기"],
     triggers: ["Triggers", "트리거"], settings: ["Settings", "설정"],
   };
-  var MODES = { isom: ["Isometric", "아이소메트릭"], rect: ["Rectangular", "사각형"], tile: ["Tile", "타일"], blend: ["Blend", "블렌드"] };
+  var MODES = { isom: ["Isometric", "아이소메트릭"], rect: ["Rectangular", "사각형"], tile: ["Tile", "타일"], blend: ["Blend", "블렌드"], heal: ["Heal", "보정"], pin: ["Pin", "고정"] };
   var MIRRORS = {
     h: ["Left ↔ right", "왼쪽 ↔ 오른쪽"], v: ["Top ↔ bottom", "위 ↔ 아래"], hv: ["Four-way mirror", "4방향 대칭"], rot180: ["Turn 180°", "180° 회전"],
     rot90: ["Turn 90°", "90° 회전"], diag: ["Diagonal", "대각선"], adiag: ["Anti-diagonal", "반대 대각선"],
