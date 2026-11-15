@@ -16,6 +16,7 @@
     <script src="../header.js" defer></script>
     <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="../header.css" />
     <meta property="og:title" content="scmJS 플러그인" />
     <meta
       property="og:description"
@@ -38,21 +39,22 @@
   <body>
     <!-- The Korean copy of plugins.html. Shared with index.html, plugins.html and ko/index.html;
          keep the four in step. -->
-    <nav class="topbar">
-      <a class="topbar-mark" href="./">
+    <nav class="topbar" data-here="">
+      <a class="topbar-mark" href="/ko/">
         <img src="../logo.svg" alt="" width="22" height="22" />
         <span>scm<span>JS</span></span>
       </a>
+      <div class="topbar-doors">
+        <a href="/editor/" data-door="editor">에디터</a>
+        <a href="/play/" data-door="play">플레이</a>
+        <a href="/replay/" data-door="replays">리플레이</a>
+      </div>
       <div class="topbar-links">
-        <a href="./#download">다운로드</a>
-        <a class="is-here" href="plugins.html">플러그인</a>
-        <a href="https://docs.scmjs.dev">문서</a>
-        <a class="topbar-github" href="https://github.com/scm-js/scm-js">GitHub</a>
-        <a class="topbar-issues" href="https://github.com/scm-js/scm-js/issues">이슈</a>
+        <a class="topbar-more is-here" href="/ko/plugins.html">플러그인</a>
+        <a class="topbar-more" href="https://docs.scmjs.dev">문서</a>
+        <a class="topbar-more" href="/ko/#download">다운로드</a>
         <a class="lang-switch" href="/plugins.html" lang="en" hreflang="en" data-lang="en">English</a>
-        <a class="topbar-cta" href="/editor/"
-          >에디터 열기</a
-        >
+        <a class="topbar-cta" href="/editor/">에디터 열기</a>
       </div>
     </nav>
 

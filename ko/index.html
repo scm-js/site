@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>scmJS — 브라우저와 Windows, macOS, Linux에서 쓰는 스타크래프트: 브루드 워 맵 에디터</title>
+    <title>scmJS — 브라우저에서 쓰는 스타크래프트: 브루드 워 맵 에디터, 게임, 리플레이 분석</title>
     <meta
       name="description"
       content="브라우저와 Windows, macOS, Linux에서 실행되는 무료 오픈 소스 스타크래프트·브루드 워 맵 에디터입니다. 보호된 맵을 포함해 .scm, .scx, .chk 파일을 열고, 게임에서 플레이할 수 있는 맵으로 저장합니다."
@@ -14,8 +14,10 @@
     <link rel="alternate" hreflang="x-default" href="https://scmjs.dev/" />
     <script src="../lang.js" defer></script>
     <script src="../header.js" defer></script>
+    <script src="../open.js" defer></script>
     <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="../header.css" />
     <script src="../globe.js" defer></script>
     <meta property="og:site_name" content="scmJS" />
     <meta property="og:title" content="scmJS — 스타크래프트: 브루드 워 맵 에디터" />
@@ -59,21 +61,22 @@
   <body>
     <!-- The Korean copy of index.html: the same markup, links and file names, the words in
          Korean. Shared with index.html, plugins.html and ko/plugins.html; keep the four in step. -->
-    <nav class="topbar">
-      <a class="topbar-mark" href="./">
+    <nav class="topbar" data-here="">
+      <a class="topbar-mark" href="/ko/">
         <img src="../logo.svg" alt="" width="22" height="22" />
         <span>scm<span>JS</span></span>
       </a>
+      <div class="topbar-doors">
+        <a href="/editor/" data-door="editor">에디터</a>
+        <a href="/play/" data-door="play">플레이</a>
+        <a href="/replay/" data-door="replays">리플레이</a>
+      </div>
       <div class="topbar-links">
-        <a href="#download">다운로드</a>
-        <a href="plugins.html">플러그인</a>
-        <a href="https://docs.scmjs.dev">문서</a>
-        <a class="topbar-github" href="https://github.com/scm-js/scm-js">GitHub</a>
-        <a class="topbar-issues" href="https://github.com/scm-js/scm-js/issues">이슈</a>
+        <a class="topbar-more" href="/ko/plugins.html">플러그인</a>
+        <a class="topbar-more" href="https://docs.scmjs.dev">문서</a>
+        <a class="topbar-more" href="/ko/#download">다운로드</a>
         <a class="lang-switch" href="/" lang="en" hreflang="en" data-lang="en">English</a>
-        <a class="topbar-cta" href="/editor/"
-          >에디터 열기</a
-        >
+        <a class="topbar-cta" href="/editor/">에디터 열기</a>
       </div>
     </nav>
     <canvas class="stars" id="stars" hidden aria-hidden="true"></canvas>
@@ -91,51 +94,156 @@
       <p class="wordmark">scm<span>JS</span></p>
 
       <h1 class="tagline">
-        브라우저와 Windows, macOS, Linux에서 쓰는 스타크래프트: 브루드 워 맵 에디터.
+        브라우저 탭에서 만나는 스타크래프트: 브루드 워. 맵 에디터, 게임, 그리고
+        리플레이 분석.
       </h1>
       <div class="rule"></div>
       <p class="sub">
-        scmJS는 TypeScript로 작성된 무료 오픈 소스 스타크래프트 1 맵
-        에디터입니다. 브루드 워와 스타크래프트: 리마스터의
-        <code>.scm</code>, <code>.scx</code>, <code>.chk</code> 맵을 보호된
-        맵까지 포함해 브라우저 탭이나 데스크톱 앱에서 열고, 편집하고, 저장할 수
-        있습니다.
+        무료 오픈 소스이며, 브라우저에서 또는 Windows, macOS, Linux용 데스크톱
+        앱으로 쓸 수 있습니다. 게임 데이터는 들어 있지 않습니다. 에디터는
+        블리자드의 무료 다운로드에서 그래픽을 받아 올 수 있고, 플레이하려면
+        가지고 계신 스타크래프트가 필요합니다.
       </p>
 
-      <div class="launch">
-        <a class="btn primary" href="/editor/">
-          <span class="btn-main">에디터 열기</span>
-          <span class="btn-note" id="stable-note">최신 정식 릴리스</span>
-        </a>
-        <a class="btn" href="https://scmjs.dev/nightly/">
-          <span class="btn-main">나이틀리 열기</span>
-          <span class="btn-note" id="nightly-note"
-            >main 브랜치, 매일 밤 새로 빌드</span
-          >
-        </a>
-      </div>
-
-      <p class="beta">
-        <span class="beta-chip">베타</span>
-        scmJS는 아직 개발 중입니다. 중요한 맵 파일은 편집하기 전에 꼭 백업해
-        두세요.
-      </p>
-
-      <p class="beta bugs">
-        <span class="beta-chip bugs-chip">버그</span>
-        <span>
-          <span class="bugs-lead"
-            ><a href="https://github.com/scm-js/scm-js/issues/new"
-              >이슈 트래커에 신고해 주세요</a
-            >.</span
-          >
-          에디터에서 <strong>도움말 ▸ 버그 신고 내용 복사</strong>를 누르면
-          이슈에 첨부할 로그를 얻을 수 있습니다.
-        </span>
-      </p>
     </header>
 
-    <main>
+    <div class="wide">
+      <section class="doors" aria-label="scmJS로 할 수 있는 일">
+        <article class="door">
+          <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l4.5-1L20 7.5 16.5 4 5 15.5 4 20z"/><path d="M14 6.5l3.5 3.5"/></svg>에디터</h2>
+          <p>브루드 워와 스타크래프트: 리마스터의 맵을 보호된 맵까지 포함해 열고, 편집하고, 저장합니다. 지형, 유닛, 트리거, 그리고 링크 하나로 여럿이 함께 하는 편집.</p>
+          <div class="door-foot">
+            <div class="needs">게임 파일 없이도 됩니다</div>
+            <div class="door-acts">
+              <a class="btn primary" href="/editor/">
+                <span class="btn-main">에디터 열기</span>
+                <span class="btn-note" id="stable-note">최신 정식 릴리스</span>
+              </a>
+            </div>
+          </div>
+        </article>
+        <article class="door">
+          <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 4.5v15l12-7.5-12-7.5z"/></svg>플레이</h2>
+          <p>탭 안에서 돌아가는 게임 그 자체. 맵을 혼자서, 커뮤니티 봇을 상대로, 또는 링크로 다른 사람들과 플레이합니다. 모드는 자기 파일과 코드로 돌아갑니다.</p>
+          <div class="door-foot">
+            <div class="needs own">가지고 계신 스타크래프트가 필요합니다</div>
+            <div class="door-acts">
+              <a class="btn goldline" href="/play/">
+                <span class="btn-main">맵 플레이</span>
+                <span class="btn-note">또는 링크로 게임에 참가</span>
+              </a>
+            </div>
+          </div>
+        </article>
+        <article class="door">
+          <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h18"/><path d="M4 15.5l4.5-5.5 4 3 4-7 3.5 4"/></svg>리플레이</h2>
+          <p>빌드 오더, 전투, 그래프를 게임 화면과 나란히 봅니다. 어느 순간에서든 멈추고, 거기서부터 혼자 또는 봇을 상대로 이어서 플레이할 수 있습니다.</p>
+          <div class="door-foot">
+            <div class="needs">리플레이는 게임 파일 없이도 읽습니다</div>
+            <div class="door-acts">
+              <a class="btn goldline" href="/replay/">
+                <span class="btn-main">리플레이 열기</span>
+                <span class="btn-note">또는 이 페이지 아무 곳에나 놓으세요</span>
+              </a>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <div class="drop" data-drop>
+        <strong>맵이나 리플레이를 여기에 놓으세요</strong>
+        <span class="drop-types"><code>.scm</code> <code>.scx</code> <code>.chk</code> <code>.rep</code></span>
+        <small>
+          파일은 이 브라우저에 머뭅니다. 새 탭의 에디터나 게임으로 넘겨질 뿐,
+          어디에도 업로드되지 않습니다.
+        </small>
+        <div class="drop-acts">
+          <button class="btn goldline mid" type="button" data-open-file>파일 열기…</button>
+          <button class="btn mid" type="button" data-paste-link>링크 붙여 넣기</button>
+        </div>
+      </div>
+      <div class="sheet" data-sheet hidden></div>
+
+      <div class="notices">
+        <p class="beta">
+          <span class="beta-chip">베타</span>
+          scmJS는 아직 개발 중입니다. 중요한 맵 파일은 편집하기 전에 꼭 백업해
+          두세요.
+        </p>
+        <p class="beta bugs">
+          <span class="beta-chip bugs-chip">버그</span>
+          <span>
+            <span class="bugs-lead"
+              ><a href="https://github.com/scm-js/scm-js/issues/new"
+                >이슈 트래커에 신고해 주세요</a
+              >.</span
+            >
+            에디터에서 <strong>도움말 ▸ 버그 신고 내용 복사</strong>를 누르면
+            이슈에 첨부할 로그를 얻을 수 있습니다.
+          </span>
+        </p>
+      </div>
+
+      <section id="also">
+        <h2>이런 것도 있습니다</h2>
+        <div class="also">
+          <div>
+            <h3>TrigScript</h3>
+            <p>트리거를 TypeScript로 작성해 맵에 컴파일합니다. 시뮬레이터, 테스트, 그리고 실제 게임을 한 단계씩 실행하는 디버거가 있습니다.</p>
+            <a href="https://docs.scmjs.dev/trigscript/">TrigScript 안내서</a>
+          </div>
+          <div>
+            <h3>모드</h3>
+            <p>모드는 폴더 하나입니다. 플레이하고, 리플레이를 보고, 데이터와 지형을 편집합니다. <code>scmjs mod</code>가 빌드하고 검사합니다.</p>
+            <a href="https://docs.scmjs.dev/mods/">모드 안내서</a>
+          </div>
+          <div>
+            <h3>봇</h3>
+            <p>커뮤니티 BWAPI 봇을 상대로 플레이하거나, 자신의 봇을 가져오거나, <code>@scm-js/bot</code>으로 JavaScript 봇을 작성합니다.</p>
+            <a href="https://docs.scmjs.dev/bots/">봇 안내서</a>
+          </div>
+          <div>
+            <h3>명령줄</h3>
+            <p><code>npx scmjs</code>로 터미널이나 CI에서 맵을 검사하고, 비교하고, 테스트하고, 공유합니다.</p>
+            <a href="https://docs.scmjs.dev/cli/">명령줄 안내서</a>
+          </div>
+          <div>
+            <h3>플러그인</h3>
+            <p>API 하나로 도구, 패널, 오버레이를 더합니다. 리플레이 분석과 트리거 도구도 플러그인입니다.</p>
+            <a href="plugins.html">플러그인 둘러보기</a>
+          </div>
+          <div>
+            <h3>함께 편집하기</h3>
+            <p>열어 둔 맵을 공유하고 링크를 보내세요. 링크를 연 모두가 같은 맵을 동시에 편집합니다.</p>
+            <a href="https://docs.scmjs.dev/guide/">사용 설명서</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="made">
+        <h2>이것으로 만든 것들</h2>
+        <div class="made">
+          <a href="https://www.youtube.com/watch?v=EbaFmgYyHgU">
+            <img src="../images/showcase-bad-apple.webp" alt="" loading="lazy" />
+            <b>Bad Apple</b>
+            <span>전장의 안개 위에 재생되는 영상</span>
+          </a>
+          <a href="https://www.youtube.com/watch?v=RQ6CvRq9bMA">
+            <img src="../images/showcase-korobeiniki.webp" alt="" loading="lazy" />
+            <b>떨어지는 블록</b>
+            <span>자체 음악이 나오는 블록 게임</span>
+          </a>
+          <a href="https://www.youtube.com/watch?v=CFVdWwmngyw">
+            <img src="../images/showcase-fur-elise.webp" alt="" loading="lazy" />
+            <b>엘리제를 위하여</b>
+            <span>게임의 소리로 연주한 곡</span>
+          </a>
+        </div>
+        <p class="note">모두 TrigScript로 작성한 맵입니다. <a href="https://docs.scmjs.dev/trigscript/showcase/">만든 과정 보기</a>.</p>
+      </section>
+    </div>
+
+    <main class="home">
       <section id="download">
         <h2>다운로드</h2>
         <p class="lede">
@@ -345,7 +453,7 @@
       </section>
 
       <section id="what">
-        <h2>주요 기능</h2>
+        <h2>에디터의 주요 기능</h2>
         <figure class="shot">
           <img
             src="../images/editor.webp"

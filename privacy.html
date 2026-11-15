@@ -11,6 +11,7 @@
     <link rel="canonical" href="https://scmjs.dev/privacy.html" />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="header.css" />
     <meta property="og:title" content="scmJS — privacy" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://scmjs.dev/privacy.html" />
@@ -28,19 +29,21 @@
   </head>
   <body>
     <!-- Shared with index.html; keep the four in step. -->
-    <nav class="topbar">
+    <nav class="topbar" data-here="">
       <a class="topbar-mark" href="/">
         <img src="logo.svg" alt="" width="22" height="22" />
         <span>scm<span>JS</span></span>
       </a>
+      <div class="topbar-doors">
+        <a href="/editor/" data-door="editor">Editor</a>
+        <a href="/play/" data-door="play">Play</a>
+        <a href="/replay/" data-door="replays">Replays</a>
+      </div>
       <div class="topbar-links">
-        <a href="index.html#download">Download</a>
-        <a href="plugins.html">Plugins</a>
-        <a href="https://docs.scmjs.dev">Docs</a>
-        <a href="https://github.com/scm-js/scm-js">GitHub</a>
-        <a class="topbar-cta" href="/editor/"
-          >Open the editor</a
-        >
+        <a class="topbar-more" href="/plugins.html">Plugins</a>
+        <a class="topbar-more" href="https://docs.scmjs.dev">Docs</a>
+        <a class="topbar-more" href="/#download">Download</a>
+        <a class="topbar-cta" href="/editor/">Open the editor</a>
       </div>
     </nav>
 

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>scmJS — StarCraft: Brood War map editor for the browser, Windows, macOS and Linux</title>
+    <title>scmJS — a StarCraft: Brood War map editor, the game and replay analysis, in the browser</title>
     <meta
       name="description"
       content="A free, open source StarCraft and Brood War map editor that runs in the browser and on Windows, macOS and Linux. Opens .scm, .scx and .chk files, including protected maps, and saves maps the game will play."
@@ -14,8 +14,10 @@
     <link rel="alternate" hreflang="x-default" href="https://scmjs.dev/" />
     <script src="lang.js" defer></script>
     <script src="header.js" defer></script>
+    <script src="open.js" defer></script>
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="header.css" />
     <script src="globe.js" defer></script>
     <meta property="og:site_name" content="scmJS" />
     <meta property="og:title" content="scmJS — a StarCraft: Brood War map editor" />
@@ -56,22 +58,25 @@
     <script defer src="/_e.js"></script>
   </head>
   <body>
-    <!-- Shared with plugins.html and the two ko/ pages; keep the four in step. -->
-    <nav class="topbar">
+    <!-- The top bar. Shared with plugins.html, library.html, replay/index.html and the ko/ pages; keep
+         them in step. header.js marks the door named by data-here and adds the game data item
+         and the account. -->
+    <nav class="topbar" data-here="">
       <a class="topbar-mark" href="/">
         <img src="logo.svg" alt="" width="22" height="22" />
         <span>scm<span>JS</span></span>
       </a>
+      <div class="topbar-doors">
+        <a href="/editor/" data-door="editor">Editor</a>
+        <a href="/play/" data-door="play">Play</a>
+        <a href="/replay/" data-door="replays">Replays</a>
+      </div>
       <div class="topbar-links">
-        <a href="#download">Download</a>
-        <a href="plugins.html">Plugins</a>
-        <a href="https://docs.scmjs.dev">Docs</a>
-        <a class="topbar-github" href="https://github.com/scm-js/scm-js">GitHub</a>
-        <a class="topbar-issues" href="https://github.com/scm-js/scm-js/issues">Issues</a>
+        <a class="topbar-more" href="plugins.html">Plugins</a>
+        <a class="topbar-more" href="https://docs.scmjs.dev">Docs</a>
+        <a class="topbar-more" href="#download">Download</a>
         <a class="lang-switch" href="/ko/" lang="ko" hreflang="ko" data-lang="ko">한국어</a>
-        <a class="topbar-cta" href="/editor/"
-          >Open the editor</a
-        >
+        <a class="topbar-cta" href="/editor/">Open the editor</a>
       </div>
     </nav>
     <!-- The splash screen's drifting starfield, across the top of the page behind the mark and
@@ -92,52 +97,157 @@
       <p class="wordmark">scm<span>JS</span></p>
 
       <h1 class="tagline">
-        A StarCraft: Brood War map editor for the browser, Windows, macOS and
-        Linux.
+        StarCraft: Brood War in a browser tab. A map editor, the game, and
+        replay analysis.
       </h1>
       <div class="rule"></div>
       <p class="sub">
-        scmJS is a free, open source StarCraft 1 map editor written in
-        TypeScript. Open, edit and save <code>.scm</code>, <code>.scx</code>
-        and <code>.chk</code> maps for Brood War and StarCraft: Remastered,
-        including protected ones, in a browser tab or as a desktop app.
+        Free and open source, in the browser or as a desktop app for Windows,
+        macOS and Linux. It ships no game data: the editor can fetch its
+        graphics from Blizzard's free download, and playing requires your own
+        StarCraft.
       </p>
 
-      <div class="launch">
-        <a class="btn primary" href="/editor/">
-          <span class="btn-main">Open the editor</span>
-          <span class="btn-note" id="stable-note"
-            >the newest numbered release</span
-          >
-        </a>
-        <a class="btn" href="https://scmjs.dev/nightly/">
-          <span class="btn-main">Open the nightly</span>
-          <span class="btn-note" id="nightly-note"
-            >main, rebuilt each night</span
-          >
-        </a>
-      </div>
-
-      <p class="beta">
-        <span class="beta-chip">Beta</span>
-        scmJS is still under development. Back up any map you care about
-        before you edit it.
-      </p>
-
-      <p class="beta bugs">
-        <span class="beta-chip bugs-chip">Bug?</span>
-        <span>
-          <span class="bugs-lead"
-            ><a href="https://github.com/scm-js/scm-js/issues/new"
-              >Report it on the issue tracker</a
-            >.</span
-          >
-          In the editor, use <strong>Help ▸ Copy Bug Report</strong> to get a log to attach to the issue.
-        </span>
-      </p>
     </header>
 
-    <main>
+    <div class="wide">
+      <section class="doors" aria-label="What scmJS does">
+        <article class="door">
+          <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l4.5-1L20 7.5 16.5 4 5 15.5 4 20z"/><path d="M14 6.5l3.5 3.5"/></svg>Editor</h2>
+          <p>Open, edit and save maps for Brood War and StarCraft: Remastered, protected ones included. Terrain, units, triggers, and editing a map together by a link.</p>
+          <div class="door-foot">
+            <div class="needs">Works without your game files</div>
+            <div class="door-acts">
+              <a class="btn primary" href="/editor/">
+                <span class="btn-main">Open the editor</span>
+                <span class="btn-note" id="stable-note">the newest numbered release</span>
+              </a>
+            </div>
+          </div>
+        </article>
+        <article class="door">
+          <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 4.5v15l12-7.5-12-7.5z"/></svg>Play</h2>
+          <p>The game itself, in a tab. Play a map alone, against community bots, or with other people by a link. A mod runs with its own files and code.</p>
+          <div class="door-foot">
+            <div class="needs own">Requires your own StarCraft</div>
+            <div class="door-acts">
+              <a class="btn goldline" href="/play/">
+                <span class="btn-main">Play a map</span>
+                <span class="btn-note">or join a game by its link</span>
+              </a>
+            </div>
+          </div>
+        </article>
+        <article class="door">
+          <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h18"/><path d="M4 15.5l4.5-5.5 4 3 4-7 3.5 4"/></svg>Replays</h2>
+          <p>Build orders, fights and graphs beside the game's own picture. Stop at any moment and play on from there, alone or against a bot.</p>
+          <div class="door-foot">
+            <div class="needs">Reads a replay without game files</div>
+            <div class="door-acts">
+              <a class="btn goldline" href="/replay/">
+                <span class="btn-main">Open a replay</span>
+                <span class="btn-note">or drop one anywhere on this page</span>
+              </a>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- open.js: a dropped file is named on the sheet, which asks what to do with it. Without
+           the script the doors below are the way in. -->
+      <div class="drop" data-drop>
+        <strong>Drop a map or a replay</strong>
+        <span class="drop-types"><code>.scm</code> <code>.scx</code> <code>.chk</code> <code>.rep</code></span>
+        <small>
+          The file stays in this browser: it is handed to the editor or the
+          game in a tab of its own, and nothing is uploaded.
+        </small>
+        <div class="drop-acts">
+          <button class="btn goldline mid" type="button" data-open-file>Open a file…</button>
+          <button class="btn mid" type="button" data-paste-link>Paste a link</button>
+        </div>
+      </div>
+      <div class="sheet" data-sheet hidden></div>
+
+      <div class="notices">
+        <p class="beta">
+          <span class="beta-chip">Beta</span>
+          scmJS is still under development. Back up any map you care about
+          before you edit it.
+        </p>
+        <p class="beta bugs">
+          <span class="beta-chip bugs-chip">Bug?</span>
+          <span>
+            <span class="bugs-lead"
+              ><a href="https://github.com/scm-js/scm-js/issues/new"
+                >Report it on the issue tracker</a
+              >.</span
+            >
+            In the editor, use <strong>Help ▸ Copy Bug Report</strong> to get a log to attach to the issue.
+          </span>
+        </p>
+      </div>
+
+      <section id="also">
+        <h2>Also here</h2>
+        <div class="also">
+          <div>
+            <h3>TrigScript</h3>
+            <p>Triggers written as TypeScript and compiled into the map, with a simulator, tests and a debugger that steps the real game.</p>
+            <a href="https://docs.scmjs.dev/trigscript/">The TrigScript guide</a>
+          </div>
+          <div>
+            <h3>Mods</h3>
+            <p>A mod is a folder. Play it, watch its replays, and edit its data and terrain; <code>scmjs mod</code> builds and checks it.</p>
+            <a href="https://docs.scmjs.dev/mods/">The mods guide</a>
+          </div>
+          <div>
+            <h3>Bots</h3>
+            <p>Play against community BWAPI bots, bring your own, or write one in JavaScript with <code>@scm-js/bot</code>.</p>
+            <a href="https://docs.scmjs.dev/bots/">The bots guide</a>
+          </div>
+          <div>
+            <h3>Command line</h3>
+            <p><code>npx scmjs</code> checks, diffs, tests and shares maps from a terminal or from CI.</p>
+            <a href="https://docs.scmjs.dev/cli/">The command line guide</a>
+          </div>
+          <div>
+            <h3>Plugins</h3>
+            <p>Tools, panels and overlays through one API. The replay analysis and the trigger tools are plugins themselves.</p>
+            <a href="plugins.html">Browse plugins</a>
+          </div>
+          <div>
+            <h3>Editing together</h3>
+            <p>Share the map you have open and send the link. Everyone who opens it edits the same map at the same time.</p>
+            <a href="https://docs.scmjs.dev/guide/">The user guide</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="made">
+        <h2>Made with it</h2>
+        <div class="made">
+          <a href="https://www.youtube.com/watch?v=EbaFmgYyHgU">
+            <img src="images/showcase-bad-apple.webp" alt="" loading="lazy" />
+            <b>Bad Apple</b>
+            <span>A video played on the fog of war</span>
+          </a>
+          <a href="https://www.youtube.com/watch?v=RQ6CvRq9bMA">
+            <img src="images/showcase-korobeiniki.webp" alt="" loading="lazy" />
+            <b>Falling blocks</b>
+            <span>A block game with its own music</span>
+          </a>
+          <a href="https://www.youtube.com/watch?v=CFVdWwmngyw">
+            <img src="images/showcase-fur-elise.webp" alt="" loading="lazy" />
+            <b>Für Elise</b>
+            <span>A piece played on the game's sounds</span>
+          </a>
+        </div>
+        <p class="note">Each is a map written in TrigScript. <a href="https://docs.scmjs.dev/trigscript/showcase/">How they were made</a>.</p>
+      </section>
+    </div>
+
+    <main class="home">
       <section id="download">
         <h2>Downloads</h2>
         <p class="lede">
@@ -347,7 +457,7 @@
       </section>
 
       <section id="what">
-        <h2>What it does</h2>
+        <h2>What the editor does</h2>
         <figure class="shot">
           <img
             src="images/editor.webp"
