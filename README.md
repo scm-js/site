@@ -18,7 +18,7 @@ There is no build step. What is committed is what is served.
 | `images/` | `editor.webp`, the editor picture from the guide, and `og.jpg`, the 1200×630 link preview |
 | `ko/` | the Korean copies of `index.html`, `plugins.html` and `stats/index.html` (see below) |
 | `library.html`, `library.js` | the signed-in account's maps and replays, each with buttons that open it in the editor, the game or the replay analysis |
-| `replay.html` | the Replays page (served at `/replay/`): where a replay is dropped, and the account's replays |
+| `replay/index.html` | the Replays page, `/replay/`: where a replay is dropped, and the account's replays. The site's front-door worker passes `/replay/` here and sends `/replay/<token>`, a replay link, on to the editor |
 | `open.js` | the drop zone, the sheet that asks what to do with a dropped file, and the hand-over of the file to the editor or the play page in a new tab |
 | `header.js`, `header.css` | the top bar: the three doors, and its two live items (which game data this browser holds, and the scmjs.dev account). The play page loads both files too and has its bar built by the script |
 | `lang.js` | remembers the language picked in the top bar, and offers the Korean page once to a browser that asks for Korean |
