@@ -23,6 +23,7 @@ There is no build step. What is committed is what is served.
 | `header.js`, `header.css` | the top bar: the three doors, and its two live items (which game data this browser holds, and the scmjs.dev account). The play page loads both files too and has its bar built by the script |
 | `lang.js` | remembers the language picked in the top bar, and offers the Korean page once to a browser that asks for Korean |
 | `scripts/check-translations.mjs` | checks each Korean page against its English one |
+| `scripts/stamp.mjs` | puts a new `?v=` stamp on every stylesheet and script address in every page. Run it after changing any of them: browsers keep those files for hours and a page for minutes, so without a new address a changed page is drawn with the old stylesheet |
 | `robots.txt`, `sitemap.xml` | for search engines |
 | `CNAME`, `.nojekyll` | GitHub Pages settings: the custom domain, and no Jekyll pass |
 
