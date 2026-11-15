@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>리플레이 — scmJS</title>
+    <meta name="description" content="스타크래프트: 브루드 워 리플레이를 분석으로 엽니다. 빌드 오더, 전투, 그래프를 게임 화면과 나란히 보고, 어느 순간에서든 이어서 플레이합니다." />
+    <link rel="canonical" href="https://scmjs.dev/ko/replay/" />
+    <link rel="alternate" hreflang="en" href="https://scmjs.dev/replay/" />
+    <link rel="alternate" hreflang="ko" href="https://scmjs.dev/ko/replay/" />
+    <link rel="alternate" hreflang="x-default" href="https://scmjs.dev/replay/" />
+    <script src="/lang.js?v=202611150702" defer></script>
+    <script src="/header.js?v=202611150702" defer></script>
+    <script src="/open.js?v=202611150702" defer></script>
+    <script src="/library.js?v=202611150702" defer></script>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css?v=202611150702" />
+    <link rel="stylesheet" href="/header.css?v=202611150702" />
+    <!-- Cloudflare Web Analytics: visits and referrers, no cookies. -->
+    <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "4f6f300eb17c49e8b16331e1e96f6b2a"}'></script>
+    <!-- Our own visit count: no cookies, no identifier (see privacy.html, section 1). -->
+    <script defer src="/_e.js"></script>
+  </head>
+  <body>
+    <!-- The Korean copy of replay/index.html: the same markup, ids and scripts, the words in Korean. -->
+    <nav class="topbar" data-here="replays">
+      <a class="topbar-mark" href="/ko/">
+        <img src="/logo.svg" alt="" width="22" height="22" />
+        <span>scm<span>JS</span></span>
+      </a>
+      <div class="topbar-doors">
+        <a href="/editor/" data-door="editor">에디터</a>
+        <a href="/play/" data-door="play">플레이</a>
+        <a href="/ko/replay/" data-door="replays">리플레이</a>
+      </div>
+      <div class="topbar-links">
+        <a class="topbar-more" href="/ko/plugins.html">플러그인</a>
+        <a class="topbar-more" href="https://docs.scmjs.dev">문서</a>
+        <a class="topbar-more" href="/ko/#download">다운로드</a>
+        <a class="lang-switch" href="/replay/" lang="en" hreflang="en" data-lang="en">English</a>
+        <a class="topbar-cta" href="/editor/">에디터 열기</a>
+      </div>
+    </nav>
+    <canvas class="stars" id="stars" hidden aria-hidden="true"></canvas>
+    <main class="page">
+      <div class="page-top">
+        <div>
+          <h1>리플레이</h1>
+          <p>
+            리플레이는 분석으로 열립니다. 빌드 오더, 전투, 그래프가 타임라인에
+            놓이고, 그 옆에서 게임 화면이 함께 재생됩니다. 어느 순간에서든 한
+            쪽을 맡아 이어서 플레이할 수 있습니다.
+          </p>
+        </div>
+      </div>
+
+      <div class="drop" data-drop style="margin-top: 0; max-width: none">
+        <strong>리플레이를 여기에 놓으세요</strong>
+        <span class="drop-types"><code>.rep</code></span>
+        <small>
+          브루드 워 1.16과 스타크래프트: 리마스터의 리플레이를 엽니다. 이
+          브라우저에서 읽으며 아무것도 업로드하지 않습니다. 빌드 오더와
+          타임라인에는 게임 파일이 필요 없고, 게임 화면을 보려면 가지고 계신
+          스타크래프트가 필요합니다.
+        </small>
+        <div class="drop-acts">
+          <button class="btn primary mid" type="button" data-open-file>리플레이 열기…</button>
+          <button class="btn mid" type="button" data-paste-link>링크 붙여 넣기</button>
+        </div>
+      </div>
+      <div class="sheet" data-sheet hidden style="max-width: none; margin-top: 0"></div>
+
+      <section id="yours" hidden>
+        <h2>내 보관함에서</h2>
+        <div class="rows">
+          <table>
+            <thead><tr><th>게임</th><th>맵</th><th>길이</th><th>링크</th><th>플레이한 날</th><th></th></tr></thead>
+            <tbody id="rows-replays"></tbody>
+          </table>
+        </div>
+        <p class="note"><a href="/ko/library">보관함 전체 보기</a></p>
+      </section>
+    </main>
+
+    <footer>
+      <a href="https://github.com/scm-js/scm-js">GitHub</a>
+      <a href="https://github.com/scm-js/scm-js/releases">릴리스</a>
+      <a href="https://docs.scmjs.dev/api/">플러그인 API (영문)</a>
+      <a href="https://github.com/scm-js/scm-js/issues">버그 신고</a>
+      <span class="dim"
+        >MIT 라이선스. 블리자드 엔터테인먼트와 관련이 없으며 블리자드의 보증을
+        받지 않았습니다.</span
+      >
+      <a href="/ko/stats/">통계</a>
+      <a href="/privacy.html">개인정보 처리방침 (영문)</a>
+      <span class="dim">방문 통계는 쿠키 없이 Cloudflare Web Analytics로 집계합니다.</span>
+    </footer>
+  </body>
+</html>

@@ -186,4 +186,10 @@
   .topbar-links a.topbar-data { padding: 6px; }
   .topbar-links a.lang-switch { padding-left: 12px; }
   .topbar-account-name { max-width: 84px; }
+  .topbar-links a.lang-switch { white-space: nowrap; }
+}
+@media (max-width: 440px) {
+  /* A phone: the account is its initial, so the bar fits beside the language switch. */
+  .topbar-account-name { display: none; }
+  .topbar-account-button.is-in { padding: 3px; }
 }

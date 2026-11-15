@@ -26,8 +26,8 @@
  *    signed in too. Signing out clears it for both.
  *
  * What the site's other scripts need of the account is on `window.scmjsSite`: `call(path)`
- * asks the server as whoever is signed in, `bytes(path)` fetches a file the same way, and
- * `account` is the signed-in account or null. A page hears a change as the `scmjs:account`
+ * asks the server as whoever is signed in, `bytes(path)` fetches a file the same way,
+ * `upload(path, form)` sends one, and `account` is the signed-in account or null. A page hears a change as the `scmjs:account`
  * event on `document`.
  */
 (function () {
@@ -104,7 +104,7 @@
     var doors = nav.appendChild(el("div", "topbar-doors"));
     doors.appendChild(el("a", "", T.editor, "/editor/")).setAttribute("data-door", "editor");
     doors.appendChild(el("a", "", T.play, "/play/")).setAttribute("data-door", "play");
-    doors.appendChild(el("a", "", T.replays, "/replay/")).setAttribute("data-door", "replays");
+    doors.appendChild(el("a", "", T.replays, ko ? "/ko/replay/" : "/replay/")).setAttribute("data-door", "replays");
     var links = nav.appendChild(el("div", "topbar-links"));
     links.appendChild(el("a", "topbar-more", T.plugins, ko ? "/ko/plugins.html" : "/plugins.html"));
     links.appendChild(el("a", "topbar-more", T.docs, "https://docs.scmjs.dev"));
@@ -249,6 +249,19 @@
     var s = settings();
     return String((s && s.serverUrl) || DEFAULT_SERVER).replace(/\/+$/, "");
   }
+  /*
+   * A refusal from the server, as an Error whose message is the status. `status`, `code` and
+   * `detail` are the server's own (`{ error: { code, message } }`, its protocol's ErrorBody);
+   * a request that never reached it has status 0.
+   */
+  function refused(status, body) {
+    var e = (body && body.error) || {};
+    var err = new Error(String(status));
+    err.status = status;
+    err.code = String(e.code || "");
+    err.detail = String(e.message || "");
+    return err;
+  }
   function call(path, init) {
     var s = settings();
     init = init || {};
@@ -260,12 +273,39 @@
     }
     init.headers = headers;
     return fetch(server() + path, init).then(function (res) {
-      if (!res.ok) throw new Error(String(res.status));
-      return res.json();
-    });
+      if (res.ok) return res.json();
+      return res.json().catch(function () { return null; }).then(function (body) { throw refused(res.status, body); });
+    }, function () { throw refused(0, null); });
   }
 
   site.call = call;
+  /** The server's address, and whether it is the usual one (links made against another carry it). */
+  site.server = server;
+  site.usualServer = function () { return server() === DEFAULT_SERVER; };
+  /**
+   * Sends a multipart form (`FormData`) to the server as whoever is signed in, saying how far
+   * the upload has gone through `progress(fraction)`. Resolves with the answer; rejects as `call` does.
+   */
+  site.upload = function (path, form, progress) {
+    var s = settings();
+    return new Promise(function (resolve, reject) {
+      var x = new XMLHttpRequest();
+      x.open("POST", server() + path);
+      x.setRequestHeader("Accept", "application/json");
+      if (s && s.session) x.setRequestHeader("Authorization", "Bearer " + s.session);
+      if (progress && x.upload) {
+        x.upload.addEventListener("progress", function (e) { if (e.lengthComputable && e.total) progress(e.loaded / e.total); });
+      }
+      x.addEventListener("load", function () {
+        var body = null;
+        try { body = JSON.parse(x.responseText); } catch (e) {}
+        if (x.status >= 200 && x.status < 300 && body) resolve(body);
+        else reject(refused(x.status, body));
+      });
+      x.addEventListener("error", function () { reject(refused(0, null)); });
+      x.send(form);
+    });
+  };
   /** A file from the server, as whoever is signed in: its bytes and the name the server gives it. */
   site.bytes = function (path) {
     var s = settings();
@@ -355,7 +395,7 @@
     button.appendChild(make("span", "topbar-account-initial", name.charAt(0).toUpperCase()));
     button.appendChild(make("span", "topbar-account-name", name));
     menu.textContent = "";
-    item("a", T.library).href = "/library";
+    item("a", T.library).href = ko ? "/ko/library" : "/library";
     var page = item("a", T.accountPage);
     page.href = server() + "/account";
     page.target = "_blank";

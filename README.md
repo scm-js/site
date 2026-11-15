@@ -16,8 +16,8 @@ There is no build step. What is committed is what is served.
 | `logo.svg` | the flat mark, shown until `globe.js` runs and to readers without JavaScript |
 | `favicon.svg` | the same mark with a square behind it |
 | `images/` | `editor.webp`, the editor picture from the guide, and `og.jpg`, the 1200×630 link preview |
-| `ko/` | the Korean copies of `index.html`, `plugins.html` and `stats/index.html` (see below) |
-| `library.html`, `library.js` | the signed-in account's maps and replays, each with buttons that open it in the editor, the game or the replay analysis |
+| `ko/` | the Korean copies of `index.html`, `plugins.html`, `stats/index.html`, `library.html` and `replay/index.html` (see below) |
+| `library.html`, `library.js` | the signed-in account's maps and replays, each with buttons that open it in the editor, the game or the replay analysis, and `Copy link`, which copies its link (making one when it has none). A map or a replay dropped on the page, or chosen with `Add a file…`, is kept on the account |
 | `replay/index.html` | the Replays page, `/replay/`: where a replay is dropped, and the account's replays. The site's front-door worker passes `/replay/` here and sends `/replay/<token>`, a replay link, on to the editor |
 | `open.js` | the drop zone, the sheet that asks what to do with a dropped file, and the hand-over of the file to the editor or the play page in a new tab |
 | `header.js`, `header.css` | the top bar: the three doors, and its two live items (which game data this browser holds, and the scmjs.dev account). The play page loads both files too and has its bar built by the script |
@@ -110,17 +110,22 @@ separation on the page's dark surfaces. Every chart has a table view under it.
 
 ## The Korean pages
 
-`ko/index.html`, `ko/plugins.html` and `ko/stats/index.html` are hand-kept copies of the
-English pages. They have the same markup, links, file names and scripts, with the words in
-Korean. They are real pages, so search engines index them, and the first two work without
-JavaScript (the numbers page needs it to read the numbers). Each pair names the other with
+`ko/index.html`, `ko/plugins.html`, `ko/stats/index.html`, `ko/library.html` and
+`ko/replay/index.html` are hand-kept copies of the English pages. They have the same
+markup, file names and scripts, with the words in Korean, and their links go to the Korean
+pages where there is one. They are real pages, so search engines index them, and the first
+two work without JavaScript (the numbers page needs it to read the numbers, the library its
+list; the Replays page reads a dropped replay with it). The scripts take their words from the
+page's `lang`. Each pair names the other with
 `<link rel="alternate" hreflang>`, English is the `x-default`, and every Korean address is
 in the sitemap.
 
 **A change to an English page needs the same change in its Korean copy.**
 `node scripts/check-translations.mjs` fails when a pair disagrees on an outside address
-(above all the download file names) or on an element id the scripts write into. It
-cannot check the words.
+(above all the download file names) or on an element id the scripts write into, and when
+a Korean page links to an English page that has a Korean copy (the language switch aside).
+It cannot check the words. The bar `header.js` builds for the play page, and the account
+menu's Library, go to the Korean pages for a Korean reader.
 
 The language switch in the top bar shows the other language's name. Nothing redirects.
 On the English page, `lang.js` shows a one-line offer of the Korean page to a browser
