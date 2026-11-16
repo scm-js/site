@@ -53,13 +53,25 @@
         versionOpened: "연 맵",
         name: "이름",
         count: "수",
-        hero: { people: "하루 평균 순 사용자", edits: "편집", made: "새로 만든 맵", opened: "연 맵", saved: "저장", units: "배치한 유닛", tested: "맵 테스트", replays: "연 리플레이" },
+        hero: { people: "하루 평균 순 사용자", edits: "편집", made: "새로 만든 맵", opened: "연 맵", saved: "저장", units: "배치한 유닛", tested: "맵 테스트", replays: "연 리플레이", games: "시작한 게임", analysed: "분석한 리플레이" },
         sizeOnly: "가장 흔한 크기는 {size}입니다.",
         hourLocal: "가장 바쁜 시간은 UTC {h}시, 지금 계신 곳 시간으로 {local}입니다.",
         undoOf: "편집 100번마다",
         hotkey: "단축키",
         menu: "메뉴",
         pluginsSame: "모두 같은 수의 사람이 실행했으므로 아직 순위가 없습니다.",
+        playGames: "게임 시작",
+        playReplays: "게임 페이지에서 연 리플레이",
+        playAnalysed: "분석한 리플레이",
+        playKinds: "플레이 방식",
+        playBots: "게임에 들어간 봇",
+        playMods: "게임에 쓰인 모드",
+        playLine: {
+          alone: "게임 페이지에서는 혼자 플레이하는 사람이 가장 많습니다.",
+          computer: "게임 페이지에서는 컴퓨터나 봇과 플레이하는 사람이 가장 많습니다.",
+          people: "게임 페이지에서는 다른 사람과 플레이하는 사람이 가장 많습니다.",
+          replay: "게임 페이지에서는 리플레이를 보는 사람이 가장 많습니다.",
+        },
       }
     : {
         loading: "Loading the numbers…",
@@ -99,13 +111,25 @@
         versionOpened: "Opened",
         name: "Name",
         count: "Count",
-        hero: { people: "Unique people a day, on average", edits: "Edits", made: "Maps made", opened: "Maps opened", saved: "Saves", units: "Units placed", tested: "Test Map launches", replays: "Replays opened" },
+        hero: { people: "Unique people a day, on average", edits: "Edits", made: "Maps made", opened: "Maps opened", saved: "Saves", units: "Units placed", tested: "Test Map launches", replays: "Replays opened", games: "Games started", analysed: "Replays analysed" },
         sizeOnly: "The most common size is {size}.",
         hourLocal: "The busiest hour is {h}:00 UTC, {local} where you are.",
         undoOf: "in every 100 edits",
         hotkey: "Hotkey",
         menu: "Menu",
         pluginsSame: "Each ran for the same number of people, so there is no ranking yet.",
+        playGames: "Games started",
+        playReplays: "Replays opened on the game page",
+        playAnalysed: "Replays analysed",
+        playKinds: "How games are played",
+        playBots: "Bots in games",
+        playMods: "Mods games are played with",
+        playLine: {
+          alone: "Most people on the game page play alone.",
+          computer: "Most people on the game page play against computers or bots.",
+          people: "Most people on the game page play against other people.",
+          replay: "Most people on the game page are watching replays.",
+        },
       };
 
   var TILESETS = {
@@ -126,6 +150,8 @@
     original: ["Original", "오리지널"], hybrid: ["Hybrid", "하이브리드"], broodwar: ["Brood War", "브루드 워"],
     remasteredHybrid: ["Remastered hybrid", "리마스터 하이브리드"], remastered: ["Remastered", "리마스터"],
   };
+  var KINDS = { alone: ["Alone", "혼자"], computer: ["Against computers or bots", "컴퓨터나 봇과"], people: ["Against other people", "다른 사람과"], replay: ["Watching a replay", "리플레이 보기"] };
+  var BOTS = { computer: ["StarCraft's computer", "스타크래프트 컴퓨터"], js: ["JavaScript bot", "자바스크립트 봇"], bwapi: ["BWAPI bot", "BWAPI 봇"] };
   var EXTS = { scm: [".scm", ".scm"], scx: [".scx", ".scx"], chk: [".chk", ".chk"] };
   // Turrets, missiles, larvae, eggs, critters, the map revealer and the like: placed, but not an army.
   var NOT_FIGHTING = [4, 6, 13, 14, 15, 18, 24, 26, 31, 33, 35, 36, 40, 59, 73, 85, 89, 90, 91, 92, 93, 94, 95, 96, 97, 101, 105];
@@ -152,6 +178,8 @@
     if (kind === "mirror") return pick(MIRRORS[key]) || key;
     if (kind === "version") return pick(VERSIONS[key]) || key;
     if (kind === "ext") return pick(EXTS[key]) || key;
+    if (kind === "playKind") return pick(KINDS[key]) || key;
+    if (kind === "bot") return pick(BOTS[key]) || key;
     if (kind === "unit") return pick(N.units[Number(key)]) || "#" + key;
     if (kind === "command") return pick(N.commands[key]) || key;
     if (kind === "dialog") return pick(N.dialogs[key]) || key;
@@ -502,7 +530,10 @@
       // Below the threshold the server sends 0 and no breakdown: not enough people yet, not none.
       [T.hero.units, w.units.total > 0 ? w.units.total : null],
       [T.hero.tested, w.totals.tested],
-      [T.hero.replays, w.totals.replays],
+      [T.hero.games, w.play && w.play.games],
+      // Replays opened in the editor and on the game page, together.
+      [T.hero.replays, w.play && (w.totals.replays != null || w.play.replays != null) ? (w.totals.replays || 0) + (w.play.replays || 0) : w.totals.replays],
+      [T.hero.analysed, w.play && w.play.analysed],
     ].forEach(function (x) { if (x[1] != null && x[1] > 0) tiles.appendChild(heroNum(x[0], x[1])); });
     reveal(tiles);
 
@@ -645,7 +676,25 @@
       else headline("st-hours-line", T.hourLocal, { h: busiest, local: local });
     }
 
-    // 9. Formats, languages, plugins.
+    // 9. The game page: how games are played, the bots and mods in them. (A server from before
+    // the game page's numbers sends no `play`; the section then says there is not enough yet.)
+    var p = w.play || { kind: {}, bots: {}, mods: {} };
+    var playNums = slot("st-play-nums");
+    [[p.games, T.playGames], [p.replays, T.playReplays], [p.analysed, T.playAnalysed]].forEach(function (x) {
+      if (x[0] != null && x[0] > 0) playNums.appendChild(big(count(x[0]), x[1], true));
+    });
+    var kinds = entries(p.kind), playBots = entries(p.bots), playMods = named(entries(p.mods));
+    var playCols = slot("st-play");
+    [[T.playKinds, kinds, "playKind", true], [T.playBots, playBots, "bot", false], [T.playMods, playMods.slice(0, 10), "mod", false]].forEach(function (x) {
+      var col = el("div", "st-col");
+      col.appendChild(el("h3", null, x[0]));
+      col.appendChild(x[1].length ? bars(x[1], x[2], x[3] ? { asShare: true } : { rank: true }) : empty());
+      playCols.appendChild(col);
+    });
+    var topKind = named(kinds)[0];
+    headline("st-play-line", topKind && T.playLine[topKind[0]] ? T.playLine[topKind[0]] : "", {});
+
+    // 10. Formats, languages, plugins.
     var versions = pairedBars(w.made.version, w.opened.version, "version");
     slot("st-versions").appendChild(versions.box);
     slot("st-exts").appendChild(bars(entries(w.opened.ext), "ext", { asShare: true }));
