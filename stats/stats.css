@@ -412,3 +412,7 @@ html:lang(ko) .stats-page .st-card h3 { letter-spacing: 0; font-size: 13px; }
   .st-live-dot { animation: none; }
   .st-bar, .st-split-part, .st-hour-bar, .st-dot { transition: none; }
 }
+
+/* The game page's numbers, in a row above its lists. */
+.st-play-nums { display: flex; flex-wrap: wrap; gap: 18px 40px; margin: 4px 0 24px; }
+.st-play-nums:empty { display: none; }

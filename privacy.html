@@ -10,8 +10,8 @@
     />
     <link rel="canonical" href="https://scmjs.dev/privacy.html" />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="styles.css?v=202611150702" />
-    <link rel="stylesheet" href="header.css?v=202611150702" />
+    <link rel="stylesheet" href="styles.css?v=202611160541" />
+    <link rel="stylesheet" href="header.css?v=202611160541" />
     <meta property="og:title" content="scmJS — privacy" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://scmjs.dev/privacy.html" />
@@ -24,8 +24,8 @@
     <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "4f6f300eb17c49e8b16331e1e96f6b2a"}'></script>
     <!-- Our own visit count: no cookies, no identifier (see privacy.html, section 1). -->
     <script defer src="/_e.js"></script>
-    <script src="header.js?v=202611150702" defer></script>
-    <script defer src="count-switch.js?v=202611150702"></script>
+    <script src="header.js?v=202611160541" defer></script>
+    <script defer src="count-switch.js?v=202611160541"></script>
   </head>
   <body>
     <!-- Shared with index.html; keep the four in step. -->
@@ -135,8 +135,18 @@
           sends the map itself, its name, its text, a file name or anything you
           typed. These go with the visit
           count, under the same daily code, and are kept as long (section 7).
+          When the editor switches to a mod's game data, or keeps a copy of
+          one, it sends the mod's name, as its maker named it.
           The game page counts a replay when one starts playing, with nothing
-          about the replay itself. On this site and the documentation, a click
+          about the replay itself. When a game starts, it sends how it is
+          played (alone, against the computer or bots, against other people,
+          or a replay being watched), which engine runs it, which kinds of bot
+          are in it (the game's own computer, a JavaScript bot or a BWAPI bot,
+          never a bot's name) and the name of the mod in use, if any. It sends
+          the mod's name too when you add a mod, with how you added it and
+          whether the mod has code of its own, and when a replay is analysed.
+          It never sends the map, the replay, a player's name, a file name or
+          the mod's files. On this site and the documentation, a click
           on a link to another site is counted with the address it goes to.
         </p>
         <p>
@@ -152,7 +162,9 @@
           <a href="stats/">numbers page</a>: the tilesets, sizes and versions of
           maps made and opened, the layers edits are on, undo and redo, the units
           placed, hotkeys, dialogs, the editor's language, the plugins we publish
-          that are running, and the hour of the day people edit in. Each is
+          that are running, and the hour of the day people edit in; and from the
+          game page, how games are played, the kinds of bot in them, the mods
+          they are played with, and how many replays are opened and analysed. Each is
           added up over at least the last 30 days and shown one at a time, never
           two together. A value is shown only once at least three different
           people have sent it on the same day, and at least ten in all. The
@@ -325,7 +337,11 @@
             <strong>Online games, while they run.</strong> A game on the play
             page goes through the server to the other players and is held in its
             memory only. The server's log notes that your account opened a
-            game, and when.
+            game, and when. When a game ends, the server keeps a line about it
+            for our own numbers: when it was opened, started and ended, why it
+            ended, how many people and computers played, the catalogue names of
+            any community bots, the engine and the mod's name. Not the map, the
+            game's name, anybody's name or account, or the invite.
           </li>
         </ul>
       </section>
@@ -413,6 +429,10 @@
           <li>
             <strong>Visit counts</strong>: about 13 months (400 days), then
             deleted.
+          </li>
+          <li>
+            <strong>Ended online games</strong>: the line kept about each game
+            (section 3) names nobody, and is kept.
           </li>
           <li><strong>Maps</strong>: until you delete them or the account.</li>
           <li>
